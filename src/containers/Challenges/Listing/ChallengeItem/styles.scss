@@ -1,0 +1,56 @@
+@import "styles/variables";
+
+.challenge-item {
+  display: flex;
+  padding: 16px;
+  border-top: 1px solid #E9E9E9;
+
+  &:last-child {
+    border-bottom: 1px solid #E9E9E9;
+  }
+}
+
+.track {
+  flex: 0 0 54px;
+
+  > div {
+    vertical-align: top;
+  }
+}
+
+.info {
+  flex: 1 1 auto;
+  display: flex;
+  flex-wrap: wrap;
+
+  .name-container {
+    flex: 1 1 100%;
+    margin-bottom: 18px;
+
+    .name {
+      font-weight: bold;
+      font-size: inherit;
+      line-height: 26px;
+    }
+  }
+
+  .tags {
+    max-width: calc(50% - 32px);
+    flex: 1 1 auto;
+  }
+
+  .nums {
+    flex: 0 0 104px;
+    white-space: nowrap;
+
+    > * {
+      margin: 0 16px;
+    }
+  }
+}
+
+.prize {
+  flex: 0 0 120px;
+  display: flex;
+  align-items: center;
+}
