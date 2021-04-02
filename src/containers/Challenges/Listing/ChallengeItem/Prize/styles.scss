@@ -1,0 +1,20 @@
+@import "styles/variables";
+@import "styles/mixins";
+
+.text,
+.value {
+  display: block;
+}
+
+.text {
+  font-size: $font-size-sm;
+  line-height: 22px;
+  color: #7F7F7F;
+}
+
+.value {
+  @include barlow-semibold;
+
+  font-size: 24px;
+  line-height: 26px;
+}

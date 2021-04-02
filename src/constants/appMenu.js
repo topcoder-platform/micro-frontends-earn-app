@@ -34,7 +34,19 @@ const appMenu = [
     path: "/earn/no-sidebar",
     icon: homeIcon,
     activeIcon: homeActiveIcon,
-  }
+  },
+  {
+    title: "Challenges",
+    path: "/earn/find/challenges",
+    icon: homeIcon,
+    activeIcon: homeActiveIcon,
+  },
+  {
+    title: "Filter",
+    path: "/earn/find/filter",
+    icon: homeIcon,
+    activeIcon: homeActiveIcon,
+  },
 ];
 
 export default appMenu;
