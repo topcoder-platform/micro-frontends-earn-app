@@ -45,15 +45,34 @@ function DateRangePicker(props) {
   const isStartDateFocused = focusedRange[1] === 0;
   const isEndDateFocused = focusedRange[1] === 1;
 
+  useEffect(() => {
+    setRangeString({
+      startDateString: range.startDate ? moment(range.startDate).format('MMM D, YYYY') : '',
+      endDateString: range.endDate ? moment(range.endDate).format('MMM D, YYYY') : '',
+    });
+  }, [range]);
+
+
   /**
    * Handle end date change on user input
    * After user input the end date via keyboard, validate it then update the range state
    * @param {Object} e Input Event.
    */
-  const onEndDateChange = (e) => {
-    const endDateString = e.target.value;
-    const endDate = moment(endDateString, "MM/DD/YYYY", true);
-    if (endDate.isValid()) {
+  const onEndDateChange = (event) => {
+    const endDateString = event.endDateString;
+    const endDate = moment(endDateString, "MMM D, YYYY", true);
+    const startDate = moment(event.startDateString, 'MMM D, YYYY', true);
+
+    if (!startDate.isValid()) {
+      return;
+    }
+
+    if (endDate.isValid() && isBeforeDay(endDate, startDate)) {
+      setErrors({
+        ...errors,
+        endDate: 'Range Error',
+      });
+    } else if (endDate.isValid()) {
       onChange({
         endDate: endDate.toDate(),
         startDate: range.startDate,
@@ -66,10 +85,10 @@ function DateRangePicker(props) {
 
       setRangeString({
         ...rangeString,
-        endDateString: endDate.format("MM/DD/YYYY"),
+        endDateString: endDate.format("MMM D, YYYY"),
       });
     } else {
-      if (endDateString && endDateString !== "mm/dd/yyyy") {
+      if (endDateString && endDateString !== "mmm d, yyyy") {
         setErrors({
           ...errors,
           endDate: "Invalid Format",
@@ -88,10 +107,21 @@ function DateRangePicker(props) {
    * After user input the start date via keyboard, validate it then update the range state
    * @param {Object} e Input Event.
    */
-  const onStartDateChange = (e) => {
-    const startDateString = e.target.value;
-    const startDate = moment(startDateString, "MM/DD/YYYY", true);
-    if (startDate.isValid()) {
+  const onStartDateChange = (event) => {
+    const startDateString = event.startDateString
+    const startDate = moment(startDateString, "MMM D, YYYY", true);console.log('startdate',startDate)
+    const endDate = moment(event.endDateString, 'MMM D, YYYY', true);
+
+    if (!endDate.isValid()) {
+      return;
+    }
+
+    if (startDate.isValid() && endDate.isValid() && isAfterDay(startDate, endDate)) {console.log('### HERE 1')
+      setErrors({
+        ...errors,
+        startDate: 'Range Error',
+      });
+    } else if (startDate.isValid()) {console.log('### HERE 2')
       onChange({
         endDate: range.endDate,
         startDate: startDate.toDate(),
@@ -104,15 +134,15 @@ function DateRangePicker(props) {
 
       setRangeString({
         ...rangeString,
-        startDateString: startDate.format("MM/DD/YYYY"),
+        startDateString: startDate.format("MMM D, YYYY"),
       });
-    } else {
-      if (startDateString && startDateString !== "mm/dd/yyyy") {
+    } else {console.log('### HERE 3',startDateString)
+      // if (startDateString && startDateString !== "mmm d, yyyy") {
         setErrors({
           ...errors,
           startDate: "Invalid Format",
         });
-      }
+      // }
 
       setRangeString({
         ...rangeString,
@@ -126,7 +156,7 @@ function DateRangePicker(props) {
    */
   const onIconClickStartDate = () => {
     const calendarIcon = document.querySelector(
-      "#input-start-date-range-calendar-icon"
+      "#input-date-range-calendar-icon"
     );
     if (calendarIcon) {
       calendarIcon.blur();
@@ -142,7 +172,7 @@ function DateRangePicker(props) {
    */
   const onIconClickEndDate = () => {
     const calendarIcon = document.querySelector(
-      "#input-end-date-range-calendar-icon"
+      "#input-date-range-calendar-icon"
     );
     if (calendarIcon) {
       calendarIcon.blur();
@@ -205,9 +235,9 @@ function DateRangePicker(props) {
 
     setRangeString({
       startDateString: newStartDate
-        ? moment(newStartDate).format("MM/DD/YYYY")
+        ? moment(newStartDate).format("MMM D, YYYY")
         : "",
-      endDateString: newEndDate ? moment(newEndDate).format("MM/DD/YYYY") : "",
+      endDateString: newEndDate ? moment(newEndDate).format("MMM D, YYYY") : "",
     });
 
     onChange({
@@ -405,22 +435,40 @@ function DateRangePicker(props) {
     ${(errors.startDate || errors.endDate) && styles.isErrorInput}
   `;
 
-  let rangeText;
-  if (rangeString.startDateString && rangeString.endDateString) {
-    rangeText = `${rangeString.startDateString} - ${rangeString.endDateString}`;
-  } else {
-    rangeText = `${rangeString.startDateString}${rangeString.endDateString}`;
-  }
+  // let rangeText;
+  // if (rangeString.startDateString && rangeString.endDateString) {
+  //   rangeText = `${rangeString.startDateString} - ${rangeString.endDateString}`;
+  // } else {
+  //   rangeText = `${rangeString.startDateString}${rangeString.endDateString}`;
+  // }
 
   return (
     <div styleName="dateRangePicker" className={className}>
       <div styleName="dateInputWrapper">
         <DateInput
           onClick={() => {
-            onIconClickStartDate();
-            setFocusedRange([0, 0]);
+            // if (rangeString.startDateString && rangeString.endDateString) {
+            //   onIconClickStartDate();
+            // } else if (rangeString.endDateString) {
+            //   onIconClickStartDate();
+            // } else {
+            //   onIconClickEndDate();
+            // }
           }}
-          value={rangeText}
+          // value={rangeText}
+          id="input-date-range-calendar-icon"
+          isStartDateActive={focusedRange[1] === 0 && isComponentVisible}
+          startDateString={rangeString.startDateString}
+          onStartDateChange={onStartDateChange}
+          onStartDateFocus={() => setFocusedRange([0, 0])}
+          isEndDateActive={focusedRange[1] === 1 && isComponentVisible}
+          endDateString={rangeString.endDateString}
+          onEndDateChange={onEndDateChange}
+          onEndDateFocus={() => setFocusedRange([0, 1])}
+          error={errors.startDate || errors.endDate}
+          onClickCalendarIcon={(event) => {
+            event === 'start' ? onIconClickStartDate() : onIconClickEndDate()
+          }}
         />
       </div>
       <div ref={calendarRef}>

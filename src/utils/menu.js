@@ -9,7 +9,7 @@ export class MenuSelection {
   }
 
   travel(root) {
-    Object.keys(root).forEach((key) => {
+    this.getMenuItems(root).forEach((key) => {
       if (_.isObject(root[key])) {
         root[key].expanded = false;
         root[key].branch = true;
@@ -24,11 +24,15 @@ export class MenuSelection {
     });
   }
 
+  getMenuItems(menu) {
+    return Object.keys(_.omit(menu, "expanded", "active", "branch", "leaf"));
+  }
+
   select(name) {
     let found = false;
 
     const selectInternal = (root) => {
-      Object.keys(_.omit(root, "expanded", "active", "branch", "leaf")).forEach(
+      this.getMenuItems(root).forEach(
         (key) => {
           if (found) {
             return;
@@ -62,7 +66,7 @@ export class MenuSelection {
     let leaf = false;
 
     const isLeafInternal = (root) => {
-      Object.keys(_.omit(root, "expanded", "active", "branch", "leaf")).forEach(
+      this.getMenuItems(root).forEach(
         (key) => {
           if (key !== name) {
             if (root[key].branch) {
@@ -85,10 +89,10 @@ export class MenuSelection {
   }
 
   isExpanded(name) {
-    let expanded = false;
+    let expanded;
 
     const isExpandedInternal = (root) => {
-      Object.keys(_.omit(root, "expanded", "active", "branch", "leaf")).forEach(
+      this.getMenuItems(root).forEach(
         (key) => {
           if (key !== name) {
             if (root[key].branch) {
@@ -123,7 +127,7 @@ export class MenuSelection {
     }
 
     const isActiveInternal = (root) => {
-      Object.keys(_.omit(root, "expanded", "active", "branch", "leaf")).forEach(
+      this.getMenuItems(root).forEach(
         (key) => {
           if (key !== this.selectedMenuItem) {
             if (root[key].branch) {

@@ -25,7 +25,7 @@ export const NAV_MENU_ICONS = {
 export const FILTER_BUCKETS = [
   "All Active Challenges",
   "Open for Registration",
-  "Past Challenges",
+  "Closed Challenges",
 ];
 
 export const FILTER_CHALLENGE_TYPES = ["Challenge", "First2Finish", "Task"];
@@ -40,14 +40,14 @@ export const FILTER_CHALLENGE_TRACKS = [
   "Design",
   "Development",
   "Data Science",
-  "Quality Assurance",
+  "QA",
 ];
 
 export const FILTER_CHALLENGE_TRACK_ABBREVIATIONS = {
   Design: "DES",
   Development: "DEV",
   "Data Science": "DS",
-  "Quality Assurance": "QA",
+  QA: "QA",
 };
 
 export const CHALLENGE_SORT_BY = {
@@ -56,6 +56,15 @@ export const CHALLENGE_SORT_BY = {
   "Prize amount": "overview.totalPrizes",
   Title: "name",
 };
+
+export const CHALLENGE_SORT_BY_RECOMMENDED = 'bestMatch';
+export const CHALLENGE_SORT_BY_RECOMMENDED_LABEL = 'Best Match';
+export const CHALLENGE_SORT_BY_DEFAULT = 'updated';
+
+export const SORT_ORDER = {
+  DESC: 'desc',
+  ASC: 'asc'
+}
 
 export const TRACK_COLOR = {
   Design: "#2984BD",

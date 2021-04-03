@@ -122,9 +122,9 @@ export function formatMoneyValue(value) {
   }
 
   if (val.startsWith("-")) {
-    val = `-$${val.slice(1)}`;
+    val = `-\uFF04${val.slice(1)}`;
   } else {
-    val = `$${val}`;
+    val = `\uFF04${val}`;
   }
 
   return val;

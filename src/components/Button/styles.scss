@@ -22,5 +22,15 @@
   background-color: $green;
 }
 
-.button-lg {}
-.button-sm {}
+.button-icon {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  line-height: 0;
+  text-align: center;
+  vertical-align: middle;
+  appearance: none;
+  background: none;
+  border: 0;
+  border-radius: 50%;
+}

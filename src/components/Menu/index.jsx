@@ -31,6 +31,7 @@ const Menu = ({ menu, icons, selected, onSelect }) => {
     if (!submenu[key]) {
       return null;
     }
+
     const subSubmenu = submenu[key];
     return (
       <ul styleName="sub-submenu">
@@ -52,6 +53,7 @@ const Menu = ({ menu, icons, selected, onSelect }) => {
     if (!menu[key]) {
       return null;
     }
+
     const subMenu = menu[key];
     return (
       <ul styleName="sub-menu">

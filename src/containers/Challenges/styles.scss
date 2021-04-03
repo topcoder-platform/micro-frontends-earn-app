@@ -9,3 +9,11 @@
   @include barlow-condensed-medium;
   margin-bottom: 22px;
 }
+
+.view-mode {
+  float: right;
+
+  > * {
+    margin: 0 2px;
+  }
+}

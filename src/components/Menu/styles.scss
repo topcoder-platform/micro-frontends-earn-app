@@ -5,16 +5,16 @@ $menu-padding-y: 20px;
 
 .menu {
   padding: $menu-padding-y $menu-padding-x (3 * $base-unit);
-  line-height: 21px;
 }
 
 .menu-item {
-  padding: 7px 0;
+  padding: 4px 0;
   cursor: pointer;
 
   a {
     display: flex;
     align-items: center;
+    line-height: 26px;
   }
 
   .icon {
@@ -45,8 +45,19 @@ $menu-padding-y: 20px;
   }
 
   &.selected > a {
-    color: $green;
+    color: $lightGreen;
   }
+}
+
+.menu-item-main > a {
+  margin-left: -20px;
+  margin-right: -20px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.menu-item-main.active > a {
+  box-shadow: inset 4px 0 #06D6A0;
 }
 
 .menu-item-main > a + ul,
@@ -60,7 +71,7 @@ $menu-padding-y: 20px;
 }
 
 .menu-item-secondary.active.collapsed {
-  color: $green;
+  color: $lightGreen;
 }
 
 .sub-menu {

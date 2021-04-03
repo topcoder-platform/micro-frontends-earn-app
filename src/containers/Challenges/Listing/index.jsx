@@ -16,6 +16,7 @@ import "./styles.scss";
 
 const Listing = ({
   challenges,
+  search,
   page,
   perPage,
   sortBy,
@@ -25,9 +26,10 @@ const Listing = ({
   updateFilter,
   bucket,
   getChallenges,
+  challengeSortBys,
 }) => {
   const sortByOptions = utils.createDropdownOptions(
-    Object.keys(constants.CHALLENGE_SORT_BY),
+    challengeSortBys,
     utils.getSortByLabel(constants.CHALLENGE_SORT_BY, sortBy)
   );
 
@@ -42,6 +44,7 @@ const Listing = ({
               <img src={IconSearch} alt="search" />
             </span>
             <TextInput
+              value={search}
               placeholder="Search for challenges"
               size="xs"
               onChange={(value) => {
@@ -64,11 +67,11 @@ const Listing = ({
               options={sortByOptions}
               size="xs"
               onChange={(newSortByOptions) => {
-                const selectOption = utils.getSelectedDropdownOption(
+                const selectedOption = utils.getSelectedDropdownOption(
                   newSortByOptions
                 );
                 const filterChange = {
-                  sortBy: constants.CHALLENGE_SORT_BY[selectOption.label],
+                  sortBy: constants.CHALLENGE_SORT_BY[selectedOption.label],
                 };
                 updateFilter(filterChange);
                 getChallenges(filterChange);
@@ -140,6 +143,7 @@ const Listing = ({
 
 Listing.propTypes = {
   challenges: PT.arrayOf(PT.shape()),
+  search: PT.string,
   page: PT.number,
   perPage: PT.number,
   sortBy: PT.string,
@@ -149,6 +153,7 @@ Listing.propTypes = {
   getChallenges: PT.func,
   updateFilter: PT.func,
   bucket: PT.string,
+  challengeSortBys: PT.arrayOf(PT.string),
 };
 
 export default Listing;

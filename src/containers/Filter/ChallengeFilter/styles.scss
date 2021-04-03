@@ -29,6 +29,18 @@ $filter-padding-y: 3 * $base-unit;
       margin: $base-unit 0;
     }
   }
+
+  :global(.badge) {
+    display: inline-block;
+    margin-left: $base-unit;
+    padding: 0 5px;
+    font-weight: bold;
+    font-size: 11px;
+    line-height: 16px;
+    color: white;
+    background: red;
+    border-radius: 13px;
+  }
 }
 
 .challenge-types,
@@ -98,3 +110,4 @@ $filter-padding-y: 3 * $base-unit;
     margin-left: 9px;
   }
 }
+
