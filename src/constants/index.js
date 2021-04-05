@@ -2,15 +2,6 @@ export const PAGINATION_PER_PAGE = [10, 20, 50];
 export const PAGINATION_MAX_PAGE_DISPLAY = 3;
 
 export const NAV_MENU = {
-  "My Work": {
-    "My Gig": {
-      "Gigs ": "",
-      Feedback: "",
-      Payment: "",
-    },
-    "My Challenges": "",
-    "My Tasks": "",
-  },
   "Find Work": {
     Gigs: "",
     Challenges: "/earn/find/challenges",
