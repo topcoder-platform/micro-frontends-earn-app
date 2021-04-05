@@ -35,7 +35,7 @@ export function createChallengeCriteria(filter) {
     endDateStart: filter.endDateStart,
     endDateEnd: filter.endDateEnd,
     sortBy: filter.sortBy,
-    sortOrder: filter.sortOrder,
+    sortOrder: filter.sortOrder || 'asc',
     groups: filter.groups,
   };
 }
