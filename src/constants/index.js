@@ -57,14 +57,14 @@ export const CHALLENGE_SORT_BY = {
   Title: "name",
 };
 
-export const CHALLENGE_SORT_BY_RECOMMENDED = 'bestMatch';
-export const CHALLENGE_SORT_BY_RECOMMENDED_LABEL = 'Best Match';
-export const CHALLENGE_SORT_BY_DEFAULT = 'updated';
+export const CHALLENGE_SORT_BY_RECOMMENDED = "bestMatch";
+export const CHALLENGE_SORT_BY_RECOMMENDED_LABEL = "Best Match";
+export const CHALLENGE_SORT_BY_DEFAULT = "updated";
 
 export const SORT_ORDER = {
-  DESC: 'desc',
-  ASC: 'asc'
-}
+  DESC: "desc",
+  ASC: "asc",
+};
 
 export const TRACK_COLOR = {
   Design: "#2984BD",

@@ -23,8 +23,8 @@ function Checkbox({ checked, onChange, size, errorMsg }) {
   ).current;
 
   useEffect(() => {
-    setCheckedInternal(checked)
-  }, [checked])
+    setCheckedInternal(checked);
+  }, [checked]);
 
   return (
     <label styleName={`container ${sizeStyle}`}>

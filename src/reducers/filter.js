@@ -1,11 +1,11 @@
 import { handleActions } from "redux-actions";
 import * as constants from "../constants";
-import moment from 'moment';
+import moment from "moment";
 
 const defaultState = {
   challenge: {
     types: constants.FILTER_CHALLENGE_TYPES,
-    tracks: constants.FILTER_CHALLENGE_TRACKS.filter(track => track !== 'QA'),
+    tracks: constants.FILTER_CHALLENGE_TRACKS.filter((track) => track !== "QA"),
     search: "",
     tags: [],
     groups: [],
@@ -27,7 +27,7 @@ const defaultState = {
 };
 
 function onRestoreFilter(state, { payload }) {
-  return {...state, ...payload};
+  return { ...state, ...payload };
 }
 
 function onUpdateFilter(state, { payload }) {

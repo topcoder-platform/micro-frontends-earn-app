@@ -130,6 +130,43 @@ export function formatMoneyValue(value) {
   return val;
 }
 
+/**
+ * Format a number value into the integer text of amount.
+ * Ex: 0 -> 0, greater than 10000 -> 10,000+
+ */
+export function formatPrizeAmount(value) {
+  let val = value || 0;
+  let greaterThan10000 = val >= 10000;
+
+  val = val.toLocaleString("en-US");
+
+  const i = val.indexOf(".");
+  if (i !== -1) {
+    val = val.slice(0, i);
+  }
+
+  val = greaterThan10000 ? "10,000+" : val;
+
+  return val;
+}
+
+export function parsePrizeAmountText(s) {
+  let val = s;
+  if (val.endsWith("+")) {
+    val = val.slice(0, val.length - 1);
+  }
+
+  const i = val.indexOf(".");
+  if (i !== -1) {
+    val = val.slice(0, i);
+  }
+
+  val = val.replace("/,/g", "");
+  val = parseInt(val);
+
+  return isNaN(val) ? 0 : val;
+}
+
 export function clamp(value, min, max) {
   return Math.min(Math.max(value, min), max);
 }

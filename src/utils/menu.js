@@ -32,31 +32,29 @@ export class MenuSelection {
     let found = false;
 
     const selectInternal = (root) => {
-      this.getMenuItems(root).forEach(
-        (key) => {
-          if (found) {
-            return;
-          }
-
-          if (key !== name) {
-            if (root[key].branch) {
-              selectInternal(root[key]);
-            } else {
-              root[key].active = false;
-            }
-          } else {
-            if (root[key].leaf) {
-              root[key].active = true;
-              this.selectedMenuItem = name;
-            } else {
-              root[key].expanded = !root[key].expanded;
-            }
-
-            found = true;
-            this.emitSelectionEvent();
-          }
+      this.getMenuItems(root).forEach((key) => {
+        if (found) {
+          return;
         }
-      );
+
+        if (key !== name) {
+          if (root[key].branch) {
+            selectInternal(root[key]);
+          } else {
+            root[key].active = false;
+          }
+        } else {
+          if (root[key].leaf) {
+            root[key].active = true;
+            this.selectedMenuItem = name;
+          } else {
+            root[key].expanded = !root[key].expanded;
+          }
+
+          found = true;
+          this.emitSelectionEvent();
+        }
+      });
     };
 
     selectInternal(this.menu);
@@ -66,17 +64,15 @@ export class MenuSelection {
     let leaf = false;
 
     const isLeafInternal = (root) => {
-      this.getMenuItems(root).forEach(
-        (key) => {
-          if (key !== name) {
-            if (root[key].branch) {
-              isLeafInternal(root[key]);
-            }
-          } else if (root[key].leaf) {
-            leaf = true;
+      this.getMenuItems(root).forEach((key) => {
+        if (key !== name) {
+          if (root[key].branch) {
+            isLeafInternal(root[key]);
           }
+        } else if (root[key].leaf) {
+          leaf = true;
         }
-      );
+      });
     };
 
     isLeafInternal(this.menu);
@@ -92,17 +88,15 @@ export class MenuSelection {
     let expanded;
 
     const isExpandedInternal = (root) => {
-      this.getMenuItems(root).forEach(
-        (key) => {
-          if (key !== name) {
-            if (root[key].branch) {
-              isExpandedInternal(root[key]);
-            }
-          } else if (root[key].branch) {
-            expanded = root[key].expanded;
+      this.getMenuItems(root).forEach((key) => {
+        if (key !== name) {
+          if (root[key].branch) {
+            isExpandedInternal(root[key]);
           }
+        } else if (root[key].branch) {
+          expanded = root[key].expanded;
         }
-      );
+      });
     };
 
     isExpandedInternal(this.menu);
@@ -127,20 +121,18 @@ export class MenuSelection {
     }
 
     const isActiveInternal = (root) => {
-      this.getMenuItems(root).forEach(
-        (key) => {
-          if (key !== this.selectedMenuItem) {
-            if (root[key].branch) {
-              stack.push(key);
-              isActiveInternal(root[key]);
-              stack.pop(key);
-            }
-          } else {
+      this.getMenuItems(root).forEach((key) => {
+        if (key !== this.selectedMenuItem) {
+          if (root[key].branch) {
             stack.push(key);
-            path = [...stack.arr];
+            isActiveInternal(root[key]);
+            stack.pop(key);
           }
+        } else {
+          stack.push(key);
+          path = [...stack.arr];
         }
-      );
+      });
     };
 
     isActiveInternal(this.menu);

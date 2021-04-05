@@ -1,10 +1,11 @@
 import { handleActions } from "redux-actions";
-import * as util from '../utils/challenge';
-import * as constants from '../constants';
+import * as util from "../utils/challenge";
+import * as constants from "../constants";
 
 const defaultState = {
   loadingChallenges: false,
   loadingChallengesError: null,
+  loadingRecommendedChallengesError: false,
   challenges: [],
   allActiveChallenges: [],
   openForRegistrationChallenges: [],
@@ -14,7 +15,12 @@ const defaultState = {
 };
 
 function onGetChallengesInit(state) {
-  return { ...state, loadingChallenges: true, loadingChallengesError: null };
+  return {
+    ...state,
+    loadingChallenges: true,
+    loadingChallengesError: null,
+    loadingRecommendedChallengesError: false,
+  };
 }
 
 function onGetChallengesDone(state, { payload }) {
@@ -22,6 +28,8 @@ function onGetChallengesDone(state, { payload }) {
     ...state,
     loadingChallenges: false,
     loadingChallengesError: null,
+    loadingRecommendedChallengesError:
+      payload.loadingRecommendedChallengesError,
     challenges: payload.challenges,
     allActiveChallenges: payload.allActiveChallenges,
     openForRegistrationChallenges: payload.openForRegistrationChallenges,
@@ -51,23 +59,33 @@ function onUpdateFilter(state, { payload }) {
   const BUCKET_OPEN_FOR_REGISTRATION = FILTER_BUCKETS[1];
   const BUCKET_CLOSED_CHALLENGES = FILTER_BUCKETS[2];
   const filterChange = payload;
-  const { allActiveChallenges, openForRegistrationChallenges, closedChallenges } = state;
+  const {
+    allActiveChallenges,
+    openForRegistrationChallenges,
+    closedChallenges,
+  } = state;
 
   let challenges;
   let total;
 
   if (util.isSwitchingBucket(filterChange)) {
     switch (filterChange.bucket) {
-      case BUCKET_ALL_ACTIVE_CHALLENGES: challenges = allActiveChallenges; break;
-      case BUCKET_OPEN_FOR_REGISTRATION: challenges = openForRegistrationChallenges; break;
-      case BUCKET_CLOSED_CHALLENGES: challenges = closedChallenges; break;
+      case BUCKET_ALL_ACTIVE_CHALLENGES:
+        challenges = allActiveChallenges;
+        break;
+      case BUCKET_OPEN_FOR_REGISTRATION:
+        challenges = openForRegistrationChallenges;
+        break;
+      case BUCKET_CLOSED_CHALLENGES:
+        challenges = closedChallenges;
+        break;
     }
     total = challenges.meta.total;
 
-    return {...state, challenges, total};
+    return { ...state, challenges, total };
   }
 
-  return {...state};
+  return { ...state };
 }
 
 export default handleActions(

@@ -16,13 +16,7 @@ import {
 } from "./helpers";
 
 function DateRangePicker(props) {
-  const {
-    readOnly,
-    startDatePlaceholder,
-    endDatePlaceholder,
-    range,
-    onChange,
-  } = props;
+  const { id, range, onChange } = props;
 
   const [rangeString, setRangeString] = useState({
     startDateString: "",
@@ -47,30 +41,29 @@ function DateRangePicker(props) {
 
   useEffect(() => {
     setRangeString({
-      startDateString: range.startDate ? moment(range.startDate).format('MMM D, YYYY') : '',
-      endDateString: range.endDate ? moment(range.endDate).format('MMM D, YYYY') : '',
+      startDateString: range.startDate
+        ? moment(range.startDate).format("MMM D, YYYY")
+        : "",
+      endDateString: range.endDate
+        ? moment(range.endDate).format("MMM D, YYYY")
+        : "",
     });
   }, [range]);
-
 
   /**
    * Handle end date change on user input
    * After user input the end date via keyboard, validate it then update the range state
    * @param {Object} e Input Event.
    */
-  const onEndDateChange = (event) => {
-    const endDateString = event.endDateString;
+  const onEndDateChange = (value) => {
+    const endDateString = value;
     const endDate = moment(endDateString, "MMM D, YYYY", true);
-    const startDate = moment(event.startDateString, 'MMM D, YYYY', true);
-
-    if (!startDate.isValid()) {
-      return;
-    }
+    const startDate = moment(rangeString.startDateString, "MMM D, YYYY", true);
 
     if (endDate.isValid() && isBeforeDay(endDate, startDate)) {
       setErrors({
         ...errors,
-        endDate: 'Range Error',
+        endDate: "Range Error",
       });
     } else if (endDate.isValid()) {
       onChange({
@@ -87,13 +80,21 @@ function DateRangePicker(props) {
         ...rangeString,
         endDateString: endDate.format("MMM D, YYYY"),
       });
+    } else if (endDateString === "") {
+      onChange({
+        endDate: null,
+        startDate: range.startDate,
+      });
+
+      setErrors({
+        ...errors,
+        endDate: "",
+      });
     } else {
-      if (endDateString && endDateString !== "mmm d, yyyy") {
-        setErrors({
-          ...errors,
-          endDate: "Invalid Format",
-        });
-      }
+      setErrors({
+        ...errors,
+        endDate: "Invalid End Date Format",
+      });
 
       setRangeString({
         ...rangeString,
@@ -107,21 +108,21 @@ function DateRangePicker(props) {
    * After user input the start date via keyboard, validate it then update the range state
    * @param {Object} e Input Event.
    */
-  const onStartDateChange = (event) => {
-    const startDateString = event.startDateString
-    const startDate = moment(startDateString, "MMM D, YYYY", true);console.log('startdate',startDate)
-    const endDate = moment(event.endDateString, 'MMM D, YYYY', true);
+  const onStartDateChange = (value) => {
+    const startDateString = value;
+    const startDate = moment(startDateString, "MMM D, YYYY", true);
+    const endDate = moment(rangeString.endDateString, "MMM D, YYYY", true);
 
-    if (!endDate.isValid()) {
-      return;
-    }
-
-    if (startDate.isValid() && endDate.isValid() && isAfterDay(startDate, endDate)) {console.log('### HERE 1')
+    if (
+      startDate.isValid() &&
+      endDate.isValid() &&
+      isAfterDay(startDate, endDate)
+    ) {
       setErrors({
         ...errors,
-        startDate: 'Range Error',
+        startDate: "Range Error",
       });
-    } else if (startDate.isValid()) {console.log('### HERE 2')
+    } else if (startDate.isValid()) {
       onChange({
         endDate: range.endDate,
         startDate: startDate.toDate(),
@@ -136,13 +137,21 @@ function DateRangePicker(props) {
         ...rangeString,
         startDateString: startDate.format("MMM D, YYYY"),
       });
-    } else {console.log('### HERE 3',startDateString)
-      // if (startDateString && startDateString !== "mmm d, yyyy") {
-        setErrors({
-          ...errors,
-          startDate: "Invalid Format",
-        });
-      // }
+    } else if (startDateString === "") {
+      onChange({
+        endDate: range.endDate,
+        startDate: null,
+      });
+
+      setErrors({
+        ...errors,
+        startDate: "",
+      });
+    } else {
+      setErrors({
+        ...errors,
+        startDate: "Invalid Start Date Format",
+      });
 
       setRangeString({
         ...rangeString,
@@ -151,13 +160,92 @@ function DateRangePicker(props) {
     }
   };
 
+  const onStartEndDateChange = ({ startDateString, endDateString }) => {
+    const startDate = moment(startDateString, "MMM D, YYYY", true);
+    const endDate = moment(endDateString, "MMM D, YYYY", true);
+
+    if (
+      startDate.isValid() &&
+      endDate.isValid() &&
+      isBeforeDay(endDate, startDate)
+    ) {
+      setErrors({
+        ...errors,
+        endDate: "Range Error",
+      });
+    } else if (startDate.isValid() && endDate.isValid()) {
+      onChange({
+        endDate: endDate.toDate(),
+        startDate: startDate.toDate(),
+      });
+      setErrors({
+        startDate: "",
+        endDate: "",
+      });
+    } else if (startDate.isValid()) {
+      onChange({
+        endDate: null,
+        startDate: startDate.toDate(),
+      });
+      setErrors({
+        ...errors,
+        endDate: "Invalid End Date Format",
+      });
+    } else if (endDate.isValid()) {
+      onChange({
+        endDate: endDate.toDate(),
+        startDate: null,
+      });
+      setErrors({
+        ...errors,
+        startDate: "Invalid Start Date Format",
+      });
+    } else if (startDateString === "" && endDateString === "") {
+      onChange({
+        endDate: null,
+        startDate: null,
+      });
+      setErrors({
+        startDate: "",
+        endDate: "",
+      });
+    } else if (startDateString === "") {
+      onChange({
+        endDate: endDate.toDate(),
+        startDate: null,
+      });
+
+      setErrors({
+        ...errors,
+        startDate: "",
+      });
+    } else if (endDateString === "") {
+      onChange({
+        endDate: null,
+        startDate: startDate.toDate(),
+      });
+
+      setErrors({
+        ...errors,
+        endDate: "",
+      });
+    } else {
+      onChange({
+        endDate: null,
+        startDate: null,
+      });
+      setErrors({
+        startDate: "Invalid Start Date Format",
+        endDate: "Invalid End Date Format",
+      });
+    }
+  };
+
   /**
    * Trigger to open calendar modal on calendar icon in start date input
    */
   const onIconClickStartDate = () => {
-    const calendarIcon = document.querySelector(
-      "#input-date-range-calendar-icon"
-    );
+    const calendarIcon = document.querySelector(id);
     if (calendarIcon) {
       calendarIcon.blur();
     }
@@ -171,9 +259,7 @@ function DateRangePicker(props) {
    * Trigger to open calendar modal on calendar icon in end date input
    */
   const onIconClickEndDate = () => {
-    const calendarIcon = document.querySelector(
-      "#input-date-range-calendar-icon"
-    );
+    const calendarIcon = document.querySelector(id);
     if (calendarIcon) {
       calendarIcon.blur();
     }
@@ -435,28 +521,11 @@ function DateRangePicker(props) {
     ${(errors.startDate || errors.endDate) && styles.isErrorInput}
   `;
 
-  // let rangeText;
-  // if (rangeString.startDateString && rangeString.endDateString) {
-  //   rangeText = `${rangeString.startDateString} - ${rangeString.endDateString}`;
-  // } else {
-  //   rangeText = `${rangeString.startDateString}${rangeString.endDateString}`;
-  // }
-
   return (
     <div styleName="dateRangePicker" className={className}>
       <div styleName="dateInputWrapper">
         <DateInput
-          onClick={() => {
-            // if (rangeString.startDateString && rangeString.endDateString) {
-            //   onIconClickStartDate();
-            // } else if (rangeString.endDateString) {
-            //   onIconClickStartDate();
-            // } else {
-            //   onIconClickEndDate();
-            // }
-          }}
-          // value={rangeText}
-          id="input-date-range-calendar-icon"
+          id={id}
           isStartDateActive={focusedRange[1] === 0 && isComponentVisible}
           startDateString={rangeString.startDateString}
           onStartDateChange={onStartDateChange}
@@ -467,8 +536,9 @@ function DateRangePicker(props) {
           onEndDateFocus={() => setFocusedRange([0, 1])}
           error={errors.startDate || errors.endDate}
           onClickCalendarIcon={(event) => {
-            event === 'start' ? onIconClickStartDate() : onIconClickEndDate()
+            event === "start" ? onIconClickStartDate() : onIconClickEndDate();
           }}
+          onStartEndDateChange={onStartEndDateChange}
         />
       </div>
       <div ref={calendarRef}>
@@ -501,18 +571,14 @@ function DateRangePicker(props) {
 // It use https://www.npmjs.com/package/react-date-range internally
 // Check the docs for further options
 
+DateRangePicker.defaultProps = {
+  id: "input-date-range-calendar-icon"
+}
+
 DateRangePicker.propTypes = {
-  readOnly: PropTypes.bool,
-  startDatePlaceholder: PropTypes.string,
-  endDatePlaceholder: PropTypes.string,
+  id: PropTypes.string,
   range: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
-};
-
-DateRangePicker.defaultProps = {
-  readOnly: false,
-  startDatePlaceholder: "Start Date",
-  endDatePlaceholder: "End Date",
 };
 
 export default DateRangePicker;

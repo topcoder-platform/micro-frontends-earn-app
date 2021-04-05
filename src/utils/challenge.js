@@ -34,7 +34,9 @@ export function createChallengeCriteria(filter) {
     startDateEnd: filter.startDateEnd,
     endDateStart: filter.endDateStart,
     endDateEnd: filter.endDateEnd,
-    sortBy: filter.sortBy,
+    sortBy: isValidCriteriaSortBy(filter.sortBy)
+      ? filter.sortBy
+      : constants.CHALLENGE_SORT_BY_DEFAULT,
     sortOrder: filter.sortOrder,
     groups: filter.groups,
   };
@@ -44,6 +46,8 @@ export function createOpenForRegistrationChallengeCriteria() {
   return {
     status: "Active",
     currentPhaseName: "Registration",
+    endDateStart: null,
+    startDateEnd: null,
   };
 }
 
@@ -52,14 +56,14 @@ export function createAllActiveChallengeCriteria() {
     status: "Active",
     currentPhaseName: "Submission",
     registrationEndDateEnd: new Date().toISOString(),
-    sortBy: constants.CHALLENGE_SORT_BY_DEFAULT
+    endDateStart: null,
+    startDateEnd: null,
   };
 }
 
 export function createClosedChallengeCriteria() {
   return {
     status: "Completed",
-    sortBy: constants.CHALLENGE_SORT_BY_DEFAULT,
   };
 }
 
@@ -104,11 +108,18 @@ export function checkRequiredFilterAttributes(filter) {
   return valid;
 }
 
-export function isSwitchingBucket (filterChange) {
+export function isSwitchingBucket(filterChange) {
   const keys = Object.keys(filterChange);
-  return keys.length === 1 && keys[0] === 'bucket';
+  return keys.length === 1 && keys[0] === "bucket";
 }
 
+export function isDisplayingBucket(filter, bucket) {
+  return filter.bucket === bucket;
+}
+
+export function isValidCriteriaSortBy(sortBy) {
+  return ["updated", "overview.totalPrizes", "name"].includes(sortBy);
+}
 
 /**
  * Returns phase's end date.

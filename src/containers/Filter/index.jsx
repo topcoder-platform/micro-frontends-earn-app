@@ -36,7 +36,7 @@ const Filter = ({
 
   const onSwitchBucket = (bucket) => {
     updateFilter({ bucket });
-  }
+  };
 
   return (
     <ChallengeFilter
@@ -97,7 +97,7 @@ const mapStateToProps = (state) => ({
   challengeTracks: state.lookup.tracks,
   challengeTags: state.lookup.tags,
   challengeSubCommunities: state.lookup.subCommunities,
-  openForRegistrationCount: state.challenges.openForRegistrationCount
+  openForRegistrationCount: state.challenges.openForRegistrationCount,
 });
 
 const mapDispatchToProps = {

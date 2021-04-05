@@ -18,16 +18,13 @@ const ButtonIcon = ({ children, onClick }) => (
   <button styleName="button-icon" onClick={onClick} type="button">
     {children}
   </button>
-)
+);
 
 ButtonIcon.propTypes = {
   children: PT.node,
   onClick: PT.func,
 };
 
-export {
-  Button,
-  ButtonIcon,
-}
+export { Button, ButtonIcon };
 
 export default Button;

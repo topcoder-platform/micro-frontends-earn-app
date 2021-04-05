@@ -60,9 +60,18 @@ const ChallengeFilter = ({
       prizeTo,
       subCommunities,
       recommended,
-    })
+    });
     setFilter(newFilter);
-  }, [bucket, types, tracks, tags, prizeFrom, prizeTo, subCommunities, recommended])
+  }, [
+    bucket,
+    types,
+    tracks,
+    tags,
+    prizeFrom,
+    prizeTo,
+    subCommunities,
+    recommended,
+  ]);
 
   const ref = useRef(null);
 
@@ -72,13 +81,15 @@ const ChallengeFilter = ({
     }
 
     const openForRegistrationElement = ref.current.children[0].children[1];
-    const badgeElement = utils.icon.createBadgeElement(openForRegistrationElement, `${openForRegistrationCount}`);
+    const badgeElement = utils.icon.createBadgeElement(
+      openForRegistrationElement,
+      `${openForRegistrationCount}`
+    );
 
     return () => {
       badgeElement.parentElement.removeChild(badgeElement);
     };
-  }, [ref.current, openForRegistrationCount])
-
+  }, [ref.current, openForRegistrationCount]);
 
   return (
     <div styleName="filter">
@@ -86,7 +97,9 @@ const ChallengeFilter = ({
         <RadioButton
           options={bucketOptions}
           onChange={(newBucketOptions) => {
-            const selectedBucket = utils.getSelectedRadioOption(newBucketOptions).label;
+            const selectedBucket = utils.getSelectedRadioOption(
+              newBucketOptions
+            ).label;
             setFilter({ ...filter, bucket: selectedBucket });
             switchBucket(selectedBucket);
           }}
@@ -147,14 +160,43 @@ const ChallengeFilter = ({
               tags: selectedTagOptions.map((tagOption) => tagOption.label),
             });
           }}
+          size="xs"
         />
       </div>
 
       <div styleName="prize">
         <h3>Prize Amount</h3>
-        <TextInput size="xs" label="From" value={`${prizeFrom}`} />
+        <div styleName="input-group">
+          <TextInput
+            value={filter.prizeFrom}
+            size="xs"
+            label="From"
+            value={`${utils.formatPrizeAmount(prizeFrom)}`}
+            onChange={(value) => {
+              setFilter({
+                ...filter,
+                prizeFrom: utils.parsePrizeAmountText(value),
+              });
+            }}
+          />
+          <span styleName="suffix">USD</span>
+        </div>
         <span styleName="separator" />
-        <TextInput size="xs" label="To" value={`${prizeTo}`} />
+        <div styleName="input-group">
+          <TextInput
+            value={filter.prizeTo}
+            size="xs"
+            label="To"
+            value={`${utils.formatPrizeAmount(prizeTo)}`}
+            onChange={(value) => {
+              setFilter({
+                ...filter,
+                prizeTo: utils.parsePrizeAmountText(value),
+              });
+            }}
+          />
+          <span styleName="suffix">USD</span>
+        </div>
       </div>
 
       {challengeSubCommunities.length > 0 && (
@@ -181,9 +223,18 @@ const ChallengeFilter = ({
       {bucket === BUCKET_OPEN_FOR_REGISTRATION && (
         <div styleName="recommended-challenges">
           <span styleName="toggle">
-            <Toggle checked={filter.recommended} onChange={(checked) => {
-              setFilter({...filter, recommended: checked, sortBy: checked ? constants.CHALLENGE_SORT_BY_RECOMMENDED : constants.CHALLENGE_SORT_BY_DEFAULT })
-            }} />
+            <Toggle
+              checked={filter.recommended}
+              onChange={(checked) => {
+                setFilter({
+                  ...filter,
+                  recommended: checked,
+                  sortBy: checked
+                    ? constants.CHALLENGE_SORT_BY_RECOMMENDED
+                    : constants.CHALLENGE_SORT_BY_DEFAULT,
+                });
+              }}
+            />
           </span>
           <span>Recommended Challenges</span>
         </div>

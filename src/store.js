@@ -4,8 +4,8 @@
 import { createStore, compose, applyMiddleware } from "redux";
 import { createPromise } from "redux-promise-middleware";
 import root from "./reducers";
-import actions from './actions'
-import * as util from './utils/session'
+import actions from "./actions";
+import * as util from "./utils/session";
 
 const middlewares = [
   createPromise({ promiseTypeSuffixes: ["INIT", "DONE", "FAILURE"] }),

@@ -1,6 +1,6 @@
 import { createActions } from "redux-actions";
 
-function restoreFilter (filter) {
+function restoreFilter(filter) {
   return filter;
 }
 

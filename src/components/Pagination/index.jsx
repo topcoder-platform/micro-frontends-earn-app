@@ -106,7 +106,11 @@ const Pagination = ({ length, pageIndex, pageSize, onChange }) => {
             </button>
           </li>
         ))}
-        <li styleName={`page next ${pageIndex === total - 1 || length === 0 ? "hidden" : ""}`}>
+        <li
+          styleName={`page next ${
+            pageIndex === total - 1 || length === 0 ? "hidden" : ""
+          }`}
+        >
           <button onClick={next}>NEXT</button>
         </li>
       </ul>
