@@ -20,17 +20,7 @@ const NoSidebarDemo = () => {
 
   return (
     <>
-      <h2>Sidebar</h2>
-      <div>Enable/disable sidebar for routes that match:</div>
-      <pre>{COMPONENT_ROUTE}</pre>
-      <div>
-        <button onClick={() => enableSidebarForRoute(COMPONENT_ROUTE)}>
-          Enable
-        </button>
-        <button onClick={() => disableSidebarForRoute(COMPONENT_ROUTE)}>
-          Disable
-        </button>
-      </div>
+      <h2>Welcome!</h2>
     </>
   );
 };

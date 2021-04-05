@@ -56,8 +56,6 @@ const App = () => {
       <div className="content">
         <Router>
           <Challenges path="/earn/find/challenges" />
-          <AuthDemo path="/earn/find" />
-          <AuthDemo path="/earn/auth" />
           <NoSidebarDemo path="/earn" />
         </Router>
       </div>
