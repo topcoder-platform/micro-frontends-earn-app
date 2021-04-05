@@ -50,7 +50,6 @@ export function createOpenForRegistrationChallengeCriteria() {
 export function createActiveChallengeCriteria() {
   return {
     status: "Active",
-    currentPhaseName: "Submission",
     registrationEndDateEnd: new Date().toISOString(),
   };
 }
