@@ -1,5 +1,6 @@
 import api from "./api";
 import qs from "qs";
+import { getAuthUserProfile } from "@topcoder/micro-frontends-navbar-app";
 import * as util from "../utils/auth";
 
 async function getTags() {
@@ -19,12 +20,28 @@ async function getTags() {
 }
 
 async function doGetUserGroups() {
-  return api.get(
-    `/groups?memberId=${await util.getUserId()}&membershipType=user`
-  );
+  let groups = []
+  try {
+    let profile
+    try {
+      profile = await getAuthUserProfile();
+    } catch (e) {
+      /* handle error */
+    }
+
+    if (profile) {
+      return api.get(
+        `/groups?memberId=${await util.getUserId()}&membershipType=user`
+      );
+    }
+  } catch (e) {
+
+  }
+  return groups
 }
 
 async function getCommunityList() {
+
   const groups = await doGetUserGroups();
   const communityListQuery = qs.stringify({ groups: groups.map((g) => g.id) });
   const response = await api.doFetch(
