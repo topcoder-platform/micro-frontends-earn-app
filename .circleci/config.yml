@@ -77,4 +77,4 @@ workflows:
           context: org-global
           filters:
             branches:
-              only: master
+              only: ci-cd-prod
