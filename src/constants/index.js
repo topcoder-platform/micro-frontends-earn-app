@@ -16,7 +16,7 @@ export const NAV_MENU_ICONS = {
 export const FILTER_BUCKETS = [
   "All Active Challenges",
   "Open for Registration",
-  "Past Challenges",
+  "Closed Challenges",
 ];
 
 export const FILTER_CHALLENGE_TYPES = ["Challenge", "First2Finish", "Task"];
@@ -31,7 +31,7 @@ export const FILTER_CHALLENGE_TRACKS = [
   "Design",
   "Development",
   "Data Science",
-  "Quality Assurance",
+  "QA",
 ];
 
 export const FILTER_CHALLENGE_TRACK_ABBREVIATIONS = {
@@ -42,7 +42,7 @@ export const FILTER_CHALLENGE_TRACK_ABBREVIATIONS = {
 };
 
 export const CHALLENGE_SORT_BY = {
-  "Best Match": "bestMatch",
+  // "Best Match": "bestMatch",
   "Most recent": "updated",
   "Prize amount": "overview.totalPrizes",
   Title: "name",

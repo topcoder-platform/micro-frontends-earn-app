@@ -28,7 +28,7 @@ const PhaseEndDate = ({ challenge }) => {
   return (
     <span>
       <span styleName="phase-message">
-        {`${phaseMessage}`} {`${status}`}:
+        {`${phaseMessage}`} {`${status}`}:&nbsp;
       </span>
       <span styleName="time-left">{timeLeftMessage}</span>
     </span>

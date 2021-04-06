@@ -17,6 +17,8 @@ function TextInput({
   type,
   onEnterKey,
   readonly,
+  formatters,
+  parsers
 }) {
   const [val, setVal] = useState(value);
   const delayedOnChange = useRef(
@@ -24,11 +26,29 @@ function TextInput({
   ).current;
   const sizeStyle = size === "lg" ? "lgSize" : "xsSize";
 
+  const reducer = (data, val) => data.reduce((prev, fn) => fn(prev), val);
+  const parseValue = val => reducer(parsers, val);
+  const formatValue = val => reducer(formatters, val);
+
   const ref = useRef(null);
   useEffect(() => {
-    ref.current.value = value;
-    setVal(value);
+    updateInputValue(value);
   }, [value]);
+
+  const updateInputValue = (value) => {
+    if (formatters) {
+      value = parseValue(value);
+      setVal(formatValue(value));
+    } else {
+      setVal(value);
+    }
+    return value;
+  }
+
+  const valueChange = (value) => {
+    const updatedValue = updateInputValue(value);
+    delayedOnChange(updatedValue, onChange);
+  }
 
   return (
     <div
@@ -38,20 +58,14 @@ function TextInput({
       <input
         ref={ref}
         readOnly={readonly}
-        defaultValue={value}
+        value={val}
         type={type}
         placeholder={`${placeholder}${placeholder && required ? " *" : ""}`}
         styleName={`${value || val ? "haveValue" : ""} ${
           errorMsg ? "haveError" : ""
         }`}
-        onChange={(e) => {
-          delayedOnChange(e.target.value, onChange);
-          setVal(e.target.value);
-        }}
-        onBlur={(e) => {
-          delayedOnChange(e.target.value, onChange);
-          setVal(e.target.value);
-        }}
+        onChange={(e) => {valueChange(e.target.value);}}
+        onBlur={(e) => {valueChange(e.target.value);}}
         onKeyPress={(e) => {
           if (e.key === "Enter") {
             onEnterKey();
@@ -80,6 +94,8 @@ TextInput.defaultProps = {
   type: "text",
   onEnterKey: () => {},
   readonly: false,
+  formatters: [() => {}],
+  parsers: [() => {}]
 };
 
 TextInput.propTypes = {
@@ -94,5 +110,12 @@ TextInput.propTypes = {
   onEnterKey: PT.func,
   readonly: PT.bool,
 };
+
+TextInput.withSuffix = ({suffix, ...props}) => (
+  <div styleName="input-group">
+    <TextInput {...props}/>
+    <span styleName="input-suffix">{suffix}</span>
+  </div>
+);
 
 export default TextInput;

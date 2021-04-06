@@ -7,6 +7,7 @@ import DropdownTerms from "../../../components/DropdownTerms";
 import Toggle from "../../../components/Toggle";
 import Button from "../../../components/Button";
 import TextInput from "../../../components/TextInput";
+import { currencyCommas } from "../../../components/TextInput/value-formatter";
 import * as utils from "../../../utils";
 
 import "./styles.scss";
@@ -43,6 +44,13 @@ const ChallengeFilter = ({
   );
 
   utils.setSelectedDropdownTermOptions(tagOptions, filter.tags);
+
+  // for prize amount input
+  const parseNumber = val => Number(val.replace(/,/g, ''));
+  const inputTransform = {
+    formatters: [(val) => currencyCommas(val)],
+    parsers: [(val) => parseNumber(val)]
+  }
 
   return (
     <div styleName="filter">
@@ -120,9 +128,11 @@ const ChallengeFilter = ({
 
       <div styleName="prize">
         <h3>Prize Amount</h3>
-        <TextInput size="xs" label="From" value={`${prizeFrom}`} />
+        <TextInput.withSuffix suffix="USD" size="xs" label="From" value={`${prizeFrom}`}
+          {...inputTransform}/>
         <span styleName="separator" />
-        <TextInput size="xs" label="To" value={`${prizeTo}`} />
+        <TextInput.withSuffix suffix="USD" size="xs" label="To" value={`${prizeTo}`}
+          {...inputTransform}/>
       </div>
 
       {challengeSubCommunities.length > 0 && (
@@ -145,16 +155,16 @@ const ChallengeFilter = ({
           </div>
         </div>
       )}
-      <div styleName="recommended-challenges">
+      {/* <div styleName="recommended-challenges">
         <span styleName="toggle">
           <Toggle />
         </span>
         <span>Recommended Challenges</span>
-      </div>
+      </div> */}
 
       <div styleName="footer">
         <Button onClick={clearFilter}>CLEAR FILTER</Button>
-        <Button onClick={() => saveFilter(filter)}>SAVE FILTER</Button>
+        {/* <Button onClick={() => saveFilter(filter)}>SAVE FILTER</Button> */}
       </div>
     </div>
   );

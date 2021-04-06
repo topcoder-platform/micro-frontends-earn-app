@@ -6,6 +6,8 @@ import {
   PAGINATION_MAX_PAGE_DISPLAY,
 } from "../../constants";
 import * as utils from "../../utils";
+import IconPrevious from "assets/icons/icon-prev.svg";
+import IconNext from "assets/icons/icon-next.svg";
 
 import "./styles.scss";
 
@@ -93,7 +95,10 @@ const Pagination = ({ length, pageIndex, pageSize, onChange }) => {
       </div>
       <ul styleName="pages">
         <li styleName={`page previous ${pageIndex === 0 ? "hidden" : ""}`}>
-          <button onClick={previous}>PREVIOUS</button>
+          <button onClick={previous} styleName="icon-button">
+            <IconPrevious />
+            <span>PREVIOUS</span>
+          </button>
         </li>
         {displayPages.map((p) => (
           <li styleName={`page ${p === pageIndex ? "active" : ""}`} key={p}>
@@ -107,7 +112,10 @@ const Pagination = ({ length, pageIndex, pageSize, onChange }) => {
           </li>
         ))}
         <li styleName={`page next ${pageIndex === total - 1 ? "hidden" : ""}`}>
-          <button onClick={next}>NEXT</button>
+          <button onClick={next} styleName="icon-button">
+            <span>NEXT</span>
+            <IconNext />
+          </button>
         </li>
       </ul>
     </div>
