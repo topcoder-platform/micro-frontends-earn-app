@@ -85,4 +85,4 @@ workflows:
           context: org-global
           filters:
             branches:
-              only: ci-cd-prod
+              only: master
