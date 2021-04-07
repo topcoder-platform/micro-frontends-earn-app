@@ -15,7 +15,13 @@ const PhaseEndDate = ({ challenge }) => {
   );
   const timeLeftColor = timeLeft.time < 12 * 60 * 60 * 1000 ? "#EF476F" : "";
   const timeLeftMessage = timeLeft.late ? (
-    <span>{`Late by ${timeLeft.text}`}</span>
+    <span>
+      Late by
+      <span
+        style={{ color: "#EF476F" }}
+        styleName="uppercase"
+      >{` ${timeLeft.text}`}</span>
+    </span>
   ) : (
     <span style={{ color: timeLeftColor }}>
       <span
@@ -29,7 +35,7 @@ const PhaseEndDate = ({ challenge }) => {
     <span>
       <span styleName="phase-message">
         {`${phaseMessage}`} {`${status}`}:
-      </span>
+      </span>{" "}
       <span styleName="time-left">{timeLeftMessage}</span>
     </span>
   );

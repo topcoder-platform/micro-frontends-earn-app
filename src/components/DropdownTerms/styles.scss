@@ -85,7 +85,7 @@
       left: 0;
       right: 0;
       background: transparent;
-      height: 100% !important;
+      min-height: 100% !important;
       z-index: 5;
       margin: 0 !important;
       cursor: pointer;
@@ -151,6 +151,39 @@
         border: none !important;
         padding-bottom: 10px !important;
       }
+    }
+  }
+
+  &.term-lgSize {
+  }
+
+  &.term-xsSize {
+    :global {
+      .Select-control {
+        min-height: 40px;
+      }
+
+      .Select-placeholder {
+        font-size: 14px;
+      }
+
+      .Select--multi .Select-multi-value-wrapper {
+        max-height: 90px;
+      }
+
+      .Select.is-open  .Select-multi-value-wrapper {
+        overflow: hidden;
+      }
+
+      .Select--multi .Select-value {
+        line-height: 38px;
+        margin-top: 10px;
+        font-size: 14px;
+      }
+    }
+
+    .errorMessage {
+      @include errorMessageXs;
     }
   }
 }

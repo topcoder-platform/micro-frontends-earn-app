@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import PT from "prop-types";
 import _ from "lodash";
 import RadioButton from "../../../components/RadioButton";
@@ -8,6 +8,7 @@ import Toggle from "../../../components/Toggle";
 import Button from "../../../components/Button";
 import TextInput from "../../../components/TextInput";
 import * as utils from "../../../utils";
+import * as constants from "../../../constants";
 
 import "./styles.scss";
 
@@ -18,6 +19,7 @@ const ChallengeFilter = ({
   tags,
   prizeFrom,
   prizeTo,
+  recommended,
   subCommunities,
   challengeBuckets,
   challengeTypes,
@@ -26,7 +28,10 @@ const ChallengeFilter = ({
   challengeSubCommunities,
   saveFilter,
   clearFilter,
+  switchBucket,
+  openForRegistrationCount,
 }) => {
+  const BUCKET_OPEN_FOR_REGISTRATION = constants.FILTER_BUCKETS[1];
   const tagOptions = utils.createDropdownTermOptions(challengeTags);
   const bucketOptions = utils.createRadioOptions(challengeBuckets, bucket);
 
@@ -39,26 +44,66 @@ const ChallengeFilter = ({
       prizeFrom,
       prizeTo,
       subCommunities,
+      recommended,
     })
   );
 
   utils.setSelectedDropdownTermOptions(tagOptions, filter.tags);
 
+  useEffect(() => {
+    const newFilter = _.cloneDeep({
+      bucket,
+      types,
+      tracks,
+      tags,
+      prizeFrom,
+      prizeTo,
+      subCommunities,
+      recommended,
+    });
+    setFilter(newFilter);
+  }, [
+    bucket,
+    types,
+    tracks,
+    tags,
+    prizeFrom,
+    prizeTo,
+    subCommunities,
+    recommended,
+  ]);
+
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (!ref.current) {
+      return;
+    }
+
+    const openForRegistrationElement = ref.current.children[0].children[1];
+    const badgeElement = utils.icon.createBadgeElement(
+      openForRegistrationElement,
+      `${openForRegistrationCount}`
+    );
+
+    return () => {
+      badgeElement.parentElement.removeChild(badgeElement);
+    };
+  }, [ref.current, openForRegistrationCount]);
+
   return (
     <div styleName="filter">
-      <div styleName="buckets vertical-list">
+      <div styleName="buckets vertical-list" ref={ref}>
         <RadioButton
           options={bucketOptions}
           onChange={(newBucketOptions) => {
-            const filterChange = {
-              ...filter,
-              bucket: utils.getSelectedRadioOption(newBucketOptions).label,
-            };
-            setFilter(filterChange);
-            saveFilter(filterChange);
+            const selectedBucket = utils.getSelectedRadioOption(
+              newBucketOptions
+            ).label;
+            setFilter({ ...filter, bucket: selectedBucket });
+            switchBucket(selectedBucket);
           }}
         />
-        <span></span>
       </div>
 
       <div styleName="challenge-types">
@@ -115,14 +160,43 @@ const ChallengeFilter = ({
               tags: selectedTagOptions.map((tagOption) => tagOption.label),
             });
           }}
+          size="xs"
         />
       </div>
 
       <div styleName="prize">
         <h3>Prize Amount</h3>
-        <TextInput size="xs" label="From" value={`${prizeFrom}`} />
+        <div styleName="input-group">
+          <TextInput
+            value={filter.prizeFrom}
+            size="xs"
+            label="From"
+            value={`${utils.formatPrizeAmount(prizeFrom)}`}
+            onChange={(value) => {
+              setFilter({
+                ...filter,
+                prizeFrom: utils.parsePrizeAmountText(value),
+              });
+            }}
+          />
+          <span styleName="suffix">USD</span>
+        </div>
         <span styleName="separator" />
-        <TextInput size="xs" label="To" value={`${prizeTo}`} />
+        <div styleName="input-group">
+          <TextInput
+            value={filter.prizeTo}
+            size="xs"
+            label="To"
+            value={`${utils.formatPrizeAmount(prizeTo)}`}
+            onChange={(value) => {
+              setFilter({
+                ...filter,
+                prizeTo: utils.parsePrizeAmountText(value),
+              });
+            }}
+          />
+          <span styleName="suffix">USD</span>
+        </div>
       </div>
 
       {challengeSubCommunities.length > 0 && (
@@ -145,12 +219,26 @@ const ChallengeFilter = ({
           </div>
         </div>
       )}
-      <div styleName="recommended-challenges">
-        <span styleName="toggle">
-          <Toggle />
-        </span>
-        <span>Recommended Challenges</span>
-      </div>
+
+      {bucket === BUCKET_OPEN_FOR_REGISTRATION && (
+        <div styleName="recommended-challenges">
+          <span styleName="toggle">
+            <Toggle
+              checked={filter.recommended}
+              onChange={(checked) => {
+                setFilter({
+                  ...filter,
+                  recommended: checked,
+                  sortBy: checked
+                    ? constants.CHALLENGE_SORT_BY_RECOMMENDED
+                    : constants.CHALLENGE_SORT_BY_DEFAULT,
+                });
+              }}
+            />
+          </span>
+          <span>Recommended Challenges</span>
+        </div>
+      )}
 
       <div styleName="footer">
         <Button onClick={clearFilter}>CLEAR FILTER</Button>
@@ -175,6 +263,8 @@ ChallengeFilter.propTypes = {
   challengeSubCommunities: PT.arrayOf(PT.string),
   saveFilter: PT.func,
   clearFilter: PT.func,
+  switchBucket: PT.func,
+  openForRegistrationCount: PT.number,
 };
 
 export default ChallengeFilter;

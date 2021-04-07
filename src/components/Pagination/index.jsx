@@ -39,7 +39,7 @@ const Pagination = ({ length, pageIndex, pageSize, onChange }) => {
   const onChangePageSize = (options) => {
     const selectedOption = utils.getSelectedDropdownOption(options);
     const newPageSize = +selectedOption.label;
-    onChange({ pageIndex, pageSize: newPageSize });
+    onChange({ pageIndex: 0, pageSize: newPageSize });
   };
 
   const onChangePageIndex = (newPageIndex) => {
@@ -106,7 +106,11 @@ const Pagination = ({ length, pageIndex, pageSize, onChange }) => {
             </button>
           </li>
         ))}
-        <li styleName={`page next ${pageIndex === total - 1 ? "hidden" : ""}`}>
+        <li
+          styleName={`page next ${
+            pageIndex === total - 1 || length === 0 ? "hidden" : ""
+          }`}
+        >
           <button onClick={next}>NEXT</button>
         </li>
       </ul>

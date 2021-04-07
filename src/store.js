@@ -4,6 +4,8 @@
 import { createStore, compose, applyMiddleware } from "redux";
 import { createPromise } from "redux-promise-middleware";
 import root from "./reducers";
+import actions from "./actions";
+import * as util from "./utils/session";
 
 const middlewares = [
   createPromise({ promiseTypeSuffixes: ["INIT", "DONE", "FAILURE"] }),
@@ -15,4 +17,8 @@ if (process.env.APPMODE === "development") {
   middlewares.push(logger);
 }
 
-export default createStore(root, compose(applyMiddleware(...middlewares)));
+const store = createStore(root, compose(applyMiddleware(...middlewares)));
+
+store.dispatch(actions.filter.restoreFilter(util.restoreFilter()));
+
+export default store;

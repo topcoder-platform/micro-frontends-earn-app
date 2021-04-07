@@ -10,11 +10,11 @@ export function pageIndexToPage(pageIndex) {
  * @param {any} response Web APIs Response
  * @return {Object} pagination data
  */
-export function getResponseHeaders(reponse) {
+export function getResponseHeaders(response) {
   return {
-    page: +(reponse.headers.get("X-Page") || 0),
-    perPage: +(reponse.headers.get("X-Per-Page") || 0),
-    total: +(reponse.headers.get("X-Total") || 0),
-    totalPages: +(reponse.headers.get("X-Total-Pages") || 0),
+    page: +(response.headers.get("X-Page") || 0),
+    perPage: +(response.headers.get("X-Per-Page") || 0),
+    total: +(response.headers.get("X-Total") || 0),
+    totalPages: +(response.headers.get("X-Total-Pages") || 0),
   };
 }

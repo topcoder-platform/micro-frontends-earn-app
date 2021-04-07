@@ -11,6 +11,7 @@ const Filter = ({
   tags,
   prizeFrom,
   prizeTo,
+  recommended,
   subCommunities,
   challengeBuckets,
   challengeTypes,
@@ -21,6 +22,7 @@ const Filter = ({
   getChallenges,
   getTags,
   getSubCommunities,
+  openForRegistrationCount,
 }) => {
   useEffect(() => {
     getTags();
@@ -32,6 +34,10 @@ const Filter = ({
     getChallenges(filter);
   };
 
+  const onSwitchBucket = (bucket) => {
+    updateFilter({ bucket });
+  };
+
   return (
     <ChallengeFilter
       bucket={bucket}
@@ -40,6 +46,7 @@ const Filter = ({
       tags={tags}
       prizeFrom={prizeFrom}
       prizeTo={prizeTo}
+      recommended={recommended}
       subCommunities={subCommunities}
       challengeBuckets={challengeBuckets}
       challengeTypes={challengeTypes}
@@ -48,6 +55,8 @@ const Filter = ({
       challengeSubCommunities={challengeSubCommunities}
       saveFilter={onSaveFilter}
       clearFilter={() => {}}
+      switchBucket={onSwitchBucket}
+      openForRegistrationCount={openForRegistrationCount}
     />
   );
 };
@@ -59,6 +68,7 @@ Filter.propTypes = {
   tags: PT.arrayOf(PT.string),
   prizeFrom: PT.number,
   prizeTo: PT.number,
+  recommended: PT.bool,
   subCommunities: PT.arrayOf(PT.string),
   challengeBuckets: PT.arrayOf(PT.string),
   challengeTypes: PT.arrayOf(PT.string),
@@ -69,6 +79,7 @@ Filter.propTypes = {
   getChallenges: PT.func,
   getTags: PT.func,
   getSubCommunities: PT.func,
+  openForRegistrationCount: PT.number,
 };
 
 const mapStateToProps = (state) => ({
@@ -79,12 +90,14 @@ const mapStateToProps = (state) => ({
   tags: state.filter.challenge.tags,
   prizeFrom: state.filter.challenge.prizeFrom,
   prizeTo: state.filter.challenge.prizeTo,
+  recommended: state.filter.challenge.recommended,
   subCommunities: state.filter.challenge.subCommunities,
   challengeBuckets: state.lookup.buckets,
   challengeTypes: state.lookup.types,
   challengeTracks: state.lookup.tracks,
   challengeTags: state.lookup.tags,
   challengeSubCommunities: state.lookup.subCommunities,
+  openForRegistrationCount: state.challenges.openForRegistrationCount,
 });
 
 const mapDispatchToProps = {

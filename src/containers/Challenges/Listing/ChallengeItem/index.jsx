@@ -15,7 +15,7 @@ const ChallengeItem = ({ challenge, onClickTag, onClickTrack }) => {
   let purse = challenge.prizeSets
     ? utils.challenge.getChallengePurse(challenge.prizeSets)
     : "";
-  purse = purse && utils.formatMoneyValue(purse);
+  purse = typeof purse === "number" && utils.formatMoneyValue(purse);
 
   return (
     <div styleName="challenge-item">

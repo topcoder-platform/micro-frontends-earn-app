@@ -34,7 +34,9 @@ export function createChallengeCriteria(filter) {
     startDateEnd: filter.startDateEnd,
     endDateStart: filter.endDateStart,
     endDateEnd: filter.endDateEnd,
-    sortBy: filter.sortBy,
+    sortBy: isValidCriteriaSortBy(filter.sortBy)
+      ? filter.sortBy
+      : constants.CHALLENGE_SORT_BY_DEFAULT,
     sortOrder: filter.sortOrder,
     groups: filter.groups,
   };
@@ -44,18 +46,22 @@ export function createOpenForRegistrationChallengeCriteria() {
   return {
     status: "Active",
     currentPhaseName: "Registration",
+    endDateStart: null,
+    startDateEnd: null,
   };
 }
 
-export function createActiveChallengeCriteria() {
+export function createAllActiveChallengeCriteria() {
   return {
     status: "Active",
     currentPhaseName: "Submission",
     registrationEndDateEnd: new Date().toISOString(),
+    endDateStart: null,
+    startDateEnd: null,
   };
 }
 
-export function createPastChallengeCriteria() {
+export function createClosedChallengeCriteria() {
   return {
     status: "Completed",
   };
@@ -100,6 +106,19 @@ export function checkRequiredFilterAttributes(filter) {
     valid = false;
   }
   return valid;
+}
+
+export function isSwitchingBucket(filterChange) {
+  const keys = Object.keys(filterChange);
+  return keys.length === 1 && keys[0] === "bucket";
+}
+
+export function isDisplayingBucket(filter, bucket) {
+  return filter.bucket === bucket;
+}
+
+export function isValidCriteriaSortBy(sortBy) {
+  return ["updated", "overview.totalPrizes", "name"].includes(sortBy);
 }
 
 /**

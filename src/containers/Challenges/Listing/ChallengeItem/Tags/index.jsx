@@ -23,6 +23,10 @@ const Tags = ({ tags, onClickTag }) => {
   );
 };
 
+Tags.defaultProps = {
+  tags: [],
+};
+
 Tags.propTypes = {
   tags: PT.arrayOf(PT.string),
   onClickTag: PT.func,

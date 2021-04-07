@@ -1,11 +1,44 @@
 @import "styles/variables";
 
+.container {
+  &.isError {
+    input {
+      border: 1px solid $tc-level-5;
+    }
+
+    .errorHint {
+      display: block;
+      color: $tc-level-5;
+      font-size: 12px;
+      padding: 4px 0;
+      height: 20px;
+    }
+  }
+}
+
 .date-range-input {
   width: 230px;
+  margin-top: -12px;
   font-size: $font-size-sm;
+}
+
+.input-group {
+  position: relative;
+
+  .icon {
+    position: absolute;
+    top: 22px;
+    right: 14px;
+    z-index: 1;
+    display: block;
+    cursor: pointer;
+  }
 
   input {
-    color: $body-color !important;
-    border-color: $tc-gray-30 !important;
+    padding-right: 46px !important;
   }
+}
+
+.errorHint {
+  display: none;
 }

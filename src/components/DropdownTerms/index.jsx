@@ -16,6 +16,7 @@ function DropdownTerms({
   onChange,
   errorMsg,
   addNewOptionPlaceholder,
+  size,
 }) {
   const [internalTerms, setInternalTerms] = useState(terms);
   const selectedOption = _.filter(internalTerms, { selected: true }).map(
@@ -87,7 +88,9 @@ function DropdownTerms({
         selectedOption && !!selectedOption.length ? "haveValue" : ""
       } ${errorMsg ? "haveError" : ""} ${
         _.every(internalTerms, { selected: true }) ? "isEmptySelectList" : ""
-      } ${focused ? "isFocused" : ""}`}
+      } ${focused ? "isFocused" : ""} ${
+        size === "lg" ? "term-lgSize" : "term-xsSize"
+      }`}
     >
       <div styleName="relative">
         <Creatable
@@ -179,6 +182,7 @@ DropdownTerms.defaultProps = {
   onChange: () => {},
   errorMsg: "",
   addNewOptionPlaceholder: "",
+  size: "lg",
 };
 
 DropdownTerms.propTypes = {
@@ -194,6 +198,7 @@ DropdownTerms.propTypes = {
   onChange: PT.func,
   errorMsg: PT.string,
   addNewOptionPlaceholder: PT.string,
+  size: PT.oneOf(["xs", "lg"]),
 };
 
 export default DropdownTerms;
