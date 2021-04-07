@@ -29,7 +29,7 @@ builddeploy_steps: &builddeploy_steps
   - run: *install_dependency
   - run: *install_deploysuite
   - restore_cache: *restore_cache_settings_for_build
-   - run:
+  - run:
       command: |
         ./awsconfiguration.sh $DEPLOY_ENV
         source awsenvconf
