@@ -1,0 +1,11 @@
+@import "styles/variables";
+
+.date-range-input {
+  width: 230px;
+  font-size: $font-size-sm;
+
+  input {
+    color: $body-color !important;
+    border-color: $tc-gray-30 !important;
+  }
+}

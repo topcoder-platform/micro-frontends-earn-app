@@ -1,0 +1,72 @@
+@import "styles/variables";
+
+$menu-padding-x: 4 * $base-unit;
+$menu-padding-y: 20px;
+
+.menu {
+  padding: $menu-padding-y $menu-padding-x (3 * $base-unit);
+  line-height: 21px;
+}
+
+.menu-item {
+  padding: 7px 0;
+  cursor: pointer;
+
+  a {
+    display: flex;
+    align-items: center;
+  }
+
+  .icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 16px;
+    text-align: left;
+  }
+
+  .text {}
+
+  .arrow {
+    width: 21px;
+    height: 21px;
+    margin-left: 8px;
+    line-height: 1;
+    text-align: center;
+    vertical-align: middle;
+
+    &.up {}
+    &.down {
+      transform: rotate(180deg);
+    }
+  }
+
+  &.active > a {
+    font-weight: 500;
+  }
+
+  &.selected > a {
+    color: $green;
+  }
+}
+
+.menu-item-main > a + ul,
+.menu-item-secondary > a + ul {
+  display: none;
+}
+
+.menu-item-main.expanded > a + ul,
+.menu-item-secondary.expanded > a + ul {
+  display: block;
+}
+
+.menu-item-secondary.active.collapsed {
+  color: $green;
+}
+
+.sub-menu {
+  padding-left: 24px + 16px;
+}
+
+.sub-submenu {
+  padding-left: 20px;
+}

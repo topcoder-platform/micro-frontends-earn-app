@@ -1,0 +1,11 @@
+@import "styles/variables";
+@import "styles/mixins";
+
+.page {
+  padding: $page-padding-y $page-padding-x 105px;
+}
+
+.title {
+  @include barlow-condensed-medium;
+  margin-bottom: 22px;
+}

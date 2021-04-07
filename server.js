@@ -4,7 +4,7 @@ const express = require("express");
 
 const app = express();
 
-app.use('/earn',
+app.use('/earn-app',
   express.static("./dist", {
     setHeaders: function setHeaders(res) {
       res.header("Access-Control-Allow-Origin", "*");

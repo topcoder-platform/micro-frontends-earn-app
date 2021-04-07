@@ -1,9 +1,13 @@
 import React, { useEffect } from "react";
-import { Link, Router } from "@reach/router";
 import { setAppMenu } from "@topcoder/micro-frontends-navbar-app";
 import appMenu from "./constants/appMenu";
-import AuthDemo from "./components/AuthDemo";
-import NoSidebarDemo from "./components/NoSidebarDemo";
+import { createHistory, LocationProvider } from "@reach/router";
+import { Provider } from "react-redux";
+import store from "./store";
+import App from "./App";
+
+// History for location provider
+const history = createHistory(window);
 
 export default function Root() {
   useEffect(() => {
@@ -12,14 +16,10 @@ export default function Root() {
   }, []);
 
   return (
-    <div style={{ textAlign: "center" }}>
-      <h1>Earn App Placeholder</h1>
-
-      <Router>
-        <AuthDemo path="/earn/find" />
-        <AuthDemo path="/earn/auth" />
-        <NoSidebarDemo path="/earn/no-sidebar" />
-      </Router>
-    </div>
+    <LocationProvider history={history}>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </LocationProvider>
   );
 }
