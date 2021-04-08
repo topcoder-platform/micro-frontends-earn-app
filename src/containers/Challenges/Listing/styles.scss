@@ -29,6 +29,23 @@
     height: 40px;
   }
 
+  .close-icon {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 40px;
+  }
+
+  .clear-button {
+    background: none;
+    border: none;
+  }
+
   input {
     margin-top: 0 !important;
     padding-left: 46px !important;

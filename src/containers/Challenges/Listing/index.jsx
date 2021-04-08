@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import PT from "prop-types";
 import _ from "lodash";
 import moment from "moment";
@@ -11,6 +11,7 @@ import DateRangePicker from "../../../components/DateRangePicker";
 import * as utils from "../../../utils";
 import * as constants from "../../../constants";
 import IconSearch from "assets/images/search.svg";
+import IconClose from "assets/icons/close-black.svg";
 
 import "./styles.scss";
 
@@ -33,8 +34,9 @@ const Listing = ({
     sortByLabels,
     utils.getSortByLabel(constants.CHALLENGE_SORT_BY, sortBy)
   );
-
+  const [searchVal, setSearchValue] = useState(search);
   const onSearch = useRef(_.debounce((f) => f(), 1000));
+  const showIfChallengesAvailable = child => challenges.length > 0 ? child : null;
 
   return (
     <Panel>
@@ -45,19 +47,27 @@ const Listing = ({
               <img src={IconSearch} alt="search" />
             </span>
             <TextInput
-              value={search}
+              value={searchVal}
               placeholder="Search for challenges"
               size="xs"
               onChange={(value) => {
+                setSearchValue(value);
                 onSearch.current(() => {
-                  const filterChange = { search: value };
+                  const filterChange = { search: value || "" };
                   updateFilter(filterChange);
                 });
               }}
             />
+            {/* this can be replace by TextInput.withSuffix */}
+            {searchVal && <button styleName="close-icon clear-button"
+              onClick={() => {
+                setTimeout(() => setSearchValue(null), process.env.GUIKIT.DEBOUNCE_ON_CHANGE_TIME + 10);
+              }}>
+              <IconClose/>
+            </button>}
           </div>
-          <div styleName="separator" />
-          <div
+          {showIfChallengesAvailable(<div styleName="separator" />)}
+          {showIfChallengesAvailable(<div
             styleName={`sort-by ${
               bucket === constants.FILTER_BUCKETS[2] ? "hidden" : ""
             }`}
@@ -76,8 +86,8 @@ const Listing = ({
                 updateFilter(filterChange);
               }}
             />
-          </div>
-          <div
+          </div>)}
+          {showIfChallengesAvailable(<div
             styleName={`from-to ${
               bucket !== constants.FILTER_BUCKETS[2] ? "hidden" : ""
             }`}
@@ -98,7 +108,7 @@ const Listing = ({
                 endDate: startDateEnd ? moment(startDateEnd).toDate() : null,
               }}
             />
-          </div>
+          </div>)}
         </div>
       </Panel.Header>
       <Panel.Body>
@@ -118,7 +128,7 @@ const Listing = ({
             />
           </div>
         ))}
-        <div styleName="pagination">
+        {showIfChallengesAvailable(<div styleName="pagination">
           <Pagination
             length={total}
             pageSize={perPage}
@@ -131,7 +141,7 @@ const Listing = ({
               updateFilter(filterChange);
             }}
           />
-        </div>
+        </div>)}
       </Panel.Body>
     </Panel>
   );
