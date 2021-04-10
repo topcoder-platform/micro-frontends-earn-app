@@ -17,6 +17,7 @@ const Challenges = ({
   getChallenges,
   updateFilter,
   bucket,
+  tags,
 }) => {
   const [initialized, setInitialized] = useState(false);
 
@@ -40,6 +41,7 @@ const Challenges = ({
           startDateEnd={startDateEnd}
           updateFilter={updateFilter}
           bucket={bucket}
+          tags={tags}
           getChallenges={getChallenges}
         />
       )}
@@ -58,6 +60,7 @@ Challenges.propTypes = {
   getChallenges: PT.func,
   updateFilter: PT.func,
   bucket: PT.string,
+  tags: PT.arrayOf(PT.string),
 };
 
 const mapStateToProps = (state) => ({
@@ -70,6 +73,7 @@ const mapStateToProps = (state) => ({
   startDateEnd: state.filter.challenge.startDateEnd,
   challenges: state.challenges.challengesFiltered,
   bucket: state.filter.challenge.bucket,
+  tags: state.filter.challenge.tags,
 });
 
 const mapDispatchToProps = {

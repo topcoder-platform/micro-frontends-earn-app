@@ -27,7 +27,7 @@ const ChallengeFilter = ({
   saveFilter,
   clearFilter,
 }) => {
-  const tagOptions = utils.createDropdownTermOptions(challengeTags);
+  const tagOptions = utils.createDropdownTermOptions(challengeTags, tags);
   const bucketOptions = utils.createRadioOptions(challengeBuckets, bucket);
 
   const [filter, setFilter] = useState(
@@ -42,7 +42,6 @@ const ChallengeFilter = ({
     })
   );
 
-  utils.setSelectedDropdownTermOptions(tagOptions, filter.tags);
 
   return (
     <div styleName="filter">
@@ -110,10 +109,12 @@ const ChallengeFilter = ({
             const selectedTagOptions = utils.getSelectedDropdownTermsOptions(
               newTagOptions
             );
-            setFilter({
+            const filterChange = {
               ...filter,
               tags: selectedTagOptions.map((tagOption) => tagOption.label),
-            });
+            }
+            setFilter(filterChange);
+            saveFilter(filterChange);
           }}
         />
       </div>

@@ -24,6 +24,7 @@ const Listing = ({
   startDateEnd,
   updateFilter,
   bucket,
+  tags,
   getChallenges,
 }) => {
   const sortByOptions = utils.createDropdownOptions(
@@ -106,7 +107,7 @@ const Listing = ({
             <ChallengeItem
               challenge={challenge}
               onClickTag={(tag) => {
-                const filterChange = { search: tag };
+                const filterChange = { tags: [...tags, tag] };
                 updateFilter(filterChange);
                 getChallenges(filterChange);
               }}
