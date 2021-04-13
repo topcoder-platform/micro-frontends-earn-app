@@ -50,11 +50,11 @@ const staticRangeHandler = {
  * @return {object[]} list of defined ranges
  */
 export function createStaticRanges() {
-  const now = moment();
-  const pastWeek = moment().subtract(1, "week");
-  const pastMonth = moment().subtract(1, "month");
-  const past6Months = moment().subtract(6, "month");
-  const pastYear = moment().subtract(1, "year");
+  const now = moment().utcOffset(0);
+  const pastWeek = now.clone().subtract(1, "week");
+  const pastMonth = now.clone().subtract(1, "month");
+  const past6Months = now.clone().subtract(6, "month");
+  const pastYear = now.clone().subtract(1, "year");
 
   const ranges = [
     {

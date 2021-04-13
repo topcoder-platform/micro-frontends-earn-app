@@ -16,6 +16,7 @@ function DropdownTerms({
   onChange,
   errorMsg,
   addNewOptionPlaceholder,
+  size,
 }) {
   const [internalTerms, setInternalTerms] = useState(terms);
   const selectedOption = _.filter(internalTerms, { selected: true }).map(
@@ -28,17 +29,23 @@ function DropdownTerms({
   const delayedOnChange = useRef(
     _.debounce((q, cb) => cb(q), process.env.GUIKIT.DEBOUNCE_ON_CHANGE_TIME) // eslint-disable-line no-undef
   ).current;
+
   const containerRef = useRef(null);
-  let inputField;
+  let inputFieldRef = useRef(null);
+  const latestPropsRef = useRef(null);
+  latestPropsRef.current = { addNewOptionPlaceholder };
+
   useEffect(() => {
     const selectInput = containerRef.current.getElementsByClassName(
       "Select-input"
     );
     if (selectInput && selectInput.length) {
-      inputField = selectInput[0].getElementsByTagName("input");
-      inputField[0].placeholder = focused ? addNewOptionPlaceholder : "";
-      inputField[0].style.border = "none";
-      inputField[0].style.boxShadow = "none";
+      inputFieldRef.current = selectInput[0].getElementsByTagName("input");
+      inputFieldRef.current[0].placeholder = focused
+        ? latestPropsRef.current.addNewOptionPlaceholder
+        : "";
+      inputFieldRef.current[0].style.border = "none";
+      inputFieldRef.current[0].style.boxShadow = "none";
       selectInput[0].style.borderTop = "none";
     }
   }, [focused, selectedOption]);
@@ -49,7 +56,7 @@ function DropdownTerms({
   const CustomReactSelectRow = React.forwardRef(
     ({ className, option, children, onSelect }, ref) =>
       children ? (
-        <a
+        <span
           ref={ref}
           role="button"
           className={className}
@@ -62,7 +69,7 @@ function DropdownTerms({
           tabIndex={-1}
         >
           {children}
-        </a>
+        </span>
       ) : null
   );
 
@@ -87,7 +94,9 @@ function DropdownTerms({
         selectedOption && !!selectedOption.length ? "haveValue" : ""
       } ${errorMsg ? "haveError" : ""} ${
         _.every(internalTerms, { selected: true }) ? "isEmptySelectList" : ""
-      } ${focused ? "isFocused" : ""}`}
+      } ${focused ? "isFocused" : ""} ${
+        size === "lg" ? "term-lgSize" : "term-xsSize"
+      }`}
     >
       <div styleName="relative">
         <Creatable
@@ -103,8 +112,8 @@ function DropdownTerms({
           onInputKeyDown={(e) => {
             switch (e.keyCode) {
               case 13: // ENTER
-                if (inputField && inputField && inputField[0]) {
-                  const { value } = inputField[0];
+                if (inputFieldRef.current && inputFieldRef.current[0]) {
+                  const { value } = inputFieldRef.current[0];
                   if (
                     !value ||
                     !value.trim() ||
@@ -140,13 +149,13 @@ function DropdownTerms({
               ? ""
               : `${placeholder}${placeholder && required ? " *" : ""}`
           }
-          clearable={false}
+          clearable={true}
           backspaceRemoves={false}
           multi
           promptTextCreator={() => null}
           filterOptions={(option, inputValue) =>
             _.filter(internalTerms, (t) =>
-              inputValue && inputValue.length >= 2
+              inputValue && inputValue.length >= 1
                 ? t.label.toLowerCase().includes(inputValue.toLowerCase()) &&
                   !_.find(selectedOption, { label: t.label })
                 : !_.find(selectedOption, { label: t.label })
@@ -162,7 +171,7 @@ function DropdownTerms({
         />
       </div>
       {label ? (
-        <span styleName="label">
+        <span styleName="label" className="dropdownLabel">
           {label}
           {required ? <span>&nbsp;*</span> : null}
         </span>
@@ -179,6 +188,7 @@ DropdownTerms.defaultProps = {
   onChange: () => {},
   errorMsg: "",
   addNewOptionPlaceholder: "",
+  size: "lg",
 };
 
 DropdownTerms.propTypes = {
@@ -194,6 +204,7 @@ DropdownTerms.propTypes = {
   onChange: PT.func,
   errorMsg: PT.string,
   addNewOptionPlaceholder: PT.string,
+  size: PT.oneOf(["xs", "lg"]),
 };
 
 export default DropdownTerms;

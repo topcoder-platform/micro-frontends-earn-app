@@ -6,6 +6,11 @@ const defaultState = {
   challenges: [],
   challengesFiltered: [],
   total: 0,
+  loadingRecommendedChallenges: false,
+  loadingRecommendedChallengesError: null,
+  recommendedChallenges: [],
+  openForRegistrationCount: 0,
+  initialized: false,
 };
 
 function onGetChallengesInit(state) {
@@ -20,6 +25,8 @@ function onGetChallengesDone(state, { payload }) {
     challenges: payload.challenges,
     challengesFiltered: payload.challengesFiltered,
     total: payload.total,
+    openForRegistrationCount: payload.openForRegistrationCount,
+    initialized: true,
   };
 }
 
@@ -31,6 +38,8 @@ function onGetChallengesFailure(state, { payload }) {
     challenges: [],
     challengesFiltered: [],
     total: 0,
+    openForRegistrationCount: 0,
+    initialized: true,
   };
 }
 

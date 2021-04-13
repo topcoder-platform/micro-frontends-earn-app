@@ -1,0 +1,30 @@
+@mixin dropdown-hide-chevron {
+  :global {
+    .dropdownContainer {
+      .Select-arrow-zone,
+      .Select + img {
+        display: none !important;
+      }
+    }
+  }
+}
+
+@mixin dropdown-show-label {
+  :global {
+    .dropdownContainer {
+      .dropdownLabel {
+        display: flex !important;
+      }
+    }
+  }
+}
+
+@mixin textinput-show-label {
+  :global {
+    .textInputContainer {
+      .textInputLabel {
+        display: flex !important;
+      }
+    }
+  }
+}

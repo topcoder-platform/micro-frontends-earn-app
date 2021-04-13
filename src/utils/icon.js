@@ -119,7 +119,7 @@ function createTCOEventIcon (color) {
           <g id="01_3_Find-Work-Challenges-Non-Logged-In-Hover" transform="translate(-346.000000, -264.000000)">
               <g id="Group-17" transform="translate(329.000000, 245.000000)">
                   <g id="icon-/-challenge-/-track-copy" transform="translate(17.000000, 19.531250)">
-                      <text id="TCO" fontFamily="Helvetica" fontSize="11" fontWeight="normal" lineSpacing="12" fill={color}>
+                      <text id="TCO" fontFamily="Helvetica" fontSize="11" fontWeight="normal" linespacing="12" fill={color}>
                           <tspan x="0" y="44.8854167">TCO</tspan>
                       </text>
                       <g id="icon-/-track-/-design" transform="translate(22.000000, 23.177083)">
@@ -135,4 +135,14 @@ function createTCOEventIcon (color) {
       </g>
     </svg>
   );
+}
+
+export function createBadgeElement(htmlElement, content) {
+  const badgeElement = document.createElement('span');
+
+  badgeElement.classList.add('count-badge');
+  badgeElement.textContent = content;
+  htmlElement.appendChild(badgeElement);
+
+  return badgeElement;
 }

@@ -37,7 +37,7 @@ async function get(endpoint) {
 }
 
 async function post(endpoint, body) {
-  const response = doFetch(endpoint, {
+  const response = await doFetch(endpoint, {
     body,
     method: "POST",
   });
@@ -45,7 +45,7 @@ async function post(endpoint, body) {
 }
 
 async function put(endpoint, body) {
-  const response = doFetch(endpoint, {
+  const response = await doFetch(endpoint, {
     body,
     method: "PUT",
   });
@@ -53,7 +53,7 @@ async function put(endpoint, body) {
 }
 
 async function patch(endpoint, body) {
-  const response = doFetch(endpoint, {
+  const response = await doFetch(endpoint, {
     body,
     method: "PATCH",
   });

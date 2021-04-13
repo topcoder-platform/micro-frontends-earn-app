@@ -16,6 +16,9 @@ module.exports = (webpackConfigEnv) => {
     disableHtmlGeneration: true,
   });
 
+  const unusedFilesWebpackPlugin = defaultConfig.plugins.find(p => p.constructor.name === "UnusedFilesWebpackPlugin");
+  unusedFilesWebpackPlugin.globOptions.ignore.push("**/assets/icons/*.svg", "**/__mocks__/**");
+
   let cssLocalIdent;
   if (process.env.APPMODE == 'development') {
     cssLocalIdent = 'earn_[path][name]___[local]___[hash:base64:6]';
@@ -66,7 +69,7 @@ module.exports = (webpackConfigEnv) => {
         },
         {
           /* Loads scss stylesheets. */
-          test: /\.scss/,
+          test: /\.scss$/,
           use:  [
               'style-loader',
               {
@@ -94,14 +97,6 @@ module.exports = (webpackConfigEnv) => {
                 },
               }
             ]
-        },
-        {
-          /* Loads css stylesheets */
-          test: /\.css$/,
-          use: [
-            'style-loader',
-            'css-loader',
-          ],
         }
       ],
     },

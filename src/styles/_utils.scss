@@ -4,6 +4,7 @@
 
     .sidebar {
       flex: 0 0 270px;
+      min-height: calc(100vh - 60px);
       background: $white;
 
       > hr {
