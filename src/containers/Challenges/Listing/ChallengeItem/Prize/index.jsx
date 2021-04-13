@@ -1,17 +1,21 @@
 import React from "react";
 import PT from "prop-types";
+import * as utils from "../../../../../utils";
 
 import "./styles.scss";
 
-const Prize = ({ purse }) => (
+const Prize = ({ totalPrizes, currencySymbol }) => (
   <div>
     <span styleName="text">Purse</span>
-    <span styleName="value">{purse}</span>
+    <span styleName="value">
+      {utils.formatMoneyValue(totalPrizes, currencySymbol)}
+    </span>
   </div>
 );
 
 Prize.propTypes = {
-  purse: PT.string,
+  totalPrizes: PT.number,
+  currencySymbol: PT.string,
 };
 
 export default Prize;

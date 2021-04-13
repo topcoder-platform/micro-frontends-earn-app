@@ -1,6 +1,6 @@
 import api from "./api";
 import qs from "qs";
-import * as util from "../utils/auth";
+import * as utils from "../utils";
 
 async function getTags() {
   const v3 = true;
@@ -19,22 +19,33 @@ async function getTags() {
 }
 
 async function doGetUserGroups() {
-  return api.get(
-    `/groups?memberId=${await util.getUserId()}&membershipType=user`
-  );
+  const isLoggedIn = await utils.auth.isLoggedIn();
+
+  if (isLoggedIn) {
+    const userId = await utils.auth.getUserId();
+    return api.get(`/groups?memberId=${userId}&membershipType=user`);
+  }
+
+  return [];
 }
 
 async function getCommunityList() {
   const groups = await doGetUserGroups();
-  const communityListQuery = qs.stringify({ groups: groups.map((g) => g.id) });
+  let communityListQuery = qs.stringify({ groups: groups.map((g) => g.id) });
+  communityListQuery = communityListQuery
+    ? `?${communityListQuery}`
+    : communityListQuery;
+
   const response = await api.doFetch(
-    `/community-app-assets/api/tc-communities/?${communityListQuery}`,
+    `/community-app-assets/api/tc-communities${communityListQuery}`,
     {},
     null,
     process.env.URL.COMMUNITY_APP // eslint-disable-line no-undef
   );
-  const data = await response.json();
-  return data.list;
+  let communities = await response.json();
+  return communities.filter(
+    (community) => !utils.challenge.isHiddenCommunity(community)
+  );
 }
 
 export default {

@@ -67,7 +67,7 @@ function Dropdown({
         />
       </div>
       {label ? (
-        <span styleName="label">
+        <span styleName="label" className="dropdownLabel">
           {label}
           {required ? <span>&nbsp;*</span> : null}
         </span>

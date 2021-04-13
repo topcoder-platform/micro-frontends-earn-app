@@ -8,14 +8,21 @@ import Prize from "./Prize";
 import Tags from "./Tags";
 import PhaseEndDate from "./PhaseEndDate";
 import * as utils from "../../../../utils";
+import ProgressTooltip from "../tooltips/ProgressTooltip";
+import PlacementsTooltip from "../tooltips/PlacementsTooltip";
+import TagsMoreTooltip from "../tooltips/TagsMoreTooltip";
 
 import "./styles.scss";
 
 const ChallengeItem = ({ challenge, onClickTag, onClickTrack }) => {
-  let purse = challenge.prizeSets
-    ? utils.challenge.getChallengePurse(challenge.prizeSets)
-    : "";
-  purse = purse && utils.formatMoneyValue(purse);
+  const totalPrizes = challenge.overview.totalPrizes;
+  const currencySymbol = utils.challenge.getCurrencySymbol(challenge.prizeSets);
+  const placementPrizes = utils.challenge.getPlacementPrizes(
+    challenge.prizeSets
+  );
+  const checkpointPrizes = utils.challenge.getCheckpointPrizes(
+    challenge.prizeSets
+  );
 
   return (
     <div styleName="challenge-item">
@@ -36,10 +43,25 @@ const ChallengeItem = ({ challenge, onClickTag, onClickTrack }) => {
               {challenge.name}
             </a>
           </h6>
-          <PhaseEndDate challenge={challenge} />
+          <PhaseEndDate
+            challenge={challenge}
+            tooltip={({ children }) => (
+              <ProgressTooltip challenge={challenge}>
+                {children}
+              </ProgressTooltip>
+            )}
+          />
         </div>
         <div styleName="tags">
-          <Tags tags={challenge.tags} onClickTag={onClickTag} />
+          <Tags
+            tags={challenge.tags}
+            onClickTag={onClickTag}
+            tooltip={({ children, more }) => (
+              <TagsMoreTooltip tags={more} onClickTag={onClickTag}>
+                <span>{children}</span>
+              </TagsMoreTooltip>
+            )}
+          />
         </div>
         <div styleName="nums">
           <a
@@ -55,7 +77,16 @@ const ChallengeItem = ({ challenge, onClickTag, onClickTrack }) => {
         </div>
       </div>
       <div styleName="prize">
-        <Prize purse={purse} />
+        <PlacementsTooltip
+          placement="top"
+          prizes={placementPrizes}
+          checkpointPrizes={checkpointPrizes}
+          currencySymbol={currencySymbol}
+        >
+          <span>
+            <Prize totalPrizes={totalPrizes} currencySymbol={currencySymbol} />
+          </span>
+        </PlacementsTooltip>
       </div>
     </div>
   );

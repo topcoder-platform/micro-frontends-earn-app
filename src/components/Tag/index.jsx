@@ -4,9 +4,16 @@ import PT from "prop-types";
 import "./styles.scss";
 
 const Tag = ({ tag, onClick }) => (
-  <a styleName="tag" onClick={() => onClick(tag)}>
+  <span
+    role="button"
+    tabIndex="0"
+    styleName="tag"
+    onClick={() => {
+      onClick(tag);
+    }}
+  >
     {tag}
-  </a>
+  </span>
 );
 
 Tag.propTypes = {

@@ -35,8 +35,14 @@
   }
 
   .tags {
-    max-width: calc(50% - 32px);
+    max-width: calc(50% - 84px);
+    min-width: calc(50% - 84px);
     flex: 1 1 auto;
+
+    @media (min-width: $screen-xxl + 1px) {
+      min-width: 294px;
+      max-width: 25%;
+    }
   }
 
   .nums {
@@ -44,7 +50,15 @@
     white-space: nowrap;
 
     > * {
-      margin: 0 16px;
+      margin: 0 20px;
+
+      &:first-child {
+        margin-left: 0;
+      }
+
+      &:last-child {
+        margin-right: 0;
+      }
     }
   }
 }
