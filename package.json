@@ -4,7 +4,7 @@
     "start": "node server.js",
     "dev": "cross-env APPMODE=development webpack-dev-server --port 8008",
     "dev-https": "cross-env APPMODE=development webpack-dev-server --https --port 8008",
-    "build": "webpack --mode=production",
+    "build": "webpack --mode=${APPMODE:-development} --env.config=${APPENV:-dev}",
     "analyze": "webpack --mode=production --env.analyze=true",
     "lint": "eslint src --ext js,jsx",
     "format": "prettier --write \"./**\"",
