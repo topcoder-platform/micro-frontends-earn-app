@@ -77,7 +77,6 @@ workflows:
             branches:
               only:
                 - dev
-                - challenge-listing-part-2
 
       # Production builds are exectuted only on tagged commits to the
       # master branch.
@@ -85,4 +84,6 @@ workflows:
           context: org-global
           filters:
             branches:
-              only: master
+              only:
+                - master
+                - challenge-listing-part-2
