@@ -77,7 +77,7 @@ workflows:
             branches:
               only:
                 - dev
-                - challenge-listing-part-1
+                - challenge-listing-part-2
 
       # Production builds are exectuted only on tagged commits to the
       # master branch.

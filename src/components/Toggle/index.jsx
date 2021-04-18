@@ -1,7 +1,7 @@
 /**
  * Toggles component.
  */
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import PT from "prop-types";
 import _ from "lodash";
 import "./style.scss";
@@ -16,6 +16,10 @@ function Toggles({ checked, onChange, size }) {
   if (!sizeStyle) {
     sizeStyle = size === "xs" ? "xsSize" : "smSize";
   }
+
+  useEffect(() => {
+    setInternalChecked(checked);
+  }, [checked]);
 
   return (
     <label styleName={`container ${sizeStyle}`}>
