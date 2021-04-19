@@ -1,21 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PT from "prop-types";
 import Dropdown from "../Dropdown";
 import {
-  PAGINATION_PER_PAGE,
+  PAGINATION_PER_PAGES,
   PAGINATION_MAX_PAGE_DISPLAY,
 } from "../../constants";
 import * as utils from "../../utils";
+import IconArrow from "../../assets/icons/arrow.svg";
 
 import "./styles.scss";
+
+const N = PAGINATION_MAX_PAGE_DISPLAY;
 
 /**
  * Pagination with the first page index being as 0 and the last page index being as `total - 1`
  */
 const Pagination = ({ length, pageIndex, pageSize, onChange }) => {
-  const N = PAGINATION_MAX_PAGE_DISPLAY;
   const total = Math.ceil(length / pageSize);
-  const perPageOptions = utils.createDropdownOptions(PAGINATION_PER_PAGE);
+  const perPageOptions = utils.createDropdownOptions(PAGINATION_PER_PAGES);
   utils.setSelectedDropdownOption(perPageOptions, `${pageSize}`);
 
   const createDisplayPages = (p, n) => {
@@ -39,7 +41,7 @@ const Pagination = ({ length, pageIndex, pageSize, onChange }) => {
   const onChangePageSize = (options) => {
     const selectedOption = utils.getSelectedDropdownOption(options);
     const newPageSize = +selectedOption.label;
-    onChange({ pageIndex, pageSize: newPageSize });
+    onChange({ pageIndex: 0, pageSize: newPageSize });
   };
 
   const onChangePageIndex = (newPageIndex) => {
@@ -57,14 +59,19 @@ const Pagination = ({ length, pageIndex, pageSize, onChange }) => {
     }
   };
 
+  const latestPropsRef = useRef(null);
+  latestPropsRef.current = { displayPages, pageIndex };
+
   useEffect(() => {
     const newTotal = Math.ceil(length / pageSize);
-    setDisplayPages(createDisplayPages(pageIndex, newTotal));
+    const _pageIndex = latestPropsRef.current.pageIndex;
+    setDisplayPages(createDisplayPages(_pageIndex, newTotal));
   }, [length, pageSize]);
 
   useEffect(() => {
-    const start = displayPages[0];
-    const end = displayPages[displayPages.length - 1];
+    const _displayPages = latestPropsRef.current.displayPages;
+    const start = _displayPages[0];
+    const end = _displayPages[_displayPages.length - 1];
 
     const updateDisplayPages = [];
     if (pageIndex < start) {
@@ -93,7 +100,12 @@ const Pagination = ({ length, pageIndex, pageSize, onChange }) => {
       </div>
       <ul styleName="pages">
         <li styleName={`page previous ${pageIndex === 0 ? "hidden" : ""}`}>
-          <button onClick={previous}>PREVIOUS</button>
+          <button onClick={previous}>
+            <span styleName="arrow">
+              <IconArrow />
+            </span>{" "}
+            PREVIOUS
+          </button>
         </li>
         {displayPages.map((p) => (
           <li styleName={`page ${p === pageIndex ? "active" : ""}`} key={p}>
@@ -106,8 +118,17 @@ const Pagination = ({ length, pageIndex, pageSize, onChange }) => {
             </button>
           </li>
         ))}
-        <li styleName={`page next ${pageIndex === total - 1 ? "hidden" : ""}`}>
-          <button onClick={next}>NEXT</button>
+        <li
+          styleName={`page next ${
+            pageIndex === total - 1 || length === 0 ? "hidden" : ""
+          }`}
+        >
+          <button onClick={next}>
+            NEXT{" "}
+            <span styleName="arrow">
+              <IconArrow />
+            </span>
+          </button>
         </li>
       </ul>
     </div>

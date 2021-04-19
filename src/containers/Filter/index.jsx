@@ -1,36 +1,39 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PT from "prop-types";
 import { connect } from "react-redux";
 import ChallengeFilter from "./ChallengeFilter";
 import actions from "../../actions";
+import * as utils from "../../utils";
 
 const Filter = ({
   bucket,
   types,
   tracks,
   tags,
-  prizeFrom,
-  prizeTo,
-  subCommunities,
+  totalPrizesFrom,
+  totalPrizesTo,
+  recommended,
+  events,
+  groups,
   challengeBuckets,
   challengeTypes,
   challengeTracks,
   challengeTags,
   challengeSubCommunities,
   updateFilter,
-  getChallenges,
   getTags,
   getSubCommunities,
+  openForRegistrationCount,
+  clearFilter,
+  updateQuery,
 }) => {
-  useEffect(() => {
-    getTags();
-    getSubCommunities();
-  }, []);
+  const latestPropsRef = useRef(null);
+  latestPropsRef.current = { getTags, getSubCommunities };
 
-  const onSaveFilter = (filter) => {
-    updateFilter(filter);
-    getChallenges(filter);
-  };
+  useEffect(() => {
+    latestPropsRef.current.getTags();
+    latestPropsRef.current.getSubCommunities();
+  }, []);
 
   return (
     <ChallengeFilter
@@ -38,16 +41,27 @@ const Filter = ({
       types={types}
       tracks={tracks}
       tags={tags}
-      prizeFrom={prizeFrom}
-      prizeTo={prizeTo}
-      subCommunities={subCommunities}
+      totalPrizesFrom={totalPrizesFrom}
+      totalPrizesTo={totalPrizesTo}
+      recommended={recommended}
+      events={events}
+      groups={groups}
       challengeBuckets={challengeBuckets}
       challengeTypes={challengeTypes}
       challengeTracks={challengeTracks}
       challengeTags={challengeTags}
       challengeSubCommunities={challengeSubCommunities}
-      saveFilter={onSaveFilter}
-      clearFilter={() => {}}
+      saveFilter={() => {}}
+      clearFilter={() => {
+        const filterChange = utils.challenge.createEmptyChallengeFilter();
+        clearFilter(filterChange);
+        updateQuery(filterChange);
+      }}
+      updateFilter={(filterChange) => {
+        updateFilter(filterChange);
+        updateQuery(filterChange);
+      }}
+      openForRegistrationCount={openForRegistrationCount}
     />
   );
 };
@@ -57,18 +71,23 @@ Filter.propTypes = {
   types: PT.arrayOf(PT.string),
   tracks: PT.arrayOf(PT.string),
   tags: PT.arrayOf(PT.string),
-  prizeFrom: PT.number,
-  prizeTo: PT.number,
-  subCommunities: PT.arrayOf(PT.string),
+  totalPrizesFrom: PT.number,
+  totalPrizesTo: PT.number,
+  recommended: PT.bool,
+  events: PT.arrayOf(PT.string),
+  groups: PT.arrayOf(PT.string),
   challengeBuckets: PT.arrayOf(PT.string),
   challengeTypes: PT.arrayOf(PT.string),
   challengeTracks: PT.arrayOf(PT.string),
   challengeTags: PT.arrayOf(PT.string),
-  challengeSubCommunities: PT.arrayOf(PT.string),
+  challengeSubCommunities: PT.arrayOf(PT.shape()),
   updateFilter: PT.func,
-  getChallenges: PT.func,
   getTags: PT.func,
   getSubCommunities: PT.func,
+  selectAllSubCommunities: PT.func,
+  openForRegistrationCount: PT.number,
+  clearFilter: PT.func,
+  updateQuery: PT.func,
 };
 
 const mapStateToProps = (state) => ({
@@ -77,30 +96,37 @@ const mapStateToProps = (state) => ({
   types: state.filter.challenge.types,
   tracks: state.filter.challenge.tracks,
   tags: state.filter.challenge.tags,
-  prizeFrom: state.filter.challenge.prizeFrom,
-  prizeTo: state.filter.challenge.prizeTo,
-  subCommunities: state.filter.challenge.subCommunities,
+  totalPrizesFrom: state.filter.challenge.totalPrizesFrom,
+  totalPrizesTo: state.filter.challenge.totalPrizesTo,
+  recommended: state.filter.challenge.recommended,
+  events: state.filter.challenge.events,
+  groups: state.filter.challenge.groups,
   challengeBuckets: state.lookup.buckets,
   challengeTypes: state.lookup.types,
   challengeTracks: state.lookup.tracks,
   challengeTags: state.lookup.tags,
   challengeSubCommunities: state.lookup.subCommunities,
+  openForRegistrationCount: state.challenges.openForRegistrationCount,
 });
 
 const mapDispatchToProps = {
   updateFilter: actions.filter.updateFilter,
-  getChallenges: actions.challenges.getChallenges,
   getTags: actions.lookup.getTags,
   getSubCommunities: actions.lookup.getCommunityList,
+  clearFilter: actions.filter.clearChallengeFilter,
+  updateQuery: actions.filter.updateChallengeQuery,
 };
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...ownProps,
   ...stateProps,
   ...dispatchProps,
-  getChallenges: (change) =>
-    dispatchProps.getChallenges(
-      { ...stateProps.state.filter.challenge, ...change },
+  updateQuery: (change) =>
+    dispatchProps.updateQuery(
+      {
+        ...stateProps.state.filter.challenge,
+        ...change,
+      },
       change
     ),
 });

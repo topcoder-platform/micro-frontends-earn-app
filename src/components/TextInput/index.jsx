@@ -59,7 +59,7 @@ function TextInput({
         }}
       />
       {label ? (
-        <label htmlFor="textBoxInput">
+        <label htmlFor="textBoxInput" className="textInputLabel">
           {label}
           {required ? <span>&nbsp;*</span> : null}
         </label>

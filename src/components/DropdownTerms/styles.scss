@@ -37,7 +37,6 @@
       flex-wrap: wrap;
       padding-top: 12px !important;
       padding-left: 8px !important;
-      max-height: 104px;
       overflow: auto;
     }
 
@@ -85,7 +84,7 @@
       left: 0;
       right: 0;
       background: transparent;
-      height: 100% !important;
+      min-height: 100% !important;
       z-index: 5;
       margin: 0 !important;
       cursor: pointer;
@@ -100,6 +99,18 @@
     .Select-option {
       border-bottom-right-radius: 0 !important;
       border-bottom-left-radius: 0 !important;
+    }
+
+    .Select--multi .Select-clear-zone {
+      display: flex;
+      align-items: center;
+      width: 26px;
+      z-index: 10;
+    }
+
+    .Select-clear {
+      font-size: 28px;
+      color: $tc-gray-50;
     }
   }
 
@@ -151,6 +162,35 @@
         border: none !important;
         padding-bottom: 10px !important;
       }
+    }
+  }
+
+  &.term-lgSize {
+  }
+
+  &.term-xsSize {
+    :global {
+      .Select-control {
+        min-height: 40px;
+      }
+
+      .Select-placeholder {
+        font-size: 14px !important;
+      }
+
+      .Select.is-open  .Select-multi-value-wrapper {
+        overflow: hidden;
+      }
+
+      .Select--multi .Select-value {
+        line-height: 38px;
+        margin-top: 10px;
+        font-size: 14px;
+      }
+    }
+
+    .errorMessage {
+      @include errorMessageXs;
     }
   }
 }

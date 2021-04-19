@@ -5,9 +5,16 @@ import * as util from "../../../../../utils/icon";
 import "./styles.scss";
 
 const TrackIcon = ({ track, type, tcoEligible, onClick }) => (
-  <a onClick={() => onClick(track)}>
+  <span
+    role="button"
+    tabIndex="0"
+    onClick={(event) => {
+      event.preventDefault();
+      onClick(track);
+    }}
+  >
     {util.createTrackIcon(track, type, tcoEligible)}
-  </a>
+  </span>
 );
 
 TrackIcon.propTypes = {

@@ -16,6 +16,7 @@ import "./styles.scss";
 
 const Listing = ({
   challenges,
+  search,
   page,
   perPage,
   sortBy,
@@ -24,10 +25,10 @@ const Listing = ({
   startDateEnd,
   updateFilter,
   bucket,
-  getChallenges,
+  sortByLabels,
 }) => {
   const sortByOptions = utils.createDropdownOptions(
-    Object.keys(constants.CHALLENGE_SORT_BY),
+    sortByLabels,
     utils.getSortByLabel(constants.CHALLENGE_SORT_BY, sortBy)
   );
 
@@ -42,13 +43,13 @@ const Listing = ({
               <img src={IconSearch} alt="search" />
             </span>
             <TextInput
+              value={search}
               placeholder="Search for challenges"
               size="xs"
               onChange={(value) => {
                 onSearch.current(() => {
                   const filterChange = { search: value };
                   updateFilter(filterChange);
-                  getChallenges(filterChange);
                 });
               }}
             />
@@ -64,14 +65,13 @@ const Listing = ({
               options={sortByOptions}
               size="xs"
               onChange={(newSortByOptions) => {
-                const selectOption = utils.getSelectedDropdownOption(
+                const selectedOption = utils.getSelectedDropdownOption(
                   newSortByOptions
                 );
                 const filterChange = {
-                  sortBy: constants.CHALLENGE_SORT_BY[selectOption.label],
+                  sortBy: constants.CHALLENGE_SORT_BY[selectedOption.label],
                 };
                 updateFilter(filterChange);
-                getChallenges(filterChange);
               }}
             />
           </div>
@@ -90,7 +90,6 @@ const Listing = ({
                   : null;
                 const filterChange = { endDateStart: s, startDateEnd: d };
                 updateFilter(filterChange);
-                getChallenges(filterChange);
               }}
               range={{
                 startDate: endDateStart ? moment(endDateStart).toDate() : null,
@@ -108,12 +107,10 @@ const Listing = ({
               onClickTag={(tag) => {
                 const filterChange = { search: tag };
                 updateFilter(filterChange);
-                getChallenges(filterChange);
               }}
               onClickTrack={(track) => {
                 const filterChange = { tracks: [track] };
                 updateFilter(filterChange);
-                getChallenges(filterChange);
               }}
             />
           </div>
@@ -129,7 +126,6 @@ const Listing = ({
                 perPage: event.pageSize,
               };
               updateFilter(filterChange);
-              getChallenges(filterChange);
             }}
           />
         </div>
@@ -140,15 +136,16 @@ const Listing = ({
 
 Listing.propTypes = {
   challenges: PT.arrayOf(PT.shape()),
+  search: PT.string,
   page: PT.number,
   perPage: PT.number,
   sortBy: PT.string,
   total: PT.number,
   endDateStart: PT.string,
   startDateEnd: PT.string,
-  getChallenges: PT.func,
   updateFilter: PT.func,
   bucket: PT.string,
+  sortByLabels: PT.arrayOf(PT.string),
 };
 
 export default Listing;

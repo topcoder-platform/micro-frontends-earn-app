@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, { useEffect } from "react";
 import { setAppMenu } from "@topcoder/micro-frontends-navbar-app";
 import appMenu from "./constants/appMenu";
@@ -18,7 +19,10 @@ export default function Root() {
   return (
     <LocationProvider history={history}>
       <Provider store={store}>
-        <App />
+        <>
+          <App />
+          {process.env.NODE_ENV === "test" && <span hidden>Earn App</span>}
+        </>
       </Provider>
     </LocationProvider>
   );
