@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import Listing from "./Listing";
 import actions from "../../actions";
 import ChallengeError from "./Listing/errors/ChallengeError";
-import ChallengeRecommendedError from "./Listing/errors/ChallengeRecommendedError";
+// import ChallengeRecommendedError from "./Listing/errors/ChallengeRecommendedError";
 import * as constants from "../../constants";
 import IconListView from "../../assets/icons/list-view.svg";
 import IconCardView from "../../assets/icons/card-view.svg";
@@ -60,7 +60,7 @@ const Challenges = ({
       {challenges.length === 0 && initialized && <ChallengeError />}
       {challenges.length > 0 && (
         <>
-          {noRecommendedChallenges && <ChallengeRecommendedError />}
+          {/*noRecommendedChallenges && <ChallengeRecommendedError />*/}
           <Listing
             challenges={challenges}
             search={search}

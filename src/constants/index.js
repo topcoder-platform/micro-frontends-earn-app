@@ -42,7 +42,7 @@ export const FILTER_CHALLENGE_TRACK_ABBREVIATIONS = {
 };
 
 export const CHALLENGE_SORT_BY = {
-  "Best Match": "bestMatch",
+  // "Best Match": "bestMatch",
   "Most recent": "updated",
   "Prize amount": "overview.totalPrizes",
   Title: "name",
