@@ -32,7 +32,7 @@ const ChallengeFilter = ({
   updateFilter,
   openForRegistrationCount,
 }) => {
-  const BUCKET_OPEN_FOR_REGISTRATION = constants.FILTER_BUCKETS[1];
+  // const BUCKET_OPEN_FOR_REGISTRATION = constants.FILTER_BUCKETS[1];
   const tagOptions = utils.createDropdownTermOptions(challengeTags);
   const bucketOptions = utils.createRadioOptions(challengeBuckets, bucket);
 
@@ -260,8 +260,8 @@ const ChallengeFilter = ({
           </div>
         </div>
       )}
-
-      {bucket === BUCKET_OPEN_FOR_REGISTRATION && (
+      {/* DISABLED UNTIL IMPLEMENT RECOMMENDED CHALLENGES */}
+      {/* bucket === BUCKET_OPEN_FOR_REGISTRATION && (
         <div styleName="recommended-challenges">
           <span styleName="toggle">
             <Toggle
@@ -278,11 +278,10 @@ const ChallengeFilter = ({
           </span>
           <span>Recommended Challenges</span>
         </div>
-      )}
-
+      )*/}
       <div styleName="footer">
         <Button onClick={clearFilter}>CLEAR FILTER</Button>
-        <Button onClick={saveFilter}>SAVE FILTER</Button>
+        {/*<Button onClick={saveFilter}>SAVE FILTER</Button>*/}
       </div>
     </div>
   );

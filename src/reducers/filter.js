@@ -22,7 +22,7 @@ const defaultState = {
     // ---
 
     bucket: constants.FILTER_BUCKETS[1],
-    recommended: true,
+    recommended: false,
   },
 };
 
