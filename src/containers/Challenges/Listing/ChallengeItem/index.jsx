@@ -38,7 +38,7 @@ const ChallengeItem = ({ challenge, onClickTag, onClickTrack }) => {
         <div styleName="name-container">
           <h6 styleName="name">
             <a
-              href={`${process.env.URL.COMMUNITY_APP}/challenges/${challenge.id}`} // eslint-disable-line no-undef
+              href={`${process.env.URL.BASE}/challenges/${challenge.id}`} // eslint-disable-line no-undef
             >
               {challenge.name}
             </a>
@@ -65,12 +65,12 @@ const ChallengeItem = ({ challenge, onClickTag, onClickTrack }) => {
         </div>
         <div styleName="nums">
           <a
-            href={`${process.env.URL.COMMUNITY_APP}/challenges/${challenge.id}?tab=registrants`} // eslint-disable-line no-undef
+            href={`${process.env.URL.BASE}/challenges/${challenge.id}?tab=registrants`} // eslint-disable-line no-undef
           >
             <NumRegistrants numOfRegistrants={challenge.numOfRegistrants} />
           </a>
           <a
-            href={`${process.env.URL.COMMUNITY_APP}/challenges/${challenge.id}?tab=submissions`} // eslint-disable-line no-undef
+            href={`${process.env.URL.BASE}/challenges/${challenge.id}?tab=submissions`} // eslint-disable-line no-undef
           >
             <NumSubmissions numOfSubmissions={challenge.numOfSubmissions} />
           </a>
