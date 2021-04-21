@@ -5,16 +5,17 @@ $menu-padding-y: 20px;
 
 .menu {
   padding: $menu-padding-y $menu-padding-x (3 * $base-unit);
-  line-height: 21px;
 }
 
 .menu-item {
-  padding: 7px 0;
+  padding: 4px 0;
   cursor: pointer;
 
-  a {
+  .link {
     display: flex;
     align-items: center;
+    line-height: 26px;
+    outline: none;
   }
 
   .icon {
@@ -40,27 +41,38 @@ $menu-padding-y: 20px;
     }
   }
 
-  &.active > a {
+  &.active > .link {
     font-weight: 500;
   }
 
-  &.selected > a {
-    color: $green;
+  &.selected > .link {
+    color: $lightGreen;
   }
 }
 
-.menu-item-main > a + ul,
-.menu-item-secondary > a + ul {
+.menu-item-main > .link {
+  margin-left: -20px;
+  margin-right: -20px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.menu-item-main.active > .link {
+  box-shadow: inset 4px 0 #06D6A0;
+}
+
+.menu-item-main > .link + ul,
+.menu-item-secondary > .link + ul {
   display: none;
 }
 
-.menu-item-main.expanded > a + ul,
-.menu-item-secondary.expanded > a + ul {
+.menu-item-main.expanded > .link + ul,
+.menu-item-secondary.expanded > .link + ul {
   display: block;
 }
 
 .menu-item-secondary.active.collapsed {
-  color: $green;
+  color: $lightGreen;
 }
 
 .sub-menu {

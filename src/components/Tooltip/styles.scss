@@ -1,0 +1,16 @@
+@import "styles/variables";
+
+:global {
+  .tooltip.tooltip-container {
+    opacity: 1;
+
+    .rc-tooltip-inner {
+      padding: 0;
+      background-color: $tc-gray-90;
+    }
+
+    .rc-tooltip-arrow {
+      transform: scale(2);
+    }
+  }
+}

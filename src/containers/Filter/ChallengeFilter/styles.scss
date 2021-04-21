@@ -12,12 +12,12 @@ $filter-padding-y: 3 * $base-unit;
 .buckets,
 .challenge-types,
 .tracks,
-.prize,
+.total-prizes,
 .sub-communities {
   margin-bottom: 18px;
 
   > h3 {
-    margin-bottom: 12px;
+    margin-bottom: 15px;
     font-size: inherit;
     line-height: 19px;
   }
@@ -27,6 +27,21 @@ $filter-padding-y: 3 * $base-unit;
   &.vertical-list {
     > div > div {
       margin: $base-unit 0;
+    }
+  }
+  :global {
+    .count-badge {
+      display: inline-block;
+      margin: -2px 0 0 $base-unit;
+      padding: 2px 5px 0;
+      font-weight: bold;
+      font-size: 11px;
+      line-height: 14px;
+      text-align: center;
+      color: white;
+      vertical-align: middle;
+      background: #EF476F;
+      border-radius: 13px;
     }
   }
 }
@@ -51,14 +66,18 @@ $filter-padding-y: 3 * $base-unit;
 
 .skills {
   margin-bottom: 34px;
+
+  @include dropdown-hide-chevron;
+  @include dropdown-show-label;
 }
 
-.prize {
+.total-prizes {
+  margin-top: -12px;
   margin-bottom: 23px;
 
   > div {
     display: inline-flex;
-    width: calc(50% - 8px);
+    width: calc(50% - 6px);
   }
 
   .separator {
@@ -67,11 +86,31 @@ $filter-padding-y: 3 * $base-unit;
     height: 1px;
     margin: 0 4px;
     background: $body-color;
+    vertical-align: middle;
   }
+
+  @include textinput-show-label;
 }
 
-.prize {
+.input-group {
+  position: relative;
   margin-top: -12px;
+
+  input {
+    padding-right: 36px !important;
+  }
+
+  .suffix {
+    @include roboto-medium;
+
+    position: absolute;
+    top: 22px;
+    right: 10px;
+    font-size: 13px;
+    line-height: 22px;
+    color: $tc-gray-30;
+    pointer-events: none;
+  }
 }
 
 .recommended-challenges {
@@ -98,3 +137,4 @@ $filter-padding-y: 3 * $base-unit;
     margin-left: 9px;
   }
 }
+

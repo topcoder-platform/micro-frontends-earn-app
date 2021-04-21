@@ -7,12 +7,12 @@ async function doGetChallenges(filter) {
   return service.getChallenges(filter);
 }
 
-async function getActiveChallenges(filter) {
-  const activeFilter = {
+async function getAllActiveChallenges(filter) {
+  const allActiveFilter = {
     ...util.createChallengeCriteria(filter),
-    ...util.createActiveChallengeCriteria(),
+    ...util.createAllActiveChallengeCriteria(),
   };
-  return doGetChallenges(activeFilter);
+  return doGetChallenges(allActiveFilter);
 }
 
 async function getOpenForRegistrationChallenges(filter) {
@@ -23,66 +23,68 @@ async function getOpenForRegistrationChallenges(filter) {
   return doGetChallenges(openForRegistrationFilter);
 }
 
-async function getPastChallenges(filter) {
-  const pastFilter = {
+async function getClosedChallenges(filter) {
+  const closedFilter = {
     ...util.createChallengeCriteria(filter),
-    ...util.createPastChallengeCriteria(),
+    ...util.createClosedChallengeCriteria(),
   };
-  return doGetChallenges(pastFilter);
+  return doGetChallenges(closedFilter);
 }
 
-function doFilterBySubSommunities(challenges) {
-  return challenges;
-}
-function doFilterByPrizeFrom(challenges) {
-  return challenges;
-}
-function doFilterByPrizeTo(challenges) {
-  return challenges;
+async function getOpenForRegistrationCount(filter) {
+  const openForRegistrationCountCriteria = {
+    ...util.createChallengeCriteria(filter),
+    ...util.createOpenForRegistrationCountCriteria(),
+  };
+  return doGetChallenges(openForRegistrationCountCriteria);
 }
 
-async function getChallenges(filter, change) {
-  const FILTER_BUCKETS = constants.FILTER_BUCKETS;
+async function getChallenges(filter) {
+  const ALL_ACTIVE_CHALLENGES_BUCKET = constants.FILTER_BUCKETS[0];
+  const OPEN_FOR_REGISTRATION_BUCKET = constants.FILTER_BUCKETS[1];
+  const CLOSED_CHALLENGES = constants.FILTER_BUCKETS[2];
+
   let challenges;
   let challengesFiltered;
   let total;
-  let filterChange = change;
+  let openForRegistrationCount;
 
   const getChallengesByBucket = async (f) => {
+    const promises = [];
     switch (f.bucket) {
-      case FILTER_BUCKETS[0]:
-        return getActiveChallenges(f);
-      case FILTER_BUCKETS[1]:
-        return getOpenForRegistrationChallenges(f);
-      case FILTER_BUCKETS[2]:
-        return getPastChallenges(f);
+      case ALL_ACTIVE_CHALLENGES_BUCKET:
+        promises.push(getAllActiveChallenges(f));
+        break;
+      case OPEN_FOR_REGISTRATION_BUCKET:
+        promises.push(getOpenForRegistrationChallenges(f));
+        break;
+      case CLOSED_CHALLENGES:
+        promises.push(getClosedChallenges(f));
+        break;
       default:
-        return [];
+        return [util.createEmptyResult(), 0];
     }
+    promises.push(getOpenForRegistrationCount(f));
+    return Promise.all(promises).then((result) => [
+      result[0],
+      result[1].meta.total,
+    ]);
   };
 
   if (!util.checkRequiredFilterAttributes(filter)) {
-    return { challenges: [], challengesFiltered: [], total: 0 };
+    return {
+      challenges: [],
+      challengesFiltered: [],
+      total: 0,
+      openForRegistrationCount: 0,
+    };
   }
 
-  if (!filterChange) {
-    const chs = await getChallengesByBucket(filter);
-    return { challenges: chs, challengesFiltered: chs, total: chs.meta.total };
-  }
-
-  if (util.shouldFetchChallenges(filterChange)) {
-    challenges = await getChallengesByBucket(filter);
-  }
-
+  [challenges, openForRegistrationCount] = await getChallengesByBucket(filter);
   challengesFiltered = challenges;
   total = challenges.meta.total;
-  if (util.shouldFilterChallenges(filterChange)) {
-    challengesFiltered = doFilterBySubSommunities(challengesFiltered);
-    challengesFiltered = doFilterByPrizeFrom(challengesFiltered);
-    challengesFiltered = doFilterByPrizeTo(challengesFiltered);
-  }
 
-  return { challenges, challengesFiltered, total };
+  return { challenges, challengesFiltered, total, openForRegistrationCount };
 }
 
 export default createActions({

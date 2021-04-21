@@ -1,3 +1,4 @@
+export * as auth from "./auth";
 export * as challenge from "./challenge";
 export * as icon from "./icon";
 export * as menu from "./menu";
@@ -57,11 +58,19 @@ export function getSelectedDropdownTermsOptions(options) {
 }
 
 /* Set selected dropdown term options */
-export function setSelectedDropdownTermOptions(options, selectedValues) {
+export function setSelectedDropdownTermOptions(
+  options,
+  selectedValues,
+  caseSensitive = true
+) {
   options.forEach((o) => (o.selected = false));
 
   selectedValues.forEach((value) => {
-    const option = options.find((option) => option.label === value);
+    const option = options.find((option) =>
+      caseSensitive
+        ? option.label === value
+        : option.label.toLowerCase() === value.toLowerCase()
+    );
     if (option) {
       option.selected = true;
     }
@@ -112,8 +121,13 @@ export function setSelectedRadioOption(options, selectedValue) {
  * Format a number value into the integer text of money value.
  * Ex: 1800 -> $1,800
  */
-export function formatMoneyValue(value) {
-  let val = value || 0;
+export function formatMoneyValue(value, symbol) {
+  if (typeof value !== "number") {
+    return value || "";
+  }
+
+  const SYMBOL = symbol || "";
+  let val = value;
   val = val.toLocaleString("en-US");
 
   const i = val.indexOf(".");
@@ -122,9 +136,9 @@ export function formatMoneyValue(value) {
   }
 
   if (val.startsWith("-")) {
-    val = `-$${val.slice(1)}`;
+    val = `-${SYMBOL}${val.slice(1)}`;
   } else {
-    val = `$${val}`;
+    val = `${SYMBOL}${val}`;
   }
 
   return val;
@@ -132,4 +146,24 @@ export function formatMoneyValue(value) {
 
 export function clamp(value, min, max) {
   return Math.min(Math.max(value, min), max);
+}
+
+export function formatTotalPrizes(n) {
+  return n.toLocaleString();
+}
+
+export function parseTotalPrizes(s) {
+  let val = s;
+  if (val.endsWith("+")) {
+    val = val.slice(0, -1);
+  }
+  let valid = val.replace(/[,0-9]/g, "") === "";
+  let n;
+  if (valid) {
+    n = +val.replace(/,/g, "");
+    if (/,/.test(val)) {
+      valid = valid && n.toLocaleString("en-US") === val;
+    }
+  }
+  if (valid) return n;
 }

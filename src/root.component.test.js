@@ -5,6 +5,6 @@ import Root from "./root.component";
 describe("Root component", () => {
   it("should be in the document", () => {
     const { getByText } = render(<Root />);
-    expect(getByText(/React child app example/i)).toBeInTheDocument();
+    expect(getByText(/Earn App/)).toBeInTheDocument();
   });
 });

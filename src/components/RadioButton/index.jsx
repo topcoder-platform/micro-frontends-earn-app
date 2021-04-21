@@ -1,7 +1,7 @@
 /**
  * Radio button component.
  */
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PT from "prop-types";
 import _ from "lodash";
 import "./styles.scss";
@@ -19,6 +19,10 @@ function RadioButton({ options, onChange, size, errorMsg }) {
   const delayedOnChange = useRef(
     _.debounce((q, cb) => cb(q), process.env.GUIKIT.DEBOUNCE_ON_CHANGE_TIME) // eslint-disable-line no-undef
   ).current;
+
+  useEffect(() => {
+    setInternalOptions(options);
+  }, [options]);
 
   return (
     <React.Fragment>

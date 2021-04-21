@@ -12,8 +12,7 @@
 
   :global {
     .Select-value-label::after {
-      content: 'per page';
-      margin-left: 0.15em;
+      content: ' per page';
     }
   }
 }
@@ -58,6 +57,22 @@
 
     &.hidden {
       visibility: hidden;
+    }
+
+    .arrow {
+      display: inline-block;
+    }
+  }
+
+  &.previous {
+    .arrow {
+      transform: rotate(90deg) scale(0.75);
+    }
+  }
+
+  &.next {
+    .arrow {
+      transform: rotate(-90deg) scale(0.75);
     }
   }
 }

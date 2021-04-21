@@ -1,4 +1,4 @@
-export const PAGINATION_PER_PAGE = [10, 20, 50];
+export const PAGINATION_PER_PAGES = [10, 20, 50];
 export const PAGINATION_MAX_PAGE_DISPLAY = 3;
 
 export const NAV_MENU = {
@@ -16,7 +16,7 @@ export const NAV_MENU_ICONS = {
 export const FILTER_BUCKETS = [
   "All Active Challenges",
   "Open for Registration",
-  "Past Challenges",
+  "Closed Challenges",
 ];
 
 export const FILTER_CHALLENGE_TYPES = ["Challenge", "First2Finish", "Task"];
@@ -31,21 +31,38 @@ export const FILTER_CHALLENGE_TRACKS = [
   "Design",
   "Development",
   "Data Science",
-  "Quality Assurance",
+  "QA",
 ];
 
 export const FILTER_CHALLENGE_TRACK_ABBREVIATIONS = {
   Design: "DES",
   Development: "DEV",
   "Data Science": "DS",
-  "Quality Assurance": "QA",
+  QA: "QA",
 };
 
 export const CHALLENGE_SORT_BY = {
-  "Best Match": "bestMatch",
+  // "Best Match": "bestMatch",
   "Most recent": "updated",
   "Prize amount": "overview.totalPrizes",
   Title: "name",
+};
+
+export const CHALLENGE_SORT_BY_RECOMMENDED = "bestMatch";
+export const CHALLENGE_SORT_BY_RECOMMENDED_LABEL = "Best Match";
+export const CHALLENGE_SORT_BY_MOST_RECENT = "updated";
+export const CHALLENGE_SORT_ORDER_DEFAULT = "desc";
+
+export const SORT_ORDER = {
+  DESC: "desc",
+  ASC: "asc",
+};
+
+export const SORT_BY_SORT_ORDER = {
+  bestMatch: SORT_ORDER.DESC,
+  updated: SORT_ORDER.DESC,
+  "overview.totalPrizes": SORT_ORDER.DESC,
+  name: SORT_ORDER.ASC,
 };
 
 export const TRACK_COLOR = {
@@ -53,4 +70,10 @@ export const TRACK_COLOR = {
   Development: "#35AC35",
   "Data Science": "#F46500",
   "Quality Assurance": "#35AC35",
+};
+
+export const CURRENCY_SYMBOL = {
+  EUR: "€",
+  INR: "₹",
+  USD: "$",
 };
