@@ -90,8 +90,7 @@ const App = () => {
       </aside>
       <div className="content">
         <Router>
-          <Challenges path="/earn/find/challenges" />
-          <NoSidebarDemo path="/earn" />
+          <Challenges path="/earn/*" />
         </Router>
       </div>
     </div>
