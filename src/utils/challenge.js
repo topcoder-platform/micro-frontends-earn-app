@@ -116,12 +116,7 @@ const queryScheme = {
   tags: Joi.array().items(Joi.string()),
   startDateEnd: Joi.date(),
   endDateStart: Joi.date(),
-  sortBy: Joi.string().valid(
-    "bestMatch",
-    "updated",
-    "overview.totalPrizes",
-    "name"
-  ),
+  sortBy: Joi.string().valid("updated", "overview.totalPrizes", "name"),
   groups: Joi.array().items(Joi.optionalId()).unique(),
   events: Joi.array().items(Joi.string()),
   bucket: Joi.bucket(),
