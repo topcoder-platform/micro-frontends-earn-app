@@ -100,7 +100,6 @@ export function createChallengeFilter(params) {
       bucket: normalized.bucket,
       totalPrizesFrom: normalized.totalPrizesFrom,
       totalPrizesTo: normalized.totalPrizesTo,
-      includeAllTags: normalized.includeAllTags,
       recommended: normalized.recommended,
     },
     (value) => value == null
@@ -127,7 +126,6 @@ const queryScheme = {
   bucket: Joi.bucket(),
   totalPrizesFrom: Joi.number().integer().min(0),
   totalPrizesTo: Joi.number().integer().min(0),
-  includeAllTags: Joi.boolean(),
   recommended: Joi.boolean(),
 };
 
@@ -155,7 +153,6 @@ export function createChallengeParams(filter) {
     tracks: params.tracks.map(
       (track) => constants.FILTER_CHALLENGE_TRACK_ABBREVIATIONS[track]
     ),
-    includeAllTags: params.tags.length ? params.includeAllTags : null,
   };
 }
 
@@ -189,7 +186,6 @@ export function createChallengeCriteria(filter) {
     events: filter.events,
     totalPrizesFrom: filter.totalPrizesFrom,
     totalPrizesTo: filter.totalPrizesTo,
-    includeAllTags: filter.tags.length ? filter.includeAllTags : null,
     isLightweight: true,
   };
 }
@@ -264,7 +260,6 @@ export function shouldFetchChallenges(filterUpdate) {
       "bucket",
       "totalPrizesFrom",
       "totalPrizesTo",
-      "includeAllTags",
     ].includes(attr)
   );
 }
@@ -305,7 +300,6 @@ export function createEmptyChallengeFilter() {
     "sortBy",
     "totalPrizesFrom",
     "totalPrizesTo",
-    "includeAllTags",
     "recommended",
   ]);
 }
