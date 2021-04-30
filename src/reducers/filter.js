@@ -5,7 +5,7 @@ import _ from "lodash";
 const defaultState = {
   challenge: {
     types: constants.FILTER_CHALLENGE_TYPES,
-    tracks: constants.FILTER_CHALLENGE_TRACKS.filter((track) => track !== "QA"),
+    tracks: constants.FILTER_CHALLENGE_TRACKS,
     search: "",
     tags: [],
     groups: [],
