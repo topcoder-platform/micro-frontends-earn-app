@@ -14,13 +14,12 @@ const defaultState = {
     endDateStart: null,
     page: 1,
     perPage: constants.PAGINATION_PER_PAGES[0],
-    sortBy: constants.CHALLENGE_SORT_BY_RECOMMENDED,
+    sortBy: constants.CHALLENGE_SORT_BY_MOST_RECENT,
     totalPrizesFrom: 0,
     totalPrizesTo: 10000,
     // ---
 
     bucket: constants.FILTER_BUCKETS[1],
-    recommended: false,
   },
 };
 
