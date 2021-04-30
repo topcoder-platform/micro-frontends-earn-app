@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PT from "prop-types";
 import { connect } from "react-redux";
 import Listing from "./Listing";
@@ -26,7 +26,17 @@ const Challenges = ({
   recommendedChallenges,
   initialized,
   updateQuery,
+  userLoggedIn,
+  isLoggedIn,
+  tags,
 }) => {
+  const latestPropsRef = useRef(null);
+  latestPropsRef.current = { userLoggedIn };
+
+  useEffect(() => {
+    latestPropsRef.current.userLoggedIn();
+  }, []);
+
   const BUCKET_OPEN_FOR_REGISTRATION = constants.FILTER_BUCKETS[1];
   const isRecommended = recommended && bucket === BUCKET_OPEN_FOR_REGISTRATION;
   const sortByValue = isRecommended
@@ -75,7 +85,9 @@ const Challenges = ({
               updateQuery(filterChange);
             }}
             bucket={bucket}
+            tags={tags}
             sortByLabels={sortByLabels}
+            isLoggedIn={isLoggedIn}
           />
         </>
       )}
@@ -98,6 +110,8 @@ Challenges.propTypes = {
   recommendedChallenges: PT.arrayOf(PT.shape()),
   initialized: PT.bool,
   updateQuery: PT.func,
+  isLoggedIn: PT.bool,
+  tags: PT.arrayOf(PT.string),
 };
 
 const mapStateToProps = (state) => ({
@@ -114,11 +128,14 @@ const mapStateToProps = (state) => ({
   recommended: state.filter.challenge.recommended,
   recommendedChallenges: state.challenges.recommendedChallenges,
   initialized: state.challenges.initialized,
+  isLoggedIn: state.lookup.isLoggedIn,
+  tags: state.filter.challenge.tags,
 });
 
 const mapDispatchToProps = {
   updateFilter: actions.filter.updateFilter,
   updateQuery: actions.filter.updateChallengeQuery,
+  userLoggedIn: actions.lookup.isLoggedIn,
 };
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({

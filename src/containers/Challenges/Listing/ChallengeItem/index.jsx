@@ -14,7 +14,7 @@ import TagsMoreTooltip from "../tooltips/TagsMoreTooltip";
 
 import "./styles.scss";
 
-const ChallengeItem = ({ challenge, onClickTag, onClickTrack }) => {
+const ChallengeItem = ({ challenge, onClickTag, onClickTrack, isLoggedIn }) => {
   const totalPrizes = challenge.overview.totalPrizes;
   const currencySymbol = utils.challenge.getCurrencySymbol(challenge.prizeSets);
   const placementPrizes = utils.challenge.getPlacementPrizes(
@@ -23,6 +23,12 @@ const ChallengeItem = ({ challenge, onClickTag, onClickTrack }) => {
   const checkpointPrizes = utils.challenge.getCheckpointPrizes(
     challenge.prizeSets
   );
+
+  let submissionLink = `${process.env.URL.BASE}/challenges/${challenge.id}`;
+
+  if (isLoggedIn && challenge.numOfSubmissions > 0) {
+    submissionLink += "?tab=submissions";
+  }
 
   return (
     <div styleName="challenge-item">
@@ -69,9 +75,7 @@ const ChallengeItem = ({ challenge, onClickTag, onClickTrack }) => {
           >
             <NumRegistrants numOfRegistrants={challenge.numOfRegistrants} />
           </a>
-          <a
-            href={`${process.env.URL.BASE}/challenges/${challenge.id}?tab=submissions`} // eslint-disable-line no-undef
-          >
+          <a href={submissionLink}>
             <NumSubmissions numOfSubmissions={challenge.numOfSubmissions} />
           </a>
         </div>
@@ -96,6 +100,7 @@ ChallengeItem.propTypes = {
   challenge: PT.shape(),
   onClickTag: PT.func,
   onClickTrack: PT.func,
+  isLoggedIn: PT.bool,
 };
 
 export default ChallengeItem;

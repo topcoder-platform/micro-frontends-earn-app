@@ -3,7 +3,6 @@ export const PAGINATION_MAX_PAGE_DISPLAY = 3;
 
 export const NAV_MENU = {
   "Find Work": {
-    Gigs: "",
     Challenges: "/earn/find/challenges",
   },
 };
@@ -59,7 +58,7 @@ export const SORT_ORDER = {
 };
 
 export const SORT_BY_SORT_ORDER = {
-  bestMatch: SORT_ORDER.DESC,
+  // bestMatch: SORT_ORDER.DESC,
   updated: SORT_ORDER.DESC,
   "overview.totalPrizes": SORT_ORDER.DESC,
   name: SORT_ORDER.ASC,

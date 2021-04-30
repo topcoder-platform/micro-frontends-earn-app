@@ -26,6 +26,8 @@ const Listing = ({
   updateFilter,
   bucket,
   sortByLabels,
+  isLoggedIn,
+  tags,
 }) => {
   const sortByOptions = utils.createDropdownOptions(
     sortByLabels,
@@ -105,13 +107,14 @@ const Listing = ({
             <ChallengeItem
               challenge={challenge}
               onClickTag={(tag) => {
-                const filterChange = { search: tag };
+                const filterChange = { tags: [tag] };
                 updateFilter(filterChange);
               }}
               onClickTrack={(track) => {
                 const filterChange = { tracks: [track] };
                 updateFilter(filterChange);
               }}
+              isLoggedIn={isLoggedIn}
             />
           </div>
         ))}
@@ -146,6 +149,7 @@ Listing.propTypes = {
   updateFilter: PT.func,
   bucket: PT.string,
   sortByLabels: PT.arrayOf(PT.string),
+  isLoggedIn: PT.bool,
 };
 
 export default Listing;

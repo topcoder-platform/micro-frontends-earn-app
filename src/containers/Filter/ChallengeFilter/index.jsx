@@ -33,7 +33,7 @@ const ChallengeFilter = ({
   openForRegistrationCount,
 }) => {
   // const BUCKET_OPEN_FOR_REGISTRATION = constants.FILTER_BUCKETS[1];
-  const tagOptions = utils.createDropdownTermOptions(challengeTags);
+  const tagOptions = utils.createDropdownTermOptions(challengeTags, tags);
   const bucketOptions = utils.createRadioOptions(challengeBuckets, bucket);
 
   const caseSensitive = false;

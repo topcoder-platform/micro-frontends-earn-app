@@ -18,6 +18,11 @@ async function getTags() {
   return data.result.content.map((tag) => tag.name);
 }
 
+async function isLoggedIn() {
+  const isLoggedIn = await utils.auth.isLoggedIn();
+  return isLoggedIn;
+}
+
 async function doGetUserGroups() {
   const isLoggedIn = await utils.auth.isLoggedIn();
 
@@ -51,4 +56,5 @@ async function getCommunityList() {
 export default {
   getTags,
   getCommunityList,
+  isLoggedIn,
 };
