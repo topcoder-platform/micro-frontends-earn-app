@@ -27,6 +27,7 @@ const Listing = ({
   bucket,
   sortByLabels,
   isLoggedIn,
+  tags,
 }) => {
   const sortByOptions = utils.createDropdownOptions(
     sortByLabels,
@@ -106,7 +107,7 @@ const Listing = ({
             <ChallengeItem
               challenge={challenge}
               onClickTag={(tag) => {
-                const filterChange = { search: tag };
+                const filterChange = { tags: [tag] };
                 updateFilter(filterChange);
               }}
               onClickTrack={(track) => {

@@ -28,6 +28,7 @@ const Challenges = ({
   updateQuery,
   userLoggedIn,
   isLoggedIn,
+  tags,
 }) => {
   const latestPropsRef = useRef(null);
   latestPropsRef.current = { userLoggedIn };
@@ -84,6 +85,7 @@ const Challenges = ({
               updateQuery(filterChange);
             }}
             bucket={bucket}
+            tags={tags}
             sortByLabels={sortByLabels}
             isLoggedIn={isLoggedIn}
           />
@@ -109,6 +111,7 @@ Challenges.propTypes = {
   initialized: PT.bool,
   updateQuery: PT.func,
   isLoggedIn: PT.bool,
+  tags: PT.arrayOf(PT.string),
 };
 
 const mapStateToProps = (state) => ({
@@ -126,6 +129,7 @@ const mapStateToProps = (state) => ({
   recommendedChallenges: state.challenges.recommendedChallenges,
   initialized: state.challenges.initialized,
   isLoggedIn: state.lookup.isLoggedIn,
+  tags: state.filter.challenge.tags,
 });
 
 const mapDispatchToProps = {
