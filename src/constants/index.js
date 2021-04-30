@@ -59,7 +59,7 @@ export const SORT_ORDER = {
 };
 
 export const SORT_BY_SORT_ORDER = {
-  bestMatch: SORT_ORDER.DESC,
+  // bestMatch: SORT_ORDER.DESC,
   updated: SORT_ORDER.DESC,
   "overview.totalPrizes": SORT_ORDER.DESC,
   name: SORT_ORDER.ASC,
