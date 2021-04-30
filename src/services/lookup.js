@@ -24,7 +24,7 @@ async function isLoggedIn() {
 }
 
 async function doGetUserGroups() {
-  const isLoggedIn = await isLoggedIn();
+  const isLoggedIn = await utils.auth.isLoggedIn();
 
   if (isLoggedIn) {
     const userId = await utils.auth.getUserId();
