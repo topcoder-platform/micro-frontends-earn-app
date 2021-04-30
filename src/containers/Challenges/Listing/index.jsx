@@ -26,6 +26,7 @@ const Listing = ({
   updateFilter,
   bucket,
   sortByLabels,
+  isLoggedIn,
 }) => {
   const sortByOptions = utils.createDropdownOptions(
     sortByLabels,
@@ -112,6 +113,7 @@ const Listing = ({
                 const filterChange = { tracks: [track] };
                 updateFilter(filterChange);
               }}
+              isLoggedIn={isLoggedIn}
             />
           </div>
         ))}
@@ -146,6 +148,7 @@ Listing.propTypes = {
   updateFilter: PT.func,
   bucket: PT.string,
   sortByLabels: PT.arrayOf(PT.string),
+  isLoggedIn: PT.bool,
 };
 
 export default Listing;
