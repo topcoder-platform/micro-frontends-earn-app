@@ -48,7 +48,7 @@ export function setSelectedDropdownOptions(options, selectedValues) {
 export function createDropdownTermOptions(values, selectedValues) {
   return values.map((value) => ({
     label: `${value}`,
-    selected: !!selectedValues && selectedValues.includes[value],
+    selected: !!selectedValues && selectedValues.includes(value),
   }));
 }
 

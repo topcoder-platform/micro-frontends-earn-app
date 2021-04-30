@@ -49,24 +49,24 @@ const App = () => {
       return;
     }
 
-    if (location.pathname === "/earn/find/challenges") {
-      const params = utils.url.parseUrlQuery(location.search);
-      const toUpdate = utils.challenge.createChallengeFilter(params);
+    //if (location.pathname === "/earn/find/challenges") {
+    const params = utils.url.parseUrlQuery(location.search);
+    const toUpdate = utils.challenge.createChallengeFilter(params);
 
-      if (!toUpdate.types) toUpdate.types = [];
-      if (!toUpdate.tracks) toUpdate.tracks = [];
-      if (!toUpdate.bucket) toUpdate.bucket = "";
+    if (!toUpdate.types) toUpdate.types = [];
+    if (!toUpdate.tracks) toUpdate.tracks = [];
+    if (!toUpdate.bucket) toUpdate.bucket = "";
 
-      const updatedFilter = { ...initialChallengeFilter, ...toUpdate };
-      const currentFilter = store.getState().filter.challenge;
-      const diff = !_.isEqual(updatedFilter, currentFilter);
-      if (diff) {
-        store.dispatch(actions.filter.updateFilter(updatedFilter));
-      }
-      getChallengesDebounced.current(() =>
-        store.dispatch(actions.challenges.getChallenges(updatedFilter))
-      );
+    const updatedFilter = { ...initialChallengeFilter, ...toUpdate };
+    const currentFilter = store.getState().filter.challenge;
+    const diff = !_.isEqual(updatedFilter, currentFilter);
+    if (diff) {
+      store.dispatch(actions.filter.updateFilter(updatedFilter));
     }
+    getChallengesDebounced.current(() =>
+      store.dispatch(actions.challenges.getChallenges(updatedFilter))
+    );
+    //}
   }, [location]);
 
   useEffect(() => {
@@ -90,8 +90,7 @@ const App = () => {
       </aside>
       <div className="content">
         <Router>
-          <Challenges path="/earn/find/challenges" />
-          <NoSidebarDemo path="/earn" />
+          <Challenges path="/earn/*" />
         </Router>
       </div>
     </div>

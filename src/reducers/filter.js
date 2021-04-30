@@ -5,7 +5,7 @@ import _ from "lodash";
 const defaultState = {
   challenge: {
     types: constants.FILTER_CHALLENGE_TYPES,
-    tracks: constants.FILTER_CHALLENGE_TRACKS.filter((track) => track !== "QA"),
+    tracks: constants.FILTER_CHALLENGE_TRACKS,
     search: "",
     tags: [],
     groups: [],
@@ -14,15 +14,12 @@ const defaultState = {
     endDateStart: null,
     page: 1,
     perPage: constants.PAGINATION_PER_PAGES[0],
-    sortBy: constants.CHALLENGE_SORT_BY_RECOMMENDED,
+    sortBy: constants.CHALLENGE_SORT_BY_MOST_RECENT,
     totalPrizesFrom: 0,
     totalPrizesTo: 10000,
-    includeAllTags: true,
-
     // ---
 
     bucket: constants.FILTER_BUCKETS[1],
-    recommended: false,
   },
 };
 
