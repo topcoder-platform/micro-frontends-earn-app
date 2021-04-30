@@ -24,7 +24,7 @@ const ChallengeItem = ({ challenge, onClickTag, onClickTrack, isLoggedIn }) => {
     challenge.prizeSets
   );
 
-  let submissionLink = `${process.env.URL.BASE}/challenges/${challenge.id}`;
+  let submissionLink = `${process.env.URL.BASE}/challenges/${challenge.id}`; // eslint-disable-line no-undef
 
   if (isLoggedIn && challenge.numOfSubmissions > 0) {
     submissionLink += "?tab=submissions";
