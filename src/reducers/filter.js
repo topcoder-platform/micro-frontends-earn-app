@@ -17,8 +17,6 @@ const defaultState = {
     sortBy: constants.CHALLENGE_SORT_BY_RECOMMENDED,
     totalPrizesFrom: 0,
     totalPrizesTo: 10000,
-    includeAllTags: true,
-
     // ---
 
     bucket: constants.FILTER_BUCKETS[1],
