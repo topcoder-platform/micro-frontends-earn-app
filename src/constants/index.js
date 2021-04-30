@@ -3,7 +3,6 @@ export const PAGINATION_MAX_PAGE_DISPLAY = 3;
 
 export const NAV_MENU = {
   "Find Work": {
-    Gigs: "",
     Challenges: "/earn/find/challenges",
   },
 };
