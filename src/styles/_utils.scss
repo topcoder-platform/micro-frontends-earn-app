@@ -6,16 +6,46 @@
       flex: 0 0 270px;
       min-height: calc(100vh - 60px);
       background: $white;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
 
-      > hr {
-        margin: 0 20px;
-        border-color: $tc-gray-05;
-        opacity: 0.5;
+      .sidebar-content {
+        > hr {
+          margin: 0 20px;
+          border-color: $tc-gray-05;
+          opacity: 0.5;
+        }
+
+        .content {
+          flex: 1 1 auto;
+        }
+      }
+
+      .sidebar-footer {
+        margin: 0 auto;
+        margin-bottom: 125px;
       }
     }
 
-    .content {
-      flex: 1 1 auto;
+    .button {
+      @include roboto-bold;
+
+      padding: 8px 12px;
+      font-size: $font-size-xs;
+      color: $green;
+      line-height: 1;
+      letter-spacing: 0.8px;
+      white-space: nowrap;
+      appearance: none;
+      background: $white;
+      border: 1px solid $green;
+      border-radius: 15px;
+    }
+
+    .button-primary {
+      color: $white;
+      background-color: $green;
     }
   }
 }

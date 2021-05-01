@@ -2,12 +2,12 @@
  * Main App component
  */
 import React, { useState, useLayoutEffect, useEffect, useRef } from "react";
-import { Router, useLocation } from "@reach/router";
+import { Router, useLocation, redirectTo } from "@reach/router";
 import Challenges from "./containers/Challenges";
 import Filter from "./containers/Filter";
 import Menu from "./components/Menu";
 import { disableSidebarForRoute } from "@topcoder/micro-frontends-navbar-app";
-import NoSidebarDemo from "./components/NoSidebarDemo";
+import Button from "./components/Button";
 import * as constants from "./constants";
 import actions from "./actions";
 import * as utils from "./utils";
@@ -84,9 +84,20 @@ const App = () => {
   return (
     <div className="layout">
       <aside className="sidebar">
-        {menu}
-        <hr />
-        <Filter />
+        <div className="sidebar-content">
+          {menu}
+          <hr />
+          <Filter />
+        </div>
+        <div className="sidebar-footer">
+          <a
+            className="button button-primary"
+            href="https://github.com/topcoder-platform/micro-frontends-earn-app/issues/new"
+            target="_blank"
+          >
+            GIVE APPLICATION FEEDBACK
+          </a>
+        </div>
       </aside>
       <div className="content">
         <Router>
