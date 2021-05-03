@@ -10,6 +10,7 @@ import IconListView from "../../assets/icons/list-view.svg";
 import IconCardView from "../../assets/icons/card-view.svg";
 
 import "./styles.scss";
+import Banner from "../../components/Banner";
 
 const Challenges = ({
   challenges,
@@ -56,6 +57,7 @@ const Challenges = ({
 
   return (
     <div styleName="page">
+      <Banner />
       <h1 styleName="title">
         <span>CHALLENGES</span>
         <span styleName="view-mode">
