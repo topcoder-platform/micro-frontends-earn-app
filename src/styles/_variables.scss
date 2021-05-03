@@ -4,7 +4,7 @@
  * The standard TC UI pallete. Always prefer to use these constants to set
  * colors in your stylesheets.
  */
- /* Grayscale colors. */
+/* Grayscale colors. */
 $tc-black: #151516;
 $tc-gray-90: #2a2a2b;
 $tc-gray-80: #404041;
@@ -97,7 +97,7 @@ $tc-pastel-blue: #5656f4;
 $tc-pastel-yellow: #feb900;
 $tc-pastel-crimson: #e90c5a;
 
- /* Color aliases. */
+/* Color aliases. */
 
 /* Base metal colors. */
 $tc-gold: $tc-gold-100;
@@ -132,8 +132,11 @@ $base-unit: 5px;
 $body-color: $tc-gray-90;
 $white: $tc-white;
 $green: #229174;
-$darkGreen: #137D60;
+$green2: #287d61;
+$darkGreen: #137d60;
 $lightGreen: #0ab88a;
+$lightGreen2: #06d6a0;
+$blue: #2c95d7;
 
 $border-radius: 6px;
 $border-radius-sm: 5px;
