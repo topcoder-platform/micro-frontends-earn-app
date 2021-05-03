@@ -92,7 +92,7 @@ const App = () => {
         <div className="sidebar-footer">
           <a
             className="button button-primary"
-            href="https://github.com/topcoder-platform/micro-frontends-earn-app/issues/new"
+            href="https://github.com/topcoder-platform/micro-frontends-earn-app/issues/new?assignees=&labels=&template=bug_report.md&title="
             target="_blank"
           >
             GIVE APPLICATION FEEDBACK
