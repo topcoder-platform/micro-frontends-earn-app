@@ -16,16 +16,17 @@
           border-color: $tc-gray-05;
           opacity: 0.5;
         }
-
-        .content {
-          flex: 1 1 auto;
-        }
+        
       }
 
       .sidebar-footer {
         margin: 0 auto;
         margin-bottom: 125px;
       }
+    }
+
+    .content {
+      flex: 1 1 auto;
     }
 
     .button {
