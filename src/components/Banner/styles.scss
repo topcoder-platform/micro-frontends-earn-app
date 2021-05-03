@@ -12,7 +12,7 @@
   border-radius: 10px;
   margin-bottom: 22px;
   color: $white;
-  padding-left: 54px;
+  padding-left: 28px;
 
   .header {
     display: flex;
@@ -30,10 +30,7 @@
     margin-right: 20px;
     margin-top: 5px;
 
-    &.up {
-    }
-
-    &.down {
+    &.expanded {
       transform: rotate(180deg);
     }
 
@@ -47,12 +44,22 @@
     flex-direction: column;
     justify-content: flex-start;
     font-size: 16px;
-    margin-top: 24px;
-    margin-bottom: 12px;
-    width: 80%;
+    margin-bottom: 24px;
+    width: 85%;
+
+    h3 {
+      font-size: 15px;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+
+    p {
+      margin-top: 15px;
+    }
 
     a {
       text-decoration: underline;
     }
+
   }
 }
