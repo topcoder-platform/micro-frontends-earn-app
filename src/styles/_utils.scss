@@ -32,21 +32,21 @@
     .button {
       @include roboto-bold;
 
-      padding: 8px 12px;
-      font-size: $font-size-xs;
+      padding: 12px 16px;
+      font-size: 13px;
       color: $green;
       line-height: 1;
       letter-spacing: 0.8px;
       white-space: nowrap;
       appearance: none;
       background: $white;
-      border: 1px solid $green;
-      border-radius: 15px;
+      border: 1px solid $green2;
+      border-radius: 20px;
     }
 
     .button-primary {
       color: $white;
-      background-color: $green;
+      background-color: $green2;
     }
   }
 }
