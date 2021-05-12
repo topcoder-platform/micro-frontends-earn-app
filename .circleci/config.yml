@@ -78,6 +78,7 @@ workflows:
               only:
                 - dev
                 - bugbash
+                - heap-integration
 
       # Production builds are exectuted only on tagged commits to the
       # master branch.
