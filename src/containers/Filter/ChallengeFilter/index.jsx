@@ -214,6 +214,8 @@ const ChallengeFilter = ({
               <span key={subCommunity.communityName}>
                 <Checkbox
                   checked={
+                    // select all if query filters neither events nor groups
+                    events.length + groups.length === 0 ||
                     events.includes(
                       utils.challenge.getCommunityEvent(subCommunity)
                     ) ||
@@ -225,32 +227,42 @@ const ChallengeFilter = ({
                     const isTCOEvent = utils.challenge.isTCOEventCommunity(
                       subCommunity
                     );
-                    let filterChange;
+                    const filterChange = { events, groups };
 
-                    if (isTCOEvent) {
-                      const newEvents = checked
-                        ? events.concat(
-                            utils.challenge.getCommunityEvent(subCommunity)
-                          )
-                        : events.filter(
-                            (event) =>
-                              event !==
-                              utils.challenge.getCommunityEvent(subCommunity)
-                          );
-                      filterChange = { events: newEvents };
-                    } else {
-                      const newGroups = checked
-                        ? groups.concat(
-                            utils.challenge.getCommunityGroup(subCommunity)
-                          )
-                        : groups.filter(
-                            (group) =>
-                              group !==
-                              utils.challenge.getCommunityGroup(subCommunity)
-                          );
-                      filterChange = { groups: newGroups };
+                    if (events.length + groups.length === 0) {
+                      // select all if query filters neither events nor groups
+                      filterChange.events = challengeSubCommunities
+                        .filter(utils.challenge.isTCOEventCommunity)
+                        .map(utils.challenge.getCommunityEvent);
+                      filterChange.groups = challengeSubCommunities
+                        .filter(utils.challenge.isGroupCommunity)
+                        .map(utils.challenge.getCommunityGroup);
                     }
 
+                    if (isTCOEvent) {
+                      const scEvent = utils.challenge.getCommunityEvent(
+                        subCommunity
+                      );
+                      filterChange.events = checked
+                        ? _.union(filterChange.events, [scEvent])
+                        : _.without(filterChange.events, scEvent);
+                    } else {
+                      const scGroup = utils.challenge.getCommunityGroup(
+                        subCommunity
+                      );
+                      filterChange.groups = checked
+                        ? _.union(filterChange.groups, [scGroup])
+                        : _.without(filterChange.groups, scGroup);
+                    }
+
+                    // clear community filters if all sub-communities are selected
+                    if (
+                      filterChange.groups.length + filterChange.events.length >=
+                      challengeSubCommunities.length
+                    ) {
+                      filterChange.events = [];
+                      filterChange.groups = [];
+                    }
                     updateFilter(filterChange);
                   }}
                 />
