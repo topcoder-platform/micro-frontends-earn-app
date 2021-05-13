@@ -11,6 +11,7 @@ import iconCheckM from "assets/icons/checkmark-medium.png";
 import iconCheckS from "assets/icons/checkmark-small.png";
 
 function Checkbox({ checked, onChange, size, errorMsg }) {
+  const [changeCount, setChangeCount] = useState(0);
   const [checkedInternal, setCheckedInternal] = useState(checked);
   let sizeStyle = size === "lg" ? "lgSize" : null;
   const imgSrc =
@@ -19,12 +20,15 @@ function Checkbox({ checked, onChange, size, errorMsg }) {
     sizeStyle = size === "xs" ? "xsSize" : "smSize";
   }
   const delayedOnChange = useRef(
-    _.debounce((q, cb) => cb(q), process.env.GUIKIT.DEBOUNCE_ON_CHANGE_TIME) // eslint-disable-line no-undef
+    _.debounce((q, cb) => {
+      cb(q);
+      setChangeCount((n) => n + 1);
+    }, process.env.GUIKIT.DEBOUNCE_ON_CHANGE_TIME) // eslint-disable-line no-undef
   ).current;
 
   useEffect(() => {
     setCheckedInternal(checked);
-  }, [checked]);
+  }, [changeCount, checked]);
 
   return (
     <label styleName={`container ${sizeStyle}`}>
