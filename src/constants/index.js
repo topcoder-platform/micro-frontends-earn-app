@@ -1,15 +1,37 @@
 export const PAGINATION_PER_PAGES = [10, 20, 50];
 export const PAGINATION_MAX_PAGE_DISPLAY = 3;
 
+/* --- MENU --- */
+// My Work
+//    My Gigs
+// Find Work
+//    Challenges
 export const NAV_MENU = {
-  "Find Work": {
-    Challenges: "/earn/find/challenges",
-  },
-};
-
-export const NAV_MENU_ICONS = {
-  "My Work": ["my-work.svg", "my-work-green.svg"],
-  "Find Work": ["find-work.svg", "find-work-green.svg"],
+  children: [
+    {
+      name: "My Work",
+      icon: "my-work.svg",
+      iconActive: "my-work-green.svg",
+      auth: true,
+      children: [
+        {
+          name: "My Gigs",
+          path: "/earn/my-gigs",
+        },
+      ],
+    },
+    {
+      name: "Find Work",
+      icon: "find-work.svg",
+      iconActive: "find-work-green.svg",
+      children: [
+        {
+          name: "Challenges",
+          path: "/earn/find/challenges",
+        },
+      ],
+    },
+  ],
 };
 
 export const FILTER_BUCKETS = [
@@ -75,4 +97,37 @@ export const CURRENCY_SYMBOL = {
   EUR: "€",
   INR: "₹",
   USD: "$",
+};
+
+export const MY_GIG_PHASE = {
+  APPLIED: "Applied",
+  PHONE_SCREEN: "Phone Screen",
+  SCREEN_PASS: "Screen Pass",
+  INTERVIEW_PROCESS: "Interview Process",
+  SELECTED: "Selected",
+  OFFERED: "Offered",
+  PLACED: "Placed",
+};
+
+export const MY_GIG_PHASE_LABEL = {
+  APPLIED: "APPLIED",
+  PHONE_SCREEN: "PHONE SCREEN",
+  SCREEN_PASS: "SCREEN PASS",
+  INTERVIEW_PROCESS: "INTERVIEW PROCESS",
+  SELECTED: "SELECTED",
+  OFFERED: "OFFERED",
+  PLACED: "PLACED",
+  NOT_SELECTED: "NOT SELECTED",
+};
+
+export const MY_GIG_PHASE_STATUS = {
+  PASSED: "Passed",
+  ACTIVE: "Active",
+};
+
+export const MY_GIG_PHASE_ACTION = {
+  CHECK_EMAIL: "check email",
+  STAND_BY: "stand by",
+  ROUND: "round",
+  FOLLOW_UP_BY_EMAIL: "follow-up by email",
 };

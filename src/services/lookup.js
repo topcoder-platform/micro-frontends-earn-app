@@ -1,6 +1,7 @@
 import api from "./api";
 import qs from "qs";
 import * as utils from "../utils";
+import myGigsData from "../assets/data/my-gigs.json";
 
 async function getTags() {
   const v3 = true;
@@ -18,7 +19,7 @@ async function getTags() {
   return data.result.content.map((tag) => tag.name);
 }
 
-async function isLoggedIn() {
+async function checkIsLoggedIn() {
   const isLoggedIn = await utils.auth.isLoggedIn();
   return isLoggedIn;
 }
@@ -53,8 +54,13 @@ async function getCommunityList() {
   );
 }
 
+async function getGigPhases() {
+  return Promise.resolve(myGigsData.phases);
+}
+
 export default {
   getTags,
   getCommunityList,
-  isLoggedIn,
+  checkIsLoggedIn,
+  getGigPhases,
 };

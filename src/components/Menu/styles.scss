@@ -5,6 +5,14 @@ $menu-padding-y: 20px;
 
 .menu {
   padding: $menu-padding-y $menu-padding-x (3 * $base-unit);
+
+  &.logged-in {}
+
+  &.logged-out {
+    .menu-item-auth {
+      display: none;
+    }
+  }
 }
 
 .menu-item {

@@ -22,5 +22,16 @@
   background-color: $green;
 }
 
-.button-lg {}
-.button-sm {}
+.button-text {
+  padding: 0;
+  letter-spacing: 1px;
+  color: inherit;
+  border: none;
+  background: none;
+}
+
+.button-lg {
+  padding: 12px 20px;
+  font-size: $font-size-sm;
+  border-radius: 20px;
+}

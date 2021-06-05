@@ -1,0 +1,22 @@
+@import "styles/variables";
+@import "styles/mixins";
+
+.page {
+  padding: $page-padding-y $page-padding-x 55px;
+}
+
+.title {
+  @include barlow-condensed-medium;
+
+  display: flex;
+  align-items: center;
+  margin-bottom: 22px;
+
+  .text {
+    align-self: flex-start;
+  }
+
+  button {
+    margin-left: auto;
+  }
+}

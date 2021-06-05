@@ -9,18 +9,25 @@ import "./styles.scss";
 
 let cnt = 0;
 
-const Menu = ({ menu, icons, selected, onSelect }) => {
+const Menu = ({ menu, selected, onSelect, isLoggedIn }) => {
   const selectionRef = useRef(
-    new utils.menu.MenuSelection(menu, selected, onSelect)
+    new utils.menu.MenuSelection(_.cloneDeep(menu), selected, onSelect)
   );
-  const [__, setStateChange] = useState(0);
+  const [, setStateChange] = useState(0);
 
   useEffect(() => {
-    selectionRef.current.selectedMenuItem = selected;
+    selectionRef.current.select(selected);
     setStateChange(cnt++);
   }, [selected]);
 
+  useEffect(() => {
+    if (selectionRef.current.isAuth(selected) && isLoggedIn === false) {
+      utils.auth.logIn();
+    }
+  }, [selected, isLoggedIn]);
+
   const navigateTo = useNavigate();
+
   const onSelectMenuItem = (name, path) => {
     selectionRef.current.select(name);
     setStateChange(cnt++);
@@ -30,38 +37,37 @@ const Menu = ({ menu, icons, selected, onSelect }) => {
   };
 
   const getIcon = (menuItem, active) => {
-    const name = icons[menuItem][active ? 1 : 0];
+    const name = active ? menuItem.iconActive : menuItem.icon;
     return utils.icon.getMenuIcon(name);
   };
 
-  const isExpandable = (name) => !selectionRef.current.isLeaf(name);
-  const isSelected = (name) => selectionRef.current.isSelected(name);
-  const isExpanded = (name) => selectionRef.current.isExpanded(name);
-  const isActive = (name) => selectionRef.current.isActive(name);
+  const isExpandable = (menuItem) =>
+    selectionRef.current.isExpandable(menuItem);
+  const isSelected = (menuItem) => selectionRef.current.isSelected(menuItem);
+  const isExpanded = (menuItem) => selectionRef.current.isExpanded(menuItem);
+  const isActive = (menuItem) => selectionRef.current.isActive(menuItem);
 
-  const renderSubSubmenu = (submenu, key) => {
-    if (!submenu[key]) {
-      return null;
-    }
-    const subSubmenu = submenu[key];
+  const renderSubSubmenu = (subMenuItem) => {
     return (
       <ul styleName="sub-submenu">
-        {Object.keys(subSubmenu).map((key) => (
+        {subMenuItem.children.map((subSubmenuItem) => (
           <li
-            styleName={`menu-item ${isSelected(key) ? "selected" : ""} ${
-              isActive(key) ? "active" : ""
+            styleName={`menu-item ${
+              isSelected(subSubmenuItem) ? "selected" : ""
+            } ${isActive(subSubmenuItem) ? "active" : ""} ${
+              subMenuItem.auth ? "menu-item-auth" : ""
             }`}
-            key={key}
+            key={subSubmenuItem.name}
           >
             <span
               styleName="link"
               role="button"
               tabIndex="0"
               onClick={() => {
-                onSelectMenuItem(key, subSubmenu[key]);
+                onSelectMenuItem(subSubmenuItem.name, subSubmenuItem.path);
               }}
             >
-              {key}
+              {subSubmenuItem.name}
             </span>
           </li>
         ))}
@@ -69,37 +75,42 @@ const Menu = ({ menu, icons, selected, onSelect }) => {
     );
   };
 
-  const renderSubmenu = (key) => {
-    if (!menu[key]) {
+  const renderSubmenu = (menuItem) => {
+    if (!menuItem.children) {
       return null;
     }
-    const subMenu = menu[key];
+
     return (
       <ul styleName="sub-menu">
-        {Object.keys(subMenu).map((key) => (
+        {menuItem.children.map((subMenuItem) => (
           <li
             styleName={`menu-item menu-item-secondary ${
-              isExpandable(key)
-                ? isExpanded(key)
+              isExpandable(subMenuItem)
+                ? isExpanded(subMenuItem)
                   ? "expanded"
                   : "collapsed"
-                : isSelected(key)
+                : isSelected(subMenuItem)
                 ? "selected"
                 : ""
-            } ${isActive(key) ? "active" : ""}`}
-            key={key}
+            } ${isActive(subMenuItem) ? "active" : ""} ${
+              menuItem.auth ? "menu-item-auth" : ""
+            }`}
+            key={subMenuItem.name}
           >
             <span
               styleName="link"
               role="button"
               tabIndex="0"
-              onClick={(event) => {
-                onSelectMenuItem(key, isExpandable(key) ? null : subMenu[key]);
+              onClick={() => {
+                onSelectMenuItem(
+                  subMenuItem.name,
+                  isExpandable(subMenuItem) ? null : subMenuItem.path
+                );
               }}
             >
-              {key}
+              {subMenuItem.name}
             </span>
-            {isExpandable(key) && renderSubSubmenu(subMenu, key)}
+            {isExpandable(subMenuItem) && renderSubSubmenu(subMenuItem)}
           </li>
         ))}
       </ul>
@@ -108,35 +119,46 @@ const Menu = ({ menu, icons, selected, onSelect }) => {
 
   return (
     <nav>
-      <ul styleName="menu">
-        {Object.keys(menu).map((key) => (
+      <ul styleName={`menu ${isLoggedIn ? "logged-in" : "logged-out"}`}>
+        {selectionRef.current.menu.children.map((menuItem) => (
           <li
             styleName={`menu-item menu-item-main ${
-              isExpandable(key)
-                ? isExpanded(key)
+              isExpandable(menuItem)
+                ? isExpanded(menuItem)
                   ? "expanded"
                   : ""
-                : isSelected(key)
+                : isSelected(menuItem)
                 ? "selected"
                 : ""
-            } ${isActive(key) ? "active" : ""}`}
-            key={key}
+            } ${isActive(menuItem) ? "active" : ""} ${
+              menuItem.auth ? "menu-item-auth" : ""
+            }`}
+            key={menuItem.name}
           >
             <span
               styleName="link"
               role="button"
               tabIndex="0"
-              onClick={(event) => {
-                onSelectMenuItem(key, isExpandable(key) ? null : menu[key]);
+              onClick={() => {
+                onSelectMenuItem(
+                  menuItem.name,
+                  isExpandable(menuItem) ? null : menuItem.path
+                );
               }}
             >
-              <span styleName="icon">{getIcon(key, isActive(key))}</span>
-              <span styleName="text">{key}</span>
-              <span styleName={`arrow ${isExpanded(key) ? "up" : "down"}`}>
-                <IconChevronUp />
+              <span styleName="icon">
+                {getIcon(menuItem, isActive(menuItem))}
               </span>
+              <span styleName="text">{menuItem.name}</span>
+              {isExpandable(menuItem) && (
+                <span
+                  styleName={`arrow ${isExpanded(menuItem) ? "up" : "down"}`}
+                >
+                  <IconChevronUp />
+                </span>
+              )}
             </span>
-            {isExpandable(key) && renderSubmenu(key)}
+            {isExpandable(menuItem) && renderSubmenu(menuItem)}
           </li>
         ))}
       </ul>
@@ -146,9 +168,9 @@ const Menu = ({ menu, icons, selected, onSelect }) => {
 
 Menu.propTypes = {
   menu: PT.shape(),
-  icons: PT.shape(),
   selected: PT.string,
   onSelect: PT.func,
+  isLoggedIn: PT.oneOf([null, true, false]),
 };
 
 export default Menu;

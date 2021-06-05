@@ -3,8 +3,9 @@
     display: flex;
 
     .sidebar {
-      flex: 0 0 270px;
-      min-height: calc(100vh - 60px);
+      flex: none;
+      width: var(--sideBarWidth, 270px);
+      min-height: calc(100vh - var(--navbarHeight, 60px));
       background: $white;
       display: flex;
       flex-direction: column;
@@ -15,8 +16,11 @@
           margin: 0 20px;
           border-color: $tc-gray-05;
           opacity: 0.5;
+
+          &:last-child {
+            display: none;
+          }
         }
-        
       }
 
       .sidebar-footer {
@@ -48,5 +52,14 @@
       color: $white;
       background-color: $green2;
     }
+  }
+
+  #tooltips-container-id {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    z-index: 1000;
   }
 }

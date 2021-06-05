@@ -7,7 +7,8 @@ const defaultState = {
   tracks: constants.FILTER_CHALLENGE_TRACKS,
   tags: [],
   subCommunities: [],
-  isLoggedIn: false,
+  isLoggedIn: null,
+  gigPhases: [],
 };
 
 function onGetTagsDone(state, { payload }) {
@@ -18,15 +19,20 @@ function onGetCommunityListDone(state, { payload }) {
   return { ...state, subCommunities: payload };
 }
 
-function onIsLoggedInDone(state, { payload }) {
+function onCheckIsLoggedInDone(state, { payload }) {
   return { ...state, isLoggedIn: payload };
+}
+
+function onGetGigPhasesDone(state, { payload }) {
+  return { ...state, gigPhases: payload };
 }
 
 export default handleActions(
   {
     GET_TAGS_DONE: onGetTagsDone,
     GET_COMMUNITY_LIST_DONE: onGetCommunityListDone,
-    IS_LOGGED_IN_DONE: onIsLoggedInDone,
+    CHECK_IS_LOGGED_IN_DONE: onCheckIsLoggedInDone,
+    GET_GIG_PHASES_DONE: onGetGigPhasesDone,
   },
   defaultState
 );

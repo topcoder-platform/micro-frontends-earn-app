@@ -9,12 +9,17 @@ async function getCommunityList() {
   return service.getCommunityList();
 }
 
-async function isLoggedIn() {
-  return service.isLoggedIn();
+async function checkIsLoggedIn() {
+  return service.checkIsLoggedIn();
+}
+
+async function getGigPhases() {
+  return service.getGigPhases();
 }
 
 export default createActions({
   GET_TAGS: getTags,
   GET_COMMUNITY_LIST: getCommunityList,
-  IS_LOGGED_IN: isLoggedIn,
+  CHECK_IS_LOGGED_IN: checkIsLoggedIn,
+  GET_GIG_PHASES: getGigPhases,
 });
