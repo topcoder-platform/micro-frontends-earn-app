@@ -76,8 +76,7 @@ workflows:
           filters:
             branches:
               only:
-                - dev
-                - bugbash
+                - mygigs-part1
 
       # Production builds are exectuted only on tagged commits to the
       # master branch.
