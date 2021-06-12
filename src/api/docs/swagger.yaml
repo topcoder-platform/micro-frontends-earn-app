@@ -1,0 +1,291 @@
+openapi: 3.0.0
+info:
+  title: Micro Frontends Earn App
+  description: Micro Frontends Earn App
+  version: 1.0.0
+servers:
+  - url: http://local.topcoder-dev.com:8008/api
+tags:
+  - name: JobApplications
+paths:
+  /myJobApplications:
+    get:
+      tags:
+        - JobApplications
+      description: |
+        Get Job Applications of current user
+
+        **Authorization** All topcoder members are allowed. M2M token with "read:earn-jobApplications" is allowed
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: page
+          required: false
+          schema:
+            type: integer
+            default: 1
+          description: The page number.
+        - in: query
+          name: perPage
+          required: false
+          schema:
+            type: integer
+            default: 20
+          description: The number of items to list per page.
+        - in: query
+          name: sortBy
+          required: false
+          schema:
+            type: string
+            default: id
+            enum: ["id", "status"]
+          description: The sort by column.
+        - in: query
+          name: sortOrder
+          required: false
+          schema:
+            type: string
+            default: desc
+            enum: ["desc", "asc"]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/JobApplication"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    JobApplication:
+      required:
+        - title
+        - payment
+        - hoursPerWeek
+        - location
+        - workingHours
+        - duration
+        - status
+        - remark
+        - interview
+      properties:
+        title:
+          type: string
+          example: "Dummy title"
+          description: "The title."
+          maxLength: 64
+        payment:
+          $ref: "#/components/schemas/Payment"
+        hoursPerWeek:
+          type: integer
+          example: 20
+          description: "the amount working hours per week"
+        location:
+          type: string
+          example: "Any location"
+          description: "the location of job"
+        workingHours:
+          type: string
+          example: "GMT"
+          description: "the timezone of job"
+        duration:
+          type: integer
+          example: 1
+          description: "The duration in weeks"
+        status:
+          type: string
+          enum:
+            [
+              "open",
+              "placed",
+              "selected",
+              "client rejected - screening",
+              "client rejected - interview",
+              "rejected - other",
+              "cancelled",
+              "interview",
+              "topcoder-rejected",
+            ]
+          description: "The job candidate status."
+        remark:
+          type: string
+          example: "excellent"
+          description: "The remark of candidate"
+        interview:
+          $ref: "#/components/schemas/Interview"
+    Payment:
+      required:
+        - min
+        - max
+        - currency
+      description: "The payment information"
+      properties:
+        min:
+          type: integer
+          example: 1000
+          description: "the amount of minimum salary"
+        max:
+          type: integer
+          example: 3000
+          description: "the amount of maximum salary"
+        frequency:
+          type: string
+          enum: ["hourly", "daily", "weekly", "monthly"]
+          description: "The frequency of the job."
+        currency:
+          type: string
+          example: "USD"
+          description: "the currency of job"
+    Interview:
+      required:
+        - id
+        - jobCandidateId
+        - templateUrl
+        - round
+        - status
+        - createdAt
+        - createdBy
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: "The interview id."
+        xaiId:
+          type: string
+          description: "The x.ai id."
+        jobCandidateId:
+          type: string
+          format: uuid
+          description: "The job candidate id."
+        calendarEventId:
+          type: string
+          example: "dummyId"
+          description: "The calendar event id."
+        templateUrl:
+          type: string
+          example: "interview-30"
+          enum: ["interview-30", "interview-60"]
+          description: "The x.ai template name"
+        templateId:
+          type: string
+          format: uuid
+          description: "The x.ai template id"
+        templateType:
+          type: string
+          description: "The x.ai template type"
+        title:
+          type: string
+          description: "The x.ai template title"
+        locationDetails:
+          type: string
+          example: "Location TBD."
+          description: "The x.ai meeting location."
+        round:
+          type: integer
+          example: 1
+          description: "The interview round."
+        duration:
+          type: integer
+          example: 30
+          description: "The interview duration (in minutes)."
+        hostEmail:
+          type: string
+          format: email
+          description: "The interview host email."
+        hostName:
+          type: string
+          description: "The interview host name."
+        guestEmails:
+          type: array
+          description: "Attendee list for this interview."
+          items:
+            type: string
+            format: email
+        guestNames:
+          type: array
+          description: "Names of guests."
+          items:
+            type: string
+        startTimestamp:
+          type: string
+          format: date-time
+          description: "Interview start time."
+        endTimestamp:
+          type: string
+          format: date-time
+          description: "Interview end time."
+        status:
+          type: string
+          enum:
+            [
+              "Scheduling",
+              "Scheduled",
+              "Requested for reschedule",
+              "Rescheduled",
+              "Completed",
+              "Cancelled",
+            ]
+          description: "The interview status."
+        rescheduleUrl:
+          type: string
+          format: url
+          description: "x.ai reschedule url."
+        createdAt:
+          type: string
+          format: date-time
+          description: "The interview created date."
+        createdBy:
+          type: string
+          format: uuid
+          description: "The user who created the interview."
+        updatedAt:
+          type: string
+          format: date-time
+          description: "The interview last updated at."
+        updatedBy:
+          type: string
+          format: uuid
+          description: "The user who updated the interview last time."
+    Error:
+      required:
+        - message
+      properties:
+        message:
+          type: string
