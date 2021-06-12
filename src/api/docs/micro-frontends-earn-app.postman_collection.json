@@ -1,0 +1,472 @@
+{
+	"info": {
+		"_postman_id": "08001d66-49f5-4ef5-81c0-69c1660a3905",
+		"name": "micro-frontends-earn-app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Job Applications",
+			"item": [
+				{
+					"name": "get job applications successfully",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 200', function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token_user}}"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/myJobApplications?page=1&perPage=10&sortBy=status&sortOrder=desc",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"myJobApplications"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "perPage",
+									"value": "10"
+								},
+								{
+									"key": "sortBy",
+									"value": "status"
+								},
+								{
+									"key": "sortOrder",
+									"value": "desc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get job applications with m2m",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 200', function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    const response = pm.response.json()\r",
+									"    pm.expect(response).to.deep.eq([])\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token_m2m_read_jobApplications}}"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/myJobApplications",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"myJobApplications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get job applications with invalid token 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 401', function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"    const response = pm.response.json()\r",
+									"    pm.expect(response.message).to.eq(\"Invalid Token.\")\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{invalid_token_1}}"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/myJobApplications",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"myJobApplications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get job applications with invalid token 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 401', function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"    const response = pm.response.json()\r",
+									"    pm.expect(response.message).to.eq(\"Failed to authenticate token.\")\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{invalid_token_2}}"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/myJobApplications",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"myJobApplications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get job applications with invalid token 3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 401', function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"    const response = pm.response.json()\r",
+									"    pm.expect(response.message).to.eq(\"No token provided.\")\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{invalid_token_3}}"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/myJobApplications",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"myJobApplications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get job applications with invalid token 4",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 401', function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"    const response = pm.response.json()\r",
+									"    pm.expect(response.message).to.eq(\"Failed to authenticate token.\")\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{invalid_token_4}}"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/myJobApplications",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"myJobApplications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get job applications with invalid m2m scope",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 403', function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"    const response = pm.response.json()\r",
+									"    pm.expect(response.message).to.eq(\"You are not allowed to perform this action!\")\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token_m2m_invalid}}"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/myJobApplications",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"myJobApplications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get job applications by invalid page parameter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 400', function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"    const response = pm.response.json()\r",
+									"    pm.expect(response.message).to.eq(\"\\\"criteria.page\\\" must be a number\")\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token_user}}"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/myJobApplications?page=one",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"myJobApplications"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "one"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get job applications by invalid perPage parameter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 400', function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"    const response = pm.response.json()\r",
+									"    pm.expect(response.message).to.eq(\"\\\"criteria.perPage\\\" must be a number\")\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token_user}}"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/myJobApplications?perPage=one",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"myJobApplications"
+							],
+							"query": [
+								{
+									"key": "perPage",
+									"value": "one"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get job applications by invalid sortBy parameter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 400', function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"    const response = pm.response.json()\r",
+									"    pm.expect(response.message).to.eq(\"\\\"criteria.sortBy\\\" must be one of [id, status]\")\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token_user}}"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/myJobApplications?sortBy=remark",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"myJobApplications"
+							],
+							"query": [
+								{
+									"key": "sortBy",
+									"value": "remark"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get job applications by not allowed parameter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 400', function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"    const response = pm.response.json()\r",
+									"    pm.expect(response.message).to.eq(\"\\\"criteria.userId\\\" is not allowed\")\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token_user}}"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/myJobApplications?userId=40d7c759-2213-458e-88f7-0a3e458343ea",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"myJobApplications"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "40d7c759-2213-458e-88f7-0a3e458343ea"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
