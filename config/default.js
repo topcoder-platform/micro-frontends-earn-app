@@ -16,19 +16,19 @@ module.exports = {
   // the log level, default is 'debug'
   LOG_LEVEL: process.env.LOG_LEVEL || "debug",
   // The authorization secret used during token verification.
-  AUTH_SECRET: process.env.AUTH_SECRET || "mysecret",
+  AUTH_SECRET: process.env.AUTH_SECRET || "UgL4(SEAM*~yc7L~vWrKKN&GHrwyc9N[@nVxm,X?#b4}7:xbzM",
   // The valid issuer of tokens, a json array contains valid issuer.
   VALID_ISSUERS:
     process.env.VALID_ISSUERS ||
     '["https://api.topcoder-dev.com", "https://api.topcoder.com", "https://topcoder-dev.auth0.com/", "https://auth.topcoder-dev.com/"]',
   // Auth0 URL, used to get TC M2M token
-  AUTH0_URL: process.env.AUTH0_URL,
+  AUTH0_URL: process.env.AUTH0_URL || "https://topcoder-dev.auth0.com/oauth/token",
   // Auth0 audience, used to get TC M2M token
-  AUTH0_AUDIENCE: process.env.AUTH0_AUDIENCE,
+  AUTH0_AUDIENCE: process.env.AUTH0_AUDIENCE || "https://m2m.topcoder-dev.com/",
   // Auth0 client id, used to get TC M2M token
-  AUTH0_CLIENT_ID: process.env.AUTH0_CLIENT_ID,
+  AUTH0_CLIENT_ID: process.env.AUTH0_CLIENT_ID || "gZ6jt50HYHLBf4vhxjUhXPZOR7Q5lk4k",
   // Auth0 client secret, used to get TC M2M token
-  AUTH0_CLIENT_SECRET: process.env.AUTH0_CLIENT_SECRET,
+  AUTH0_CLIENT_SECRET: process.env.AUTH0_CLIENT_SECRET || "zb-OV1Rl3QpUkt4BexJ-Rs58jYMazCre1_97aU4PJIvQdVB-DmQIs61W3gCfPyP4",
   // Proxy Auth0 URL, used to get TC M2M token
   AUTH0_PROXY_SERVER_URL: process.env.AUTH0_PROXY_SERVER_URL,
   m2m: {
