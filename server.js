@@ -4,6 +4,10 @@ const express = require("express");
 
 const app = express();
 
+app.use("/earn-app/api",function (req, res) {
+  res.send('hello world')
+});
+
 app.use(
   "/earn-app",
   express.static("./dist", {
