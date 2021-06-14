@@ -5,7 +5,11 @@ const express = require("express");
 const app = express();
 
 app.use("/earn-app/api",function (req, res) {
-  res.send('hello world')
+  res.send("hello earn-app API");
+});
+
+app.use("/earn/api", function (req, res) {
+  res.send("hello earn API");
 });
 
 app.use(
