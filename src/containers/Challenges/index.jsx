@@ -69,8 +69,7 @@ const Challenges = ({
           </button>
         </span>
       </h1>
-      {challenges.length === 0 && initialized && <ChallengeError />}
-      {challenges.length > 0 && (
+      {
         <>
           {/*noRecommendedChallenges && <ChallengeRecommendedError />*/}
           <Listing
@@ -92,7 +91,8 @@ const Challenges = ({
             isLoggedIn={isLoggedIn}
           />
         </>
-      )}
+      }
+      {challenges.length === 0 && initialized && <ChallengeError />}
     </div>
   );
 };

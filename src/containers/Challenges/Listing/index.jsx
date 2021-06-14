@@ -61,7 +61,13 @@ const Listing = ({
             {/* this can be replace by TextInput.withSuffix */}
             {searchVal && <button styleName="close-icon clear-button"
               onClick={() => {
-                setTimeout(() => setSearchValue(null), process.env.GUIKIT.DEBOUNCE_ON_CHANGE_TIME + 10);
+                setTimeout(() => {
+                  setSearchValue(null)
+                  onSearch.current(() => {
+                    const filterChange = { search: "" };
+                    updateFilter(filterChange);
+                  });
+                }, process.env.GUIKIT.DEBOUNCE_ON_CHANGE_TIME + 10);
               }}>
               <IconClose/>
             </button>}
