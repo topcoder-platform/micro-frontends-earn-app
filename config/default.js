@@ -12,7 +12,7 @@ module.exports = {
     COMMUNITY_APP: "https://community-app.topcoder-dev.com",
   },
   // the server api base path
-  API_BASE_PATH: process.env.API_BASE_PATH || "/api",
+  API_BASE_PATH: process.env.API_BASE_PATH || "/earn-app/api/my-gigs",
   // the log level, default is 'debug'
   LOG_LEVEL: process.env.LOG_LEVEL || "debug",
   // The authorization secret used during token verification.

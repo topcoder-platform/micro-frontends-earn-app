@@ -1,16 +1,11 @@
 /* global process */
-
+require("./src/api/bootstrap");
 const express = require("express");
 
 const app = express();
 
-app.use("/earn-app/api",function (req, res) {
-  res.send("hello earn-app API");
-});
-
-app.use("/earn/api", function (req, res) {
-  res.send("hello earn API");
-});
+// Register routes
+require("./src/api/app-routes")(app);
 
 app.use(
   "/earn-app",
@@ -25,9 +20,6 @@ app.use(
     },
   })
 );
-require("./src/api/bootstrap");
-// Register routes
-require("./src/api/app-routes")(app);
 app.get("/", function (req, res) {
   res.send("alive");
 });
