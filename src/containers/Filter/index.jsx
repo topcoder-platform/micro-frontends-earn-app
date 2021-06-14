@@ -1,5 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import PT from "prop-types";
+import { useLocation } from "@reach/router";
 import { connect } from "react-redux";
 import ChallengeFilter from "./ChallengeFilter";
 import actions from "../../actions";
@@ -27,43 +28,51 @@ const Filter = ({
   clearFilter,
   updateQuery,
 }) => {
-  const latestPropsRef = useRef(null);
-  latestPropsRef.current = { getTags, getSubCommunities };
+  const location = useLocation();
+
+  const propsRef = useRef(null);
+  propsRef.current = { getTags, getSubCommunities, location };
 
   useEffect(() => {
-    latestPropsRef.current.getTags();
-    latestPropsRef.current.getSubCommunities();
+    if (propsRef.current.location.pathname === "/earn/find/challenges") {
+      propsRef.current.getTags();
+      propsRef.current.getSubCommunities();
+    }
   }, []);
 
-  return (
-    <ChallengeFilter
-      bucket={bucket}
-      types={types}
-      tracks={tracks}
-      tags={tags}
-      totalPrizesFrom={totalPrizesFrom}
-      totalPrizesTo={totalPrizesTo}
-      recommended={recommended}
-      events={events}
-      groups={groups}
-      challengeBuckets={challengeBuckets}
-      challengeTypes={challengeTypes}
-      challengeTracks={challengeTracks}
-      challengeTags={challengeTags}
-      challengeSubCommunities={challengeSubCommunities}
-      saveFilter={() => {}}
-      clearFilter={() => {
-        const filterChange = utils.challenge.createEmptyChallengeFilter();
-        clearFilter(filterChange);
-        updateQuery(filterChange);
-      }}
-      updateFilter={(filterChange) => {
-        updateFilter(filterChange);
-        updateQuery(filterChange);
-      }}
-      openForRegistrationCount={openForRegistrationCount}
-    />
-  );
+  if (location.pathname === "/earn/find/challenges") {
+    return (
+      <ChallengeFilter
+        bucket={bucket}
+        types={types}
+        tracks={tracks}
+        tags={tags}
+        totalPrizesFrom={totalPrizesFrom}
+        totalPrizesTo={totalPrizesTo}
+        recommended={recommended}
+        events={events}
+        groups={groups}
+        challengeBuckets={challengeBuckets}
+        challengeTypes={challengeTypes}
+        challengeTracks={challengeTracks}
+        challengeTags={challengeTags}
+        challengeSubCommunities={challengeSubCommunities}
+        saveFilter={() => {}}
+        clearFilter={() => {
+          const filterChange = utils.challenge.createEmptyChallengeFilter();
+          clearFilter(filterChange);
+          updateQuery(filterChange);
+        }}
+        updateFilter={(filterChange) => {
+          updateFilter(filterChange);
+          updateQuery(filterChange);
+        }}
+        openForRegistrationCount={openForRegistrationCount}
+      />
+    );
+  }
+
+  return null;
 };
 
 Filter.propTypes = {

@@ -3,23 +3,28 @@ import PT from "prop-types";
 
 import "./styles.scss";
 
-const Button = ({ children, onClick, primary }) => (
+const Button = ({ children, onClick, isPrimary, isText, size }) => (
   <button
-    styleName={`${primary ? "button button-primary" : "button"}`}
+    styleName={`button ${isPrimary ? "button-primary" : ""} ${
+      isText ? "button-text" : ""
+    } ${size ? `button-${size}` : ""}`}
     onClick={onClick}
+    tabIndex={0}
+    type="button"
   >
     {children}
   </button>
 );
 
 Button.defaultProps = {
-  primary: false,
+  isPrimary: false,
+  disabled: false,
 };
 
 Button.propTypes = {
   children: PT.node,
   onClick: PT.func,
-  primary: PT.bool,
+  isPrimary: PT.bool,
 };
 
 export default Button;

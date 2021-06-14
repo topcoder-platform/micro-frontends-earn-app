@@ -5,6 +5,7 @@ export * as menu from "./menu";
 export * as tag from "./tag";
 export * as url from "./url";
 export * as pagination from "./pagination";
+export * as myGig from "./myGig";
 
 export function createDropdownOptions(values, selectedValue) {
   return values.map((value) => ({

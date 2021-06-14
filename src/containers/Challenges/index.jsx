@@ -27,15 +27,15 @@ const Challenges = ({
   recommendedChallenges,
   initialized,
   updateQuery,
-  userLoggedIn,
+  checkIsLoggedIn,
   isLoggedIn,
   tags,
 }) => {
-  const latestPropsRef = useRef(null);
-  latestPropsRef.current = { userLoggedIn };
+  const propsRef = useRef(null);
+  propsRef.current = { checkIsLoggedIn };
 
   useEffect(() => {
-    latestPropsRef.current.userLoggedIn();
+    propsRef.current.checkIsLoggedIn();
   }, []);
 
   const BUCKET_OPEN_FOR_REGISTRATION = constants.FILTER_BUCKETS[1];
@@ -137,7 +137,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   updateFilter: actions.filter.updateFilter,
   updateQuery: actions.filter.updateChallengeQuery,
-  userLoggedIn: actions.lookup.isLoggedIn,
+  checkIsLoggedIn: actions.lookup.checkIsLoggedIn,
 };
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({

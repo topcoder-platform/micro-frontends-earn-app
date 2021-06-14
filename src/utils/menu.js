@@ -1,54 +1,49 @@
 import _ from "lodash";
 
 export class MenuSelection {
-  constructor(menu, selectedMenuItem, onSelectMenuItem) {
-    this.menu = _.cloneDeep(menu);
-    this.onSelectMenuItem = onSelectMenuItem;
-    this.selectedMenuItem = selectedMenuItem;
+  constructor(menu, selected, onSelect) {
+    this.menu = menu;
+    this.onSelect = onSelect;
+    this.selected = selected;
     this.travel(this.menu);
   }
 
   travel(root) {
-    this.getMenuItems(root).forEach((key) => {
-      if (_.isObject(root[key])) {
-        root[key].expanded = false;
-        root[key].branch = true;
-        this.travel(root[key]);
+    this.getMenuItems(root).forEach((menuItem) => {
+      if (this.isBranch(menuItem)) {
+        menuItem.expanded = false;
+        this.travel(menuItem);
       } else {
-        root[key] = {
-          name: key,
-          active: this.selectedMenuItem === key,
-          leaf: true,
-        };
+        menuItem.active = this.selected === menuItem.name;
       }
     });
   }
 
   getMenuItems(menu) {
-    return Object.keys(_.omit(menu, "expanded", "active", "branch", "leaf"));
+    return menu.children;
   }
 
   select(name) {
     let found = false;
 
     const selectInternal = (root) => {
-      this.getMenuItems(root).forEach((key) => {
+      this.getMenuItems(root).forEach((menuItem) => {
         if (found) {
           return;
         }
 
-        if (key !== name) {
-          if (root[key].branch) {
-            selectInternal(root[key]);
+        if (menuItem.name !== name) {
+          if (this.isBranch(menuItem)) {
+            selectInternal(menuItem);
           } else {
-            root[key].active = false;
+            menuItem.active = false;
           }
         } else {
-          if (root[key].leaf) {
-            root[key].active = true;
-            this.selectedMenuItem = name;
+          if (this.isLeaf(menuItem)) {
+            menuItem.active = true;
+            this.selected = menuItem.name;
           } else {
-            root[key].expanded = !root[key].expanded;
+            menuItem.expanded = !menuItem.expanded;
           }
 
           found = true;
@@ -60,52 +55,21 @@ export class MenuSelection {
     selectInternal(this.menu);
   }
 
-  isLeaf(name) {
-    let leaf = false;
-
-    const isLeafInternal = (root) => {
-      this.getMenuItems(root).forEach((key) => {
-        if (key !== name) {
-          if (root[key].branch) {
-            isLeafInternal(root[key]);
-          }
-        } else if (root[key].leaf) {
-          leaf = true;
-        }
-      });
-    };
-
-    isLeafInternal(this.menu);
-
-    return leaf;
+  isSelected(menuItem) {
+    return menuItem.name === this.selected;
   }
 
-  isSelected(name) {
-    return name === this.selectedMenuItem;
+  isExpandable(menuItem) {
+    return !!menuItem.children;
   }
 
-  isExpanded(name) {
-    let expanded;
-
-    const isExpandedInternal = (root) => {
-      this.getMenuItems(root).forEach((key) => {
-        if (key !== name) {
-          if (root[key].branch) {
-            isExpandedInternal(root[key]);
-          }
-        } else if (root[key].branch) {
-          expanded = root[key].expanded;
-        }
-      });
-    };
-
-    isExpandedInternal(this.menu);
-
-    return expanded;
+  isExpanded(menuItem) {
+    return menuItem.expanded;
   }
 
-  isActive(name) {
-    let stack = {
+  isActive(menuitem) {
+    const name = menuitem.name;
+    const stack = {
       arr: [],
       push(name) {
         this.arr.push(name);
@@ -116,20 +80,20 @@ export class MenuSelection {
     };
     let path;
 
-    if (!this.selectedMenuItem) {
+    if (!this.selected) {
       return false;
     }
 
     const isActiveInternal = (root) => {
-      this.getMenuItems(root).forEach((key) => {
-        if (key !== this.selectedMenuItem) {
-          if (root[key].branch) {
-            stack.push(key);
-            isActiveInternal(root[key]);
-            stack.pop(key);
+      this.getMenuItems(root).forEach((menuItem) => {
+        if (menuItem.name !== this.selected) {
+          if (this.isBranch(menuItem)) {
+            stack.push(menuItem.name);
+            isActiveInternal(menuItem);
+            stack.pop();
           }
         } else {
-          stack.push(key);
+          stack.push(menuItem.name);
           path = [...stack.arr];
         }
       });
@@ -140,8 +104,46 @@ export class MenuSelection {
     return path.indexOf(name) !== -1;
   }
 
+  isAuth(name) {
+    const stack = {
+      arr: [],
+      push(isAuth) {
+        this.arr.push(isAuth);
+      },
+      pop() {
+        this.arr.splice(this.arr.length - 1, 1);
+      },
+    };
+    let path;
+
+    const isAuthInternal = (root) => {
+      this.getMenuItems(root).forEach((menuItem) => {
+        if (this.isBranch(menuItem)) {
+          stack.push(menuItem.auth);
+          isAuthInternal(menuItem);
+          stack.pop();
+        } else if (menuItem.name === name) {
+          stack.push(menuItem.auth);
+          path = [...stack.arr];
+        }
+      });
+    };
+
+    isAuthInternal(this.menu);
+
+    return _.some(path, Boolean);
+  }
+
   emitSelectionEvent() {
-    this.onSelectMenuItem(this.selectedMenuItem);
+    this.onSelect(this.selected);
+  }
+
+  isBranch(menuItem) {
+    return menuItem.children != null;
+  }
+
+  isLeaf(menuItem) {
+    return !this.isBranch(menuItem);
   }
 }
 
@@ -149,13 +151,17 @@ export function getNameByPath(MENU, path) {
   const root = MENU;
   let name;
 
-  Object.keys(root).forEach((key) => {
-    if (_.isObject(root[key])) {
-      name = getNameByPath(root[key], path);
-    } else if (root[key] === path) {
-      name = key;
-    }
-  });
+  const getNameByPathInternal = (root, path) => {
+    root.children.forEach((menuItem) => {
+      if (menuItem.children) {
+        getNameByPathInternal(menuItem, path);
+      } else if (menuItem.path === path) {
+        name = menuItem.name;
+      }
+    });
+  };
+
+  getNameByPathInternal(root, path);
 
   return name;
 }
