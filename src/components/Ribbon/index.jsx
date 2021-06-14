@@ -1,6 +1,6 @@
 import React from "react";
 import PT from "prop-types";
-
+import IconInfo from "assets/icons/ribbon-icon.svg";
 import "./styles.scss";
 
 const Ribbon = ({ text, tooltip }) => {
@@ -10,7 +10,9 @@ const Ribbon = ({ text, tooltip }) => {
     <span styleName="ribbon" className="ribbon">
       <span styleName="ribbon-text">{text}</span>
       <Tooltip>
-        <span styleName="ribbon-icon">i</span>
+        <span styleName="ribbon-icon">
+          <IconInfo />
+        </span>
       </Tooltip>
     </span>
   );

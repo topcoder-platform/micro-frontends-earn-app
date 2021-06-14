@@ -3,6 +3,7 @@ module.exports = {
   transform: {
     "^.+\\.(j|t)sx?$": "babel-jest",
   },
+  transformIgnorePatterns: ["node_modules/?!(react-dropzone)"],
   moduleNameMapper: {
     "\\.(css|scss)$": "identity-obj-proxy",
     "\\.(png|eot|otf|ttf|woff|woff2|svg)$": "<rootDir>/__mocks__/fileMock.js",

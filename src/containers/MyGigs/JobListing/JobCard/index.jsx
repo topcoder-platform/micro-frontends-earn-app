@@ -8,6 +8,7 @@ import ProgressTooltip from "./tooltips/ProgressTooltip";
 import NoteTooltip from "./tooltips/NoteTooltip";
 import * as constants from "../../../../constants";
 import * as utils from "../../../../utils";
+import IconNote from "../../../../assets/icons/note.svg";
 
 import "./styles.scss";
 
@@ -131,7 +132,9 @@ const JobCard = ({ job, phases }) => {
       <div styleName="card-footer job-card-footer" ref={footerRef}>
         <div styleName="note-container">
           <NoteTooltip>
-            <i styleName="icon" />
+            <i styleName="icon">
+              <IconNote />
+            </i>
           </NoteTooltip>
           <span styleName="note">{job.note}</span>
           <span styleName={`${expanded ? "show-less" : "show-more"}`}>

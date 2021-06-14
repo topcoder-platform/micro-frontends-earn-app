@@ -1,5 +1,6 @@
 import React from "react";
 import PT from "prop-types";
+import IconCheck from "assets/icons/checkpoint.svg";
 
 import "./styles.scss";
 
@@ -10,7 +11,9 @@ const PhasePoint = ({ text, passed, active }) => {
         active ? "active" : ""
       }`}
     >
-      <div styleName="checkmark" />
+      <div styleName="checkmark">
+        <IconCheck styleName="check" />
+      </div>
       <span styleName="text">{text}</span>
     </div>
   );

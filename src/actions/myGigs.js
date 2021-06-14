@@ -9,7 +9,17 @@ async function loadMoreMyGigs() {
   return service.loadMoreMyGigs();
 }
 
+async function getProfile() {
+  return service.getProfile();
+}
+
+async function updateProfile(profile) {
+  return service.updateProfile(profile);
+}
+
 export default createActions({
   GET_MY_GIGS: getMyGigs,
   LOAD_MORE_MY_GIGS: loadMoreMyGigs,
+  GET_PROFILE: getProfile,
+  UPDATE_PROFILE: updateProfile,
 });
