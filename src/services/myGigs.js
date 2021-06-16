@@ -13,7 +13,17 @@ async function loadMoreMyGigs() {
   return Promise.resolve(data.myGigs.slice(i, (i += 10)));
 }
 
+async function getProfile() {
+  return Promise.resolve(data.gigProfile);
+}
+
+async function updateProfile(profile) {
+  return Promise.resolve(profile);
+}
+
 export default {
   getMyGigs,
   loadMoreMyGigs,
+  getProfile,
+  updateProfile,
 };

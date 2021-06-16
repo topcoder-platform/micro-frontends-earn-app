@@ -741,5 +741,31 @@
       "next":"",
       "nextNote":""
     }
-  ]
+  ],
+  "gigProfile":{
+    "handle":"handle",
+    "photoURL":"",
+    "firstName":"FirstName",
+    "lastName":"LastName",
+    "email":"fnamelname@gmail.com",
+    "city":"Goa",
+    "country":"India",
+    "phone":"+91123456789",
+    "file":{
+      "name":"resume.pdf"
+    },
+    "uploadTime":"5/9/2021",
+    "status":"Available",
+    "gigStatus":"PLACED"
+  },
+  "gigStatuses":[
+    "Available",
+    "Unavailable",
+    "Placed"
+  ],
+  "gigStatusTooltip":{
+    "Available":"You’re open to take on new jobs.",
+    "Unavailable":"You’re not open to take on new jobs.",
+    "Placed":"You’re on a topcoder gig already."
+  }
 }

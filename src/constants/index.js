@@ -131,3 +131,11 @@ export const MY_GIG_PHASE_ACTION = {
   ROUND: "round",
   FOLLOW_UP_BY_EMAIL: "follow-up by email",
 };
+
+export const MY_GIG_STATUS_PLACED = "PLACED";
+
+export const GIG_STATUS = {
+  AVAILABLE: "Available",
+  UNAVAILABLE: "Unavailable",
+  PLACED: "Placed",
+};

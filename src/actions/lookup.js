@@ -17,9 +17,14 @@ async function getGigPhases() {
   return service.getGigPhases();
 }
 
+async function getGigStatuses() {
+  return service.getGigStatuses();
+}
+
 export default createActions({
   GET_TAGS: getTags,
   GET_COMMUNITY_LIST: getCommunityList,
   CHECK_IS_LOGGED_IN: checkIsLoggedIn,
   GET_GIG_PHASES: getGigPhases,
+  GET_GIG_STATUSES: getGigStatuses,
 });

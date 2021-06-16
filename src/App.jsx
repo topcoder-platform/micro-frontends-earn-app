@@ -20,6 +20,7 @@ import { useSelector } from "react-redux";
 import "react-date-range/dist/theme/default.css";
 import "react-date-range/dist/styles.css";
 import "rc-tooltip/assets/bootstrap.css";
+import "react-responsive-modal/styles.css";
 
 import "./styles/main.scss";
 
