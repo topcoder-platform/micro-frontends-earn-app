@@ -1,8 +1,5 @@
 {
-  "extends": [
-    "react-important-stuff",
-    "plugin:prettier/recommended"
-  ],
+  "extends": ["react-important-stuff", "plugin:prettier/recommended"],
   "parser": "babel-eslint",
   "env": {
     "node": true

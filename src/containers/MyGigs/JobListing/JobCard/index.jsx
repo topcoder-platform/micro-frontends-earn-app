@@ -6,12 +6,17 @@ import Button from "../../../../components/Button";
 import IconChevronDown from "assets/icons/button-chevron-down.svg";
 import ProgressTooltip from "./tooltips/ProgressTooltip";
 import NoteTooltip from "./tooltips/NoteTooltip";
-import * as constants from "../../../../constants";
-import * as utils from "../../../../utils";
+import {
+  MY_GIG_PHASE_LABEL,
+  MY_GIG_PHASE_ACTION,
+  MY_GIGS_JOB_STATUS,
+  PHASES_FOR_JOB_STATUS,
+} from "../../../../constants";
+import { formatMoneyValue } from "../../../../utils";
 
 import "./styles.scss";
 
-const JobCard = ({ job, phases }) => {
+const JobCard = ({ job }) => {
   const [expanded, setExpanded] = useState(false);
   const [footerHeight, setFooterHeight] = useState(0);
   const footerRef = useRef({});
@@ -27,17 +32,11 @@ const JobCard = ({ job, phases }) => {
   return (
     <div
       styleName={`card job-card ${
-        job.label === constants.MY_GIG_PHASE_LABEL.SELECTED
-          ? "label-selected"
-          : ""
+        job.label === MY_GIG_PHASE_LABEL.SELECTED ? "label-selected" : ""
+      } ${job.label === MY_GIG_PHASE_LABEL.OFFERED ? "label-offered" : ""} ${
+        job.label === MY_GIG_PHASE_LABEL.PLACED ? "label-placed" : ""
       } ${
-        job.label === constants.MY_GIG_PHASE_LABEL.OFFERED
-          ? "label-offered"
-          : ""
-      } ${
-        job.label === constants.MY_GIG_PHASE_LABEL.PLACED ? "label-placed" : ""
-      } ${
-        job.label === constants.MY_GIG_PHASE_LABEL.NOT_SELECTED
+        job.label === MY_GIG_PHASE_LABEL.NOT_SELECTED
           ? "label-not-selected"
           : ""
       }`}
@@ -61,17 +60,18 @@ const JobCard = ({ job, phases }) => {
                 <div styleName="job-item">
                   <div styleName="caption">Payment Range</div>
                   <div styleName="text">
-                    {utils.formatMoneyValue(
-                      job.paymentRangeFrom,
-                      constants.CURRENCY_SYMBOL[job.paymentRangeCurrency]
-                    )}
-                    {" - "}
-                    {utils.formatMoneyValue(
-                      job.paymentRangeTo,
-                      constants.CURRENCY_SYMBOL[job.paymentRangeCurrency]
-                    )}
-                    {" / "}
-                    {job.paymentRangeRateType}
+                    {job.paymentRangeFrom &&
+                      job.paymentRangeTo &&
+                      job.currency && (
+                        <>
+                          {job.currency}{" "}
+                          {formatMoneyValue(job.paymentRangeFrom, "")}
+                          {" - "}
+                          {formatMoneyValue(job.paymentRangeTo, "")}
+                          {" / "}
+                          {job.paymentRangeRateType}
+                        </>
+                      )}
                   </div>
                 </div>
               </li>
@@ -84,47 +84,35 @@ const JobCard = ({ job, phases }) => {
               <li>
                 <div styleName="job-item">
                   <div styleName="caption">Duration</div>
-                  <div styleName="text">{job.duration} Weeks</div>
+                  <div styleName="text">
+                    {job.duration && `${job.duration} Weeks`}
+                  </div>
                 </div>
               </li>
               <li>
                 <div styleName="job-item">
                   <div styleName="caption">Hours</div>
-                  <div styleName="text">{job.hours} hours / week</div>
+                  <div styleName="text">
+                    {job.hours && `${job.hours} hours / week`}
+                  </div>
                 </div>
               </li>
               <li>
                 <div styleName="job-item">
                   <div styleName="caption">Working Hours</div>
-                  <div styleName="text">{job.workingHours}</div>
+                  <div styleName="text">
+                    {job.workingHours && `${job.workingHours} hours`}
+                  </div>
                 </div>
               </li>
             </ul>
           </div>
           <div
             styleName={`right-side ${
-              job.phaseAction === constants.MY_GIG_PHASE_ACTION.STAND_BY
-                ? "stand-by"
-                : ""
-            } ${
-              job.phaseAction ===
-              constants.MY_GIG_PHASE_ACTION.FOLLOW_UP_BY_EMAIL
-                ? "follow-up-by-email"
-                : ""
+              job.phaseAction === MY_GIG_PHASE_ACTION.STAND_BY ? "stand-by" : ""
             } ${!job.phaseAction ? "none" : ""}`}
           >
-            {job.phaseAction !== constants.MY_GIG_PHASE_ACTION.ROUND ? (
-              <Button size="lg">{job.phaseAction}</Button>
-            ) : (
-              <div styleName="round">
-                <small styleName="round-number">
-                  Round {job.phaseInterviewRound} starts in
-                </small>
-                <div styleName="round-starts-in">
-                  {job.phaseInterviewRoundStartsIn}
-                </div>
-              </div>
-            )}
+            {job.phaseAction && <Button size="lg">{job.phaseAction}</Button>}
           </div>
         </div>
       </div>
@@ -149,17 +137,23 @@ const JobCard = ({ job, phases }) => {
             </Button>
           </span>
         </div>
-        <div
-          styleName="progress-bar"
-          style={{ display: expanded ? "" : "none" }}
-        >
-          <ProgressBar
-            phases={phases}
-            currentPhase={job.phase}
-            currentPhaseStatus={job.phaseStatus}
-            note={job.phaseNote}
-          />
-        </div>
+        {![
+          MY_GIGS_JOB_STATUS.JOB_CLOSED,
+          MY_GIGS_JOB_STATUS.REJECTED_OTHER,
+        ].includes(job.status) && (
+          <div
+            styleName="progress-bar"
+            style={{ display: expanded ? "" : "none" }}
+          >
+            <ProgressBar
+              phases={PHASES_FOR_JOB_STATUS[job.status]}
+              currentPhase={job.phase}
+              currentPhaseStatus={job.phaseStatus}
+              note={job.phaseNote}
+              remark={job.remark}
+            />
+          </div>
+        )}
       </div>
       <div styleName="card-image" style={{ bottom: `${footerHeight}px` }} />
     </div>
@@ -168,7 +162,6 @@ const JobCard = ({ job, phases }) => {
 
 JobCard.propTypes = {
   job: PT.shape(),
-  phases: PT.arrayOf(PT.string),
 };
 
 export default JobCard;

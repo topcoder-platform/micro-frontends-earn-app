@@ -6,7 +6,13 @@ import * as constants from "../../../../../constants";
 
 import "./styles.scss";
 
-const ProgressBar = ({ phases, currentPhase, currentPhaseStatus, note }) => {
+const ProgressBar = ({
+  phases,
+  currentPhase,
+  currentPhaseStatus,
+  note,
+  remark,
+}) => {
   const isPassed = (phase) =>
     utils.myGig.isPassedPhase(phases, currentPhase, phase) ||
     (phase === currentPhase && utils.myGig.isLastPhase(phase)) ||
@@ -21,7 +27,7 @@ const ProgressBar = ({ phases, currentPhase, currentPhaseStatus, note }) => {
     <div styleName="progress">
       <div styleName="progress-bar-wrapper">
         <div styleName="progress-bar">
-          {phases.map((phase, index) => (
+          {(phases || []).map((phase, index) => (
             <PhaseBar
               key={phase}
               phase={phase}
@@ -36,7 +42,7 @@ const ProgressBar = ({ phases, currentPhase, currentPhaseStatus, note }) => {
           ))}
         </div>
       </div>
-      <p styleName="progress-note">{note}</p>
+      <p styleName="progress-note">{remark}</p>
     </div>
   );
 };

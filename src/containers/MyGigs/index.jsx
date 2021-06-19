@@ -7,21 +7,12 @@ import actions from "../../actions";
 
 import "./styles.scss";
 
-const MyGigs = ({
-  myGigs,
-  phases,
-  getPhases,
-  getMyGigs,
-  loadMore,
-  total,
-  numLoaded,
-}) => {
+const MyGigs = ({ myGigs, getMyGigs, loadMore, total, numLoaded }) => {
   const propsRef = useRef();
-  propsRef.current = { getMyGigs, getPhases };
+  propsRef.current = { getMyGigs };
 
   useEffect(() => {
     propsRef.current.getMyGigs();
-    propsRef.current.getPhases();
   }, []);
 
   return (
@@ -34,7 +25,6 @@ const MyGigs = ({
       </h1>
       <JobListing
         jobs={myGigs}
-        phases={phases}
         loadMore={loadMore}
         total={total}
         numLoaded={numLoaded}
@@ -45,8 +35,6 @@ const MyGigs = ({
 
 MyGigs.propTypes = {
   myGigs: PT.arrayOf(PT.shape()),
-  phases: PT.arrayOf(PT.string),
-  getPhases: PT.func,
   getMyGigs: PT.func,
   loadMore: PT.func,
   total: PT.number,
@@ -57,13 +45,11 @@ const mapStateToProps = (state) => ({
   myGigs: state.myGigs.myGigs,
   total: state.myGigs.total,
   numLoaded: state.myGigs.numLoaded,
-  phases: state.lookup.gigPhases,
 });
 
 const mapDispatchToProps = {
   getMyGigs: actions.myGigs.getMyGigs,
   loadMore: actions.myGigs.loadMoreMyGigs,
-  getPhases: actions.lookup.getGigPhases,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyGigs);

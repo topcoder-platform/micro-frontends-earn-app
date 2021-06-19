@@ -1,19 +1,87 @@
-import data from "../assets/data/my-gigs.json";
+import api from "./api";
+import { get, keys, size, sortBy, values } from "lodash";
+import {
+  ACTIONS_AVAILABLE_FOR_MY_GIG_PHASE,
+  AVAILABLE_REMARK_BY_JOB_STATUS,
+  JOB_STATUS_MAPPER,
+  JOB_STATUS_MESSAGE_MAPPER,
+  MY_GIG_PHASE,
+  SORT_STATUS_ORDER,
+} from "../constants";
 
-let i = 0;
+/**
+ * Maps the data from api to data to be used by application
+ * @param {Object} serverResponse data returned by the api
+ * @returns
+ */
+const mapMyGigsData = (serverResponse) => {
+  const jobKeys = values(MY_GIG_PHASE);
+  const phaseActionKeys = keys(ACTIONS_AVAILABLE_FOR_MY_GIG_PHASE);
 
-async function getMyGigs() {
-  return Promise.resolve({
-    myGigs: data.myGigs.slice(0, (i += 10)),
-    total: data.myGigs.length,
-  });
-}
+  return (
+    serverResponse
+      .map((myGig) => {
+        const gigPhase = JOB_STATUS_MAPPER[myGig.status];
+        const action = phaseActionKeys.find((key) =>
+          ACTIONS_AVAILABLE_FOR_MY_GIG_PHASE[key].includes(gigPhase)
+        );
+        const statusIndex = jobKeys.findIndex((key) => key === gigPhase);
 
-async function loadMoreMyGigs() {
-  return Promise.resolve(data.myGigs.slice(i, (i += 10)));
+        const previousStatus = jobKeys[Math.max(0, statusIndex - 1)];
+        const sortPrio = SORT_STATUS_ORDER.findIndex(
+          (status) => status === gigPhase
+        );
+
+        return {
+          label: (gigPhase || "").toUpperCase(),
+          title: myGig.title,
+          paymentRangeFrom: myGig.payment.min,
+          paymentRangeTo: myGig.payment.max,
+          paymentRangeRateType: myGig.payment.frequency,
+          currency: myGig.payment.currency,
+          location: myGig.location,
+          duration: myGig.duration,
+          hours: myGig.hoursPerWeek,
+          workingHours: myGig.workingHours,
+          note: JOB_STATUS_MESSAGE_MAPPER[gigPhase],
+          phase: gigPhase,
+          phaseNote: JOB_STATUS_MESSAGE_MAPPER[gigPhase],
+          phaseAction: action,
+          phaseStatus: "Active",
+          remark: AVAILABLE_REMARK_BY_JOB_STATUS.includes(myGig.status)
+            ? myGig.remark
+            : "",
+          previous: previousStatus,
+          next: gigPhase,
+          previousNote: JOB_STATUS_MESSAGE_MAPPER[previousStatus],
+          nextNote: JOB_STATUS_MESSAGE_MAPPER[gigPhase],
+          status: myGig.status,
+          // in case there's some status not taken in account, it will show last.
+          sortPrio: sortPrio === -1 ? SORT_STATUS_ORDER.length + 1 : sortPrio,
+        };
+      })
+      // enforce that all have a valid status. Those without a status should be ignored.
+      .filter((gig) => gig.status)
+  );
+};
+/**
+ * Fetches MyGigs data from service
+ * @param {*} page page number to request
+ * @param {*} perPage item per page to request
+ * @returns
+ */
+async function getMyGigs(page, perPage) {
+  const response = await api.get(
+    `/earn-app/api/my-gigs/myJobApplications?page=${page}&perPage=${perPage}`,
+    process.env.URL.PLATFORM_WEBSITE_URL
+  );
+
+  return {
+    myGigs: mapMyGigsData(response),
+    total: response.meta.total,
+  };
 }
 
 export default {
   getMyGigs,
-  loadMoreMyGigs,
 };

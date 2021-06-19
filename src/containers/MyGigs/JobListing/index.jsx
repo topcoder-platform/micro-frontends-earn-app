@@ -6,11 +6,19 @@ import { useScrollLock } from "../../../utils/hooks";
 
 import "./styles.scss";
 
-const JobListing = ({ jobs, phases, loadMore, total, numLoaded }) => {
+const JobListing = ({ jobs, loadMore, total, numLoaded }) => {
   const scrollLock = useScrollLock();
+  const [page, setPage] = useState(1);
 
   const varsRef = useRef();
   varsRef.current = { scrollLock };
+
+  const handleLoadMoreClick = () => {
+    const nextPage = page + 1;
+    scrollLock(true);
+    setPage(nextPage);
+    loadMore(nextPage);
+  };
 
   useEffect(() => {
     varsRef.current.scrollLock(false);
@@ -20,20 +28,13 @@ const JobListing = ({ jobs, phases, loadMore, total, numLoaded }) => {
     <div styleName="card-container">
       {jobs.map((job, index) => (
         <div styleName="card-item" key={`${job.title}-${index}`}>
-          <JobCard job={job} phases={phases} />
+          <JobCard job={job} />
         </div>
       ))}
 
       {numLoaded < total && (
         <div styleName="load-more">
-          <Button
-            onClick={() => {
-              scrollLock(true);
-              loadMore();
-            }}
-          >
-            LOAD MORE
-          </Button>
+          <Button onClick={handleLoadMoreClick}>LOAD MORE</Button>
         </div>
       )}
     </div>
@@ -42,7 +43,6 @@ const JobListing = ({ jobs, phases, loadMore, total, numLoaded }) => {
 
 JobListing.propTypes = {
   jobs: PT.arrayOf(PT.shape()),
-  phases: PT.arrayOf(PT.string),
   loadMore: PT.func,
   total: PT.number,
   numLoaded: PT.number,

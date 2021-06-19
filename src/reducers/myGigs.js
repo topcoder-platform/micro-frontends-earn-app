@@ -1,3 +1,4 @@
+import { size, sortBy } from "lodash";
 import { handleActions } from "redux-actions";
 
 const defaultState = {
@@ -17,7 +18,7 @@ function onGetMyGigsInit(state) {
 function onGetMyGigsDone(state, { payload }) {
   return {
     ...state,
-    myGigs: payload.myGigs,
+    myGigs: sortBy(payload.myGigs, ["sortPrio"]),
     total: payload.total,
     numLoaded: payload.myGigs.length,
     loadingMyGigs: false,
@@ -40,11 +41,11 @@ function onLoadMoreMyGigsInit(state) {
   return { ...state, loadingMore: true, loadingMoreError: null };
 }
 
-function onLoadMoreMyGigsDone(state, { payload }) {
+function onLoadMoreMyGigsDone(state, { payload: { myGigs } }) {
   return {
     ...state,
-    myGigs: state.myGigs.concat(payload),
-    numLoaded: state.numLoaded + payload.length,
+    myGigs: sortBy(state.myGigs.concat(myGigs), ["sortPrio"]),
+    numLoaded: state.numLoaded + size(myGigs),
     loadingMore: false,
     loadingMoreError: null,
   };
