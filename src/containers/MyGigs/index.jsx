@@ -44,7 +44,6 @@ const MyGigs = ({
       setOpenUpdateSuccess(true);
     }
   }, [updateProfileSuccess]);
-  console.log(profile);
 
   return (
     <>
