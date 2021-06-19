@@ -25,6 +25,7 @@ This is a [single-spa](https://single-spa.js.org/) example React microapp.
 | `npm run test`        | Run unit tests                                                    |
 | `npm run watch-tests` | Watch for file changes and run unit tests on changes              |
 | `npm run coverage`    | Generate test code coverage report                                |
+| `npm run mock-api`    | Start the mock api which mocks Recruit api                        |
 
 ## Local Deployment
 

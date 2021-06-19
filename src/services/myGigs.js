@@ -8,6 +8,7 @@ import {
   MY_GIG_PHASE,
   SORT_STATUS_ORDER,
 } from "../constants";
+import data from "../assets/data/my-gigs.json";
 
 /**
  * Maps the data from api to data to be used by application
@@ -82,6 +83,16 @@ async function getMyGigs(page, perPage) {
   };
 }
 
+async function getProfile() {
+  return Promise.resolve(data.gigProfile);
+}
+
+async function updateProfile(profile) {
+  return Promise.resolve(profile);
+}
+
 export default {
   getMyGigs,
+  getProfile,
+  updateProfile,
 };

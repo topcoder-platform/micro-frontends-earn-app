@@ -338,3 +338,10 @@ export const AVAILABLE_REMARK_BY_JOB_STATUS = [
   MY_GIGS_JOB_STATUS.REJECTED_PRE_SCREEN,
   MY_GIGS_JOB_STATUS.JOB_CLOSED,
 ];
+export const MY_GIG_STATUS_PLACED = "PLACED";
+
+export const GIG_STATUS = {
+  AVAILABLE: "Available",
+  UNAVAILABLE: "Unavailable",
+  PLACED: "Placed",
+};

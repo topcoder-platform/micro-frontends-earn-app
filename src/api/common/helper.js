@@ -314,6 +314,93 @@ async function getJobs(criteria) {
   };
 }
 
+/**
+ * Get member details
+ * @param {string} handle the handle of the user
+ * @param {string} query the query criteria
+ * @return {Object} the object of member details
+ */
+async function getMember(handle, query) {
+  const token = await getM2MToken();
+  const url = `${config.API.V5}/members/${handle}`;
+  const res = await request
+    .get(url)
+    .query(query)
+    .set("Authorization", `Bearer ${token}`)
+    .set("Accept", "application/json");
+  localLogger.debug({
+    context: "getMember",
+    message: `response body: ${JSON.stringify(res.body)}`,
+  });
+  return res.body;
+}
+
+/**
+ * Update member details
+ * @param {string} handle the handle of the user
+ * @param {object} data the data to be updated
+ * @return {object} the object of updated member details
+ */
+async function updateMember(currentUser, data) {
+  const token = currentUser.jwtToken;
+  const url = `${config.API.V5}/members/${currentUser.handle}`;
+  const res = await request
+    .put(url)
+    .set("Authorization", token)
+    .set("Content-Type", "application/json")
+    .set("Accept", "application/json")
+    .send(data);
+  localLogger.debug({
+    context: "updateMember",
+    message: `response body: ${JSON.stringify(res.body)}`,
+  });
+  return res.body;
+}
+
+/**
+ * Get Recruit CRM profile details
+ * @param {object} currentUser the user who performs the operation
+ * @return {object} the object of profile details
+ */
+async function getRCRMProfile(currentUser) {
+  const token = currentUser.jwtToken;
+  const url = `${config.RECRUIT_API}/api/recruit/profile`;
+  const res = await request
+    .get(url)
+    .set("Authorization", token)
+    .set("Accept", "application/json");
+  localLogger.debug({
+    context: "getRCRMProfile",
+    message: `response body: ${JSON.stringify(res.body)}`,
+  });
+  return res.body;
+}
+
+/**
+ * Update Recruit CRM profile details
+ * @param {object} currentUser the user who performs the operation
+ * @param {object} file the resume file
+ * @param {object} data the data to be updated
+ * @return {object} the returned object
+ */
+async function updateRCRMProfile(currentUser, file, data) {
+  const token = currentUser.jwtToken;
+  const url = `${config.RECRUIT_API}/api/recruit/profile`;
+  const res = await request
+    .post(url)
+    .set("Authorization", token)
+    .set("Content-Type", "multipart/form-data")
+    .set("Accept", "application/json")
+    .field("phone", data.phone)
+    .field("availability", data.availability)
+    .attach("resume", file.data, file.name);
+  localLogger.debug({
+    context: "updateRCRMProfile",
+    message: `response body: ${JSON.stringify(res.body)}`,
+  });
+  return res.body;
+}
+
 module.exports = {
   errorHandler,
   interceptor,
@@ -324,4 +411,8 @@ module.exports = {
   getCurrentUserDetails,
   getJobCandidates,
   getJobs,
+  getMember,
+  updateMember,
+  getRCRMProfile,
+  updateRCRMProfile,
 };

@@ -13,6 +13,7 @@ import {
   PHASES_FOR_JOB_STATUS,
 } from "../../../../constants";
 import { formatMoneyValue } from "../../../../utils";
+import IconNote from "../../../../assets/icons/note.svg";
 
 import "./styles.scss";
 
@@ -119,7 +120,9 @@ const JobCard = ({ job }) => {
       <div styleName="card-footer job-card-footer" ref={footerRef}>
         <div styleName="note-container">
           <NoteTooltip>
-            <i styleName="icon" />
+            <i styleName="icon">
+              <IconNote />
+            </i>
           </NoteTooltip>
           <span styleName="note">{job.note}</span>
           <span styleName={`${expanded ? "show-less" : "show-more"}`}>

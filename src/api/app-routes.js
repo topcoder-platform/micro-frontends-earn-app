@@ -4,6 +4,9 @@
 
 const _ = require("lodash");
 const config = require("config");
+const express = require("express");
+const cors = require("cors");
+const fileUpload = require("express-fileupload");
 const helper = require("./common/helper");
 const errors = require("./common/errors");
 const routes = require("./routes");
@@ -14,6 +17,18 @@ const authenticator = require("tc-core-library-js").middleware.jwtAuthenticator;
  * @param app the express app
  */
 module.exports = (app) => {
+  app.use(express.json());
+  app.use(cors());
+  app.use(
+    fileUpload({
+      limits: {
+        fields: 20,
+        fileSize: config.MAX_ALLOWED_FILE_SIZE_MB * 1024 * 1024,
+        files: 1,
+      },
+      debug: config.get("LOG_LEVEL") === "debug",
+    })
+  );
   // intercept the response body from jwtAuthenticator
   app.use(helper.interceptor);
   // Load all routes

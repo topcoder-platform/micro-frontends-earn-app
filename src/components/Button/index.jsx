@@ -3,7 +3,7 @@ import PT from "prop-types";
 
 import "./styles.scss";
 
-const Button = ({ children, onClick, isPrimary, isText, size }) => (
+const Button = ({ children, onClick, isPrimary, isText, size, disabled }) => (
   <button
     styleName={`button ${isPrimary ? "button-primary" : ""} ${
       isText ? "button-text" : ""
@@ -11,6 +11,7 @@ const Button = ({ children, onClick, isPrimary, isText, size }) => (
     onClick={onClick}
     tabIndex={0}
     type="button"
+    disabled={disabled}
   >
     {children}
   </button>

@@ -40,11 +40,11 @@
       padding-top: 18px;
       background-color: $lightGreen;
 
-      &::before {
+      .before {
         display: block;
       }
 
-      &::after {
+      .after {
         display: none;
       }
     }
@@ -67,11 +67,11 @@
       padding-top: 11px;
       background-image: linear-gradient(180deg, $tc-gray-70 0%, rgba($tc-gray-70, 0.25) 100%);;
 
-      &::before {
+      .before {
         display: none;
       }
 
-      &::after {
+      .after {
         display: block;
       }
     }
@@ -97,9 +97,8 @@
   padding-right: 5.5px;
   background-clip: content-box;
 
-  &::before,
-  &::after {
-    content: '';
+  .before,
+  .after {
     position: absolute;
     top: 0;
     left: 0;
@@ -109,11 +108,7 @@
     border-radius: 16px;
   }
 
-  &::before {
-    background: url('../../../../../../assets/icons/checkpoint-small.png') no-repeat center / 100%;
-  }
-
-  &::after {
+  .after {
     border: 5px solid $white;
     border-radius: 50%;
   }

@@ -12,6 +12,7 @@ module.exports = {
     COMMUNITY_APP: "https://community-app.topcoder-dev.com",
     PLATFORM_WEBSITE_URL: "https://platform.topcoder-dev.com",
   },
+  RECRUIT_API: process.env.RECRUIT_API || "https://www.topcoder-dev.com",
   // the server api base path
   API_BASE_PATH: process.env.API_BASE_PATH || "/earn-app/api/my-gigs",
   // the log level, default is 'debug'
@@ -43,4 +44,12 @@ module.exports = {
       process.env.M2M_AUDIT_USER_ID || "00000000-0000-0000-0000-000000000000",
     M2M_AUDIT_HANDLE: process.env.M2M_AUDIT_HANDLE || "TopcoderService",
   },
+  MOCK_API_PORT: process.env.MOCK_API_PORT || 4000,
+  ALLOWED_FILE_TYPES: process.env.ALLOWED_FILE_TYPES || [
+    "pdf",
+    "doc",
+    "docx",
+    "txt",
+  ],
+  MAX_ALLOWED_FILE_SIZE_MB: process.env.MAX_ALLOWED_FILE_SIZE_MB || 10,
 };
