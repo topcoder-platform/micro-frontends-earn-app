@@ -50,4 +50,5 @@ module.exports = {
     "docx",
     "txt",
   ],
+  MAX_ALLOWED_FILE_SIZE_MB: process.env.MAX_ALLOWED_FILE_SIZE_MB || 10,
 };

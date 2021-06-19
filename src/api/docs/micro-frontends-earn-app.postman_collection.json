@@ -508,6 +508,232 @@
 					"response": []
 				},
 				{
+					"name": "get profile successfully with m2m",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 200', function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token_m2m_read_profile}}"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/profile",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get profile successfully with invalid token 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 401', function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"    const response = pm.response.json()\r",
+									"    pm.expect(response.message).to.eq(\"Invalid Token.\")\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{invalid_token_1}}"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/profile",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get profile successfully with invalid token 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 401', function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"    const response = pm.response.json()\r",
+									"    pm.expect(response.message).to.eq(\"Failed to authenticate token.\")\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{invalid_token_2}}"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/profile",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get profile successfully with invalid token 3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 401', function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"    const response = pm.response.json()\r",
+									"    pm.expect(response.message).to.eq(\"No token provided.\")\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{invalid_token_3}}"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/profile",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get profile successfully with invalid token 4",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 401', function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"    const response = pm.response.json()\r",
+									"    pm.expect(response.message).to.eq(\"Failed to authenticate token.\")\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{invalid_token_4}}"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/profile",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get profile successfully with invalid m2m scope",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 403', function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"    const response = pm.response.json()\r",
+									"    pm.expect(response.message).to.eq(\"You are not allowed to perform this action!\")\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token_m2m_invalid}}"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/profile",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "update profile successfully",
 					"event": [
 						{
@@ -557,6 +783,1001 @@
 								{
 									"key": "availability",
 									"value": "true",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/profile",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update profile with m2m",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 204', function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token_m2m_write_profile}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "resume",
+									"type": "file",
+									"src": "./src/api/data/resume.txt"
+								},
+								{
+									"key": "city",
+									"value": "Ankara",
+									"type": "text"
+								},
+								{
+									"key": "country",
+									"value": "TR",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "555-333-55-55",
+									"type": "text"
+								},
+								{
+									"key": "availability",
+									"value": "true",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/profile",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update profile with invalid token 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 401', function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"    const response = pm.response.json()\r",
+									"    pm.expect(response.message).to.eq(\"Invalid Token.\")\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{invalid_token_1}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "resume",
+									"type": "file",
+									"src": "./src/api/data/resume.txt"
+								},
+								{
+									"key": "city",
+									"value": "Ankara",
+									"type": "text"
+								},
+								{
+									"key": "country",
+									"value": "TR",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "555-333-55-55",
+									"type": "text"
+								},
+								{
+									"key": "availability",
+									"value": "true",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/profile",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update profile with invalid token 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 401', function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"    const response = pm.response.json()\r",
+									"    pm.expect(response.message).to.eq(\"Failed to authenticate token.\")\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{invalid_token_2}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "resume",
+									"type": "file",
+									"src": "./src/api/data/resume.txt"
+								},
+								{
+									"key": "city",
+									"value": "Ankara",
+									"type": "text"
+								},
+								{
+									"key": "country",
+									"value": "TR",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "555-333-55-55",
+									"type": "text"
+								},
+								{
+									"key": "availability",
+									"value": "true",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/profile",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update profile with invalid token 3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 401', function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"    const response = pm.response.json()\r",
+									"    pm.expect(response.message).to.eq(\"No token provided.\")\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{invalid_token_3}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "resume",
+									"type": "file",
+									"src": "./src/api/data/resume.txt"
+								},
+								{
+									"key": "city",
+									"value": "Ankara",
+									"type": "text"
+								},
+								{
+									"key": "country",
+									"value": "TR",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "555-333-55-55",
+									"type": "text"
+								},
+								{
+									"key": "availability",
+									"value": "true",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/profile",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update profile with invalid token 4",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 401', function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"    const response = pm.response.json()\r",
+									"    pm.expect(response.message).to.eq(\"Failed to authenticate token.\")\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{invalid_token_4}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "resume",
+									"type": "file",
+									"src": "./src/api/data/resume.txt"
+								},
+								{
+									"key": "city",
+									"value": "Ankara",
+									"type": "text"
+								},
+								{
+									"key": "country",
+									"value": "TR",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "555-333-55-55",
+									"type": "text"
+								},
+								{
+									"key": "availability",
+									"value": "true",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/profile",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update profile with invalid m2m scope",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 403', function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"    const response = pm.response.json()\r",
+									"    pm.expect(response.message).to.eq(\"You are not allowed to perform this action!\")\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token_m2m_invalid}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "resume",
+									"type": "file",
+									"src": "./src/api/data/resume.txt"
+								},
+								{
+									"key": "city",
+									"value": "Ankara",
+									"type": "text"
+								},
+								{
+									"key": "country",
+									"value": "TR",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "555-333-55-55",
+									"type": "text"
+								},
+								{
+									"key": "availability",
+									"value": "true",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/profile",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update profile by invalid field 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 400', function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"    const response = pm.response.json()\r",
+									"    pm.expect(response.message).to.eq(\"\\\"data.availability\\\" must be a boolean\")\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token_user}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "resume",
+									"type": "file",
+									"src": "./src/api/data/resume.txt"
+								},
+								{
+									"key": "city",
+									"value": "Ankara",
+									"type": "text"
+								},
+								{
+									"key": "country",
+									"value": "TR",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "555-333-55-55",
+									"type": "text"
+								},
+								{
+									"key": "availability",
+									"value": "bool",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/profile",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update profile by invalid field 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 400', function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"    const response = pm.response.json()\r",
+									"    pm.expect(response.message).to.eq(\"\\\"files\\\" must be of type object\")\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token_user}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "resume",
+									"value": "resume",
+									"type": "text"
+								},
+								{
+									"key": "city",
+									"value": "Ankara",
+									"type": "text"
+								},
+								{
+									"key": "country",
+									"value": "TR",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "555-333-55-55",
+									"type": "text"
+								},
+								{
+									"key": "availability",
+									"value": "bool",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/profile",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update profile by invalid file format",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 400', function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"    const response = pm.response.json()\r",
+									"    pm.expect(response.message).to.eq(\"Allowed file types are: pdf,doc,docx,txt\")\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token_user}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "resume",
+									"type": "file",
+									"src": "./src/api/data/resume.invalid"
+								},
+								{
+									"key": "city",
+									"value": "Ankara",
+									"type": "text"
+								},
+								{
+									"key": "country",
+									"value": "TR",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "555-333-55-55",
+									"type": "text"
+								},
+								{
+									"key": "availability",
+									"value": "true",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/profile",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update profile by missing field 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 400', function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"    const response = pm.response.json()\r",
+									"    pm.expect(response.message).to.eq(\"\\\"files\\\" must be of type object\")\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token_user}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "city",
+									"value": "Ankara",
+									"type": "text"
+								},
+								{
+									"key": "country",
+									"value": "TR",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "555-333-55-55",
+									"type": "text"
+								},
+								{
+									"key": "availability",
+									"value": "true",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/profile",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update profile by missing field 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 400', function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"    const response = pm.response.json()\r",
+									"    pm.expect(response.message).to.eq(\"\\\"data.city\\\" is required\")\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token_user}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "resume",
+									"type": "file",
+									"src": "./src/api/data/resume.invalid"
+								},
+								{
+									"key": "country",
+									"value": "TR",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "555-333-55-55",
+									"type": "text"
+								},
+								{
+									"key": "availability",
+									"value": "true",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/profile",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update profile by missing field 3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 400', function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"    const response = pm.response.json()\r",
+									"    pm.expect(response.message).to.eq(\"\\\"data.country\\\" is required\")\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token_user}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "resume",
+									"type": "file",
+									"src": "./src/api/data/resume.invalid"
+								},
+								{
+									"key": "city",
+									"value": "Ankara",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "555-333-55-55",
+									"type": "text"
+								},
+								{
+									"key": "availability",
+									"value": "true",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/profile",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update profile by missing field 4",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 400', function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"    const response = pm.response.json()\r",
+									"    pm.expect(response.message).to.eq(\"\\\"data.phone\\\" is required\")\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token_user}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "resume",
+									"type": "file",
+									"src": "./src/api/data/resume.invalid"
+								},
+								{
+									"key": "city",
+									"value": "Ankara",
+									"type": "text"
+								},
+								{
+									"key": "country",
+									"value": "TR",
+									"type": "text"
+								},
+								{
+									"key": "availability",
+									"value": "true",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/profile",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update profile by missing field 5",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 400', function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"    const response = pm.response.json()\r",
+									"    pm.expect(response.message).to.eq(\"\\\"data.availability\\\" is required\")\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token_user}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "resume",
+									"type": "file",
+									"src": "./src/api/data/resume.invalid"
+								},
+								{
+									"key": "city",
+									"value": "Ankara",
+									"type": "text"
+								},
+								{
+									"key": "country",
+									"value": "TR",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "555-333-55-55",
 									"type": "text"
 								}
 							],

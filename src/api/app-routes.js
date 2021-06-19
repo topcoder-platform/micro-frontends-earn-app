@@ -19,7 +19,16 @@ const authenticator = require("tc-core-library-js").middleware.jwtAuthenticator;
 module.exports = (app) => {
   app.use(express.json());
   app.use(cors());
-  app.use(fileUpload());
+  app.use(
+    fileUpload({
+      limits: {
+        fields: 20,
+        fileSize: config.MAX_ALLOWED_FILE_SIZE_MB * 1024 * 1024,
+        files: 1,
+      },
+      debug: config.get("LOG_LEVEL") === "debug",
+    })
+  );
   // intercept the response body from jwtAuthenticator
   app.use(helper.interceptor);
   // Load all routes

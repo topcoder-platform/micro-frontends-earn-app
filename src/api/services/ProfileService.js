@@ -53,6 +53,12 @@ async function updateMyProfile(currentUser, files, data) {
   if (currentUser.isMachine) {
     return;
   }
+  // check if file was truncated
+  if (files.resume.truncated) {
+    throw new errors.BadRequestError(
+      `Maximum allowed file size is ${config.MAX_ALLOWED_FILE_SIZE_MB} MB`
+    );
+  }
   // validate file extension
   const regex = new RegExp(
     `^.*\.(${_.join(config.ALLOWED_FILE_TYPES, "|")})$`,
