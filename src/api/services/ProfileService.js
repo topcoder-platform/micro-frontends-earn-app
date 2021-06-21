@@ -80,13 +80,13 @@ async function updateMyProfile(currentUser, files, data) {
     update.addresses = _.cloneDeep(member.addresses);
     if (!_.isEmpty(update.addresses)) {
       update.addresses[0].city = data.city;
-      update.addresses[0].updatedAt = new Date().toISOString();
+      update.addresses[0].updatedAt = parseInt(new Date().getTime() / 1000);
       update.addresses[0].updatedBy = currentUser.userId.toString();
     } else {
       update.addresses = [
         {
           city: data.city,
-          createdAt: new Date().toISOString(),
+          createdAt: parseInt(new Date().getTime() / 1000),
           createdBy: currentUser.userId.toString(),
         },
       ];
