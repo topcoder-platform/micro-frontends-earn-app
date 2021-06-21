@@ -7,6 +7,7 @@ import {
   JOB_STATUS_MESSAGE_MAPPER,
   SORT_STATUS_ORDER,
   PHASES_FOR_JOB_STATUS,
+  MY_GIG_PHASE,
 } from "../constants";
 import data from "../assets/data/my-gigs.json";
 
@@ -54,8 +55,9 @@ const mapMyGigsData = (serverResponse) => {
           remark: AVAILABLE_REMARK_BY_JOB_STATUS.includes(myGig.status)
             ? myGig.remark
             : "",
-          previous: previousStatus,
-          next: gigPhase,
+          previous:
+            gigPhase == MY_GIG_PHASE.APPLIED ? gigPhase : previousStatus,
+          next: gigPhase == MY_GIG_PHASE.APPLIED ? null : gigPhase,
           previousNote: JOB_STATUS_MESSAGE_MAPPER[previousStatus],
           nextNote: JOB_STATUS_MESSAGE_MAPPER[gigPhase],
           status: myGig.status,
