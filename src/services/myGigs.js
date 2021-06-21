@@ -5,8 +5,8 @@ import {
   AVAILABLE_REMARK_BY_JOB_STATUS,
   JOB_STATUS_MAPPER,
   JOB_STATUS_MESSAGE_MAPPER,
-  MY_GIG_PHASE,
   SORT_STATUS_ORDER,
+  PHASES_FOR_JOB_STATUS,
 } from "../constants";
 import data from "../assets/data/my-gigs.json";
 
@@ -16,7 +16,6 @@ import data from "../assets/data/my-gigs.json";
  * @returns
  */
 const mapMyGigsData = (serverResponse) => {
-  const jobKeys = values(MY_GIG_PHASE);
   const phaseActionKeys = keys(ACTIONS_AVAILABLE_FOR_MY_GIG_PHASE);
 
   return (
@@ -26,9 +25,12 @@ const mapMyGigsData = (serverResponse) => {
         const action = phaseActionKeys.find((key) =>
           ACTIONS_AVAILABLE_FOR_MY_GIG_PHASE[key].includes(gigPhase)
         );
-        const statusIndex = jobKeys.findIndex((key) => key === gigPhase);
-
-        const previousStatus = jobKeys[Math.max(0, statusIndex - 1)];
+        const phases = PHASES_FOR_JOB_STATUS[myGig.status];
+        const statusIndex = phases.findIndex((key) => key === gigPhase);
+        let previousStatus = null;
+        if (statusIndex >= 1) {
+          previousStatus = phases[statusIndex - 1];
+        }
         const sortPrio = SORT_STATUS_ORDER.findIndex(
           (status) => status === gigPhase
         );

@@ -124,7 +124,7 @@ const JobCard = ({ job }) => {
               <IconNote />
             </i>
           </NoteTooltip>
-          <span styleName="note">{job.note}</span>
+          <span styleName="note">{job.remark}</span>
           <span styleName={`${expanded ? "show-less" : "show-more"}`}>
             <Button
               isText
@@ -153,7 +153,6 @@ const JobCard = ({ job }) => {
               currentPhase={job.phase}
               currentPhaseStatus={job.phaseStatus}
               note={job.phaseNote}
-              remark={job.remark}
             />
           </div>
         )}
