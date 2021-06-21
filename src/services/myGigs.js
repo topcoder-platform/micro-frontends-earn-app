@@ -58,8 +58,14 @@ const mapMyGigsData = (serverResponse) => {
           previous:
             gigPhase == MY_GIG_PHASE.APPLIED ? gigPhase : previousStatus,
           next: gigPhase == MY_GIG_PHASE.APPLIED ? null : gigPhase,
-          previousNote: JOB_STATUS_MESSAGE_MAPPER[previousStatus],
-          nextNote: JOB_STATUS_MESSAGE_MAPPER[gigPhase],
+          previousNote:
+            gigPhase == MY_GIG_PHASE.APPLIED
+              ? JOB_STATUS_MESSAGE_MAPPER[gigPhase]
+              : JOB_STATUS_MESSAGE_MAPPER[previousStatus],
+          nextNote:
+            gigPhase == MY_GIG_PHASE.APPLIED
+              ? null
+              : JOB_STATUS_MESSAGE_MAPPER[gigPhase],
           status: myGig.status,
           // in case there's some status not taken in account, it will show last.
           sortPrio: sortPrio === -1 ? SORT_STATUS_ORDER.length + 1 : sortPrio,
