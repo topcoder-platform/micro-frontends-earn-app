@@ -139,7 +139,7 @@ export const MY_GIGS_JOB_STATUS = {
   APPLIED: "applied",
   SKILLS_TEST: "skills-test",
   PHONE_SCREEN: "phone-screen",
-  OPEN: "open",
+  SCREEN_PASS: "open",
   INTERVIEW: "interview",
   SELECTED: "selected",
   OFFERED: "offered",
