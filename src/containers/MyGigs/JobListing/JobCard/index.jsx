@@ -119,11 +119,13 @@ const JobCard = ({ job }) => {
       </div>
       <div styleName="card-footer job-card-footer" ref={footerRef}>
         <div styleName="note-container">
-          <NoteTooltip>
-            <i styleName="icon">
-              <IconNote />
-            </i>
-          </NoteTooltip>
+          {job.remark && (
+            <NoteTooltip>
+              <i styleName="icon">
+                <IconNote />
+              </i>
+            </NoteTooltip>
+          )}
           <span styleName="note">{job.remark}</span>
           <span styleName={`${expanded ? "show-less" : "show-more"}`}>
             <Button
