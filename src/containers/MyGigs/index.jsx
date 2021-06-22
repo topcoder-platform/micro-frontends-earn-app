@@ -42,6 +42,8 @@ const MyGigs = ({
   useEffect(() => {
     if (updateProfileSuccess) {
       setOpenUpdateSuccess(true);
+      // in case of success, let's fetch the updated profile
+      propsRef.current.getProfile();
     }
   }, [updateProfileSuccess]);
 
@@ -53,7 +55,7 @@ const MyGigs = ({
           <Button
             isPrimary
             size="lg"
-            disabled="true"
+            // disabled="true"
             onClick={() => {
               setOpenUpdateProfile(true);
             }}

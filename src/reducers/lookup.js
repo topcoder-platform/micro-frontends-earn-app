@@ -10,6 +10,7 @@ const defaultState = {
   isLoggedIn: null,
   gigPhases: [],
   gigStatuses: [],
+  countries: [],
 };
 
 function onGetTagsDone(state, { payload }) {
@@ -32,6 +33,10 @@ function onGetGigStatusesDone(state, { payload }) {
   return { ...state, gigStatuses: payload };
 }
 
+function onGetAllCountriesDone(state, { payload }) {
+  return { ...state, countries: payload };
+}
+
 export default handleActions(
   {
     GET_TAGS_DONE: onGetTagsDone,
@@ -39,6 +44,7 @@ export default handleActions(
     CHECK_IS_LOGGED_IN_DONE: onCheckIsLoggedInDone,
     GET_GIG_PHASES_DONE: onGetGigPhasesDone,
     GET_GIG_STATUSES_DONE: onGetGigStatusesDone,
+    GET_ALL_COUNTRIES_DONE: onGetAllCountriesDone,
   },
   defaultState
 );
