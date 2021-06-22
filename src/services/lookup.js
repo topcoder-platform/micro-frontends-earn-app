@@ -1,7 +1,6 @@
 import api from "./api";
 import qs from "qs";
 import * as utils from "../utils";
-import myGigsData from "../assets/data/my-gigs.json";
 
 async function getTags() {
   const v3 = true;
@@ -54,13 +53,9 @@ async function getCommunityList() {
   );
 }
 
-async function getGigPhases() {
-  return Promise.resolve(myGigsData.phases);
-}
-
-async function getGigStatuses() {
-  return Promise.resolve(myGigsData.gigStatuses);
-}
+// async function getGigStatuses() {
+//   return Promise.resolve(myGigsData.gigStatuses);
+// }
 
 /**
  * Gets paginated countries
@@ -77,7 +72,6 @@ export default {
   getTags,
   getCommunityList,
   checkIsLoggedIn,
-  getGigPhases,
-  getGigStatuses,
+  // getGigStatuses,
   getPaginatedCountries,
 };

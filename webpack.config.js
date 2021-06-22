@@ -124,6 +124,7 @@ module.exports = (webpackConfigEnv) => {
         // Register routes
         require("./src/api/app-routes")(app);
       },
+      hot: true,
       port: 8008,
       host: "0.0.0.0",
     },

@@ -11,35 +11,34 @@ import IconClose from "assets/icons/close.svg";
 import IconInfo from "assets/icons/info.svg";
 import StatusTooltip from "./tooltips/StatusTooltip";
 import actions from "../../../../actions";
-import _, { size } from "lodash";
+import _, { size, values } from "lodash";
 
-import * as constants from "constants";
+import { GIG_STATUS } from "../../../../constants";
 import * as utils from "utils";
 
 import "./styles.scss";
 
 const UpdateGigProfile = ({
   profile,
-  statuses,
   onSubmit,
   onClose,
   countries,
   getAllCountries,
 }) => {
+  const statuses = values(GIG_STATUS);
   const countryOptions = useMemo(() => {
     const selectedCountry = countries.find(
       (country) => country.countryCode === profile.country
     );
-    const selectedCountryName = _.get(selectedCountry, "name");
     return utils.createDropdownOptions(
       countries.map((country) => country.name),
-      selectedCountryName
+      selectedCountry
     );
   }, [profile, countries]);
 
   const statusOptions = useMemo(() => {
     const selected = profile.status;
-    const options = statuses.filter((s) => s !== constants.GIG_STATUS.PLACED);
+    const options = statuses.filter((s) => s !== GIG_STATUS.PLACED);
     return utils.createDropdownOptions(options, selected);
   }, [profile, statuses]);
 
@@ -278,7 +277,6 @@ const UpdateGigProfile = ({
 
 UpdateGigProfile.propTypes = {
   profile: PT.shape(),
-  statuses: PT.arrayOf(PT.string),
   onSubmit: PT.func,
   onClose: PT.func,
 };
