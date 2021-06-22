@@ -127,20 +127,25 @@ const JobCard = ({ job }) => {
             </NoteTooltip>
           )}
           <span styleName="note">{job.remark}</span>
-          <span styleName={`${expanded ? "show-less" : "show-more"}`}>
-            <Button
-              isText
-              showRightArrow
-              onClick={() => {
-                setExpanded(!expanded);
-              }}
-            >
-              {expanded ? "SHOW LESS" : "SHOW MORE"}
-              <span styleName="arrow-down">
-                <IconChevronDown />
-              </span>
-            </Button>
-          </span>
+          {![
+            MY_GIGS_JOB_STATUS.JOB_CLOSED,
+            MY_GIGS_JOB_STATUS.REJECTED_OTHER,
+          ].includes(job.status) && (
+            <span styleName={`${expanded ? "show-less" : "show-more"}`}>
+              <Button
+                isText
+                showRightArrow
+                onClick={() => {
+                  setExpanded(!expanded);
+                }}
+              >
+                {expanded ? "SHOW LESS" : "SHOW MORE"}
+                <span styleName="arrow-down">
+                  <IconChevronDown />
+                </span>
+              </Button>
+            </span>
+          )}
         </div>
         {![
           MY_GIGS_JOB_STATUS.JOB_CLOSED,
