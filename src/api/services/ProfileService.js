@@ -72,7 +72,7 @@ async function updateMyProfile(currentUser, files, data) {
   // get member's current address data
   const member = await helper.getMember(
     currentUser.handle,
-    "fields=addresses,competitionCountryCode"
+    "fields=addresses,competitionCountryCode,homeCountryCode"
   );
   const update = {};
   // update member data if city is different from existing one
@@ -80,14 +80,12 @@ async function updateMyProfile(currentUser, files, data) {
     update.addresses = _.cloneDeep(member.addresses);
     if (!_.isEmpty(update.addresses)) {
       update.addresses[0].city = data.city;
-      update.addresses[0].updatedAt = parseInt(new Date().getTime() / 1000);
-      update.addresses[0].updatedBy = currentUser.userId.toString();
+      delete update.addresses[0].createdAt;
+      delete update.addresses[0].updatedAt;
     } else {
       update.addresses = [
         {
           city: data.city,
-          createdAt: parseInt(new Date().getTime() / 1000),
-          createdBy: currentUser.userId.toString(),
         },
       ];
     }
@@ -95,6 +93,9 @@ async function updateMyProfile(currentUser, files, data) {
   // update member data if competitionCountryCode is different from existing one
   if (_.get(member, "competitionCountryCode") !== data.country) {
     update.competitionCountryCode = data.country;
+  }
+  if (_.get(member, "homeCountryCode") !== data.country) {
+    update.homeCountryCode = data.country;
   }
   // avoid unnecessary api calls
   if (!_.isEmpty(update)) {
