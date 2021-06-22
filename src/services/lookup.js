@@ -54,10 +54,6 @@ async function getCommunityList() {
   );
 }
 
-async function getGigPhases() {
-  return Promise.resolve(myGigsData.phases);
-}
-
 async function getGigStatuses() {
   return Promise.resolve(myGigsData.gigStatuses);
 }
@@ -66,6 +62,5 @@ export default {
   getTags,
   getCommunityList,
   checkIsLoggedIn,
-  getGigPhases,
   getGigStatuses,
 };

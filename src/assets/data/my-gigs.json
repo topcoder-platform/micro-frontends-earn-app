@@ -1,13 +1,4 @@
 {
-  "phases":[
-    "Applied",
-    "Phone Screen",
-    "Screen Pass",
-    "Interview Process",
-    "Selected",
-    "Offered",
-    "Placed"
-  ],
   "gigProfile":{
     "handle":"handle",
     "photoURL":"",

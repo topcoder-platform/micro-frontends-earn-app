@@ -13,8 +13,6 @@ import "./styles.scss";
 
 const MyGigs = ({
   myGigs,
-  phases,
-  getPhases,
   getMyGigs,
   loadMore,
   total,
@@ -27,11 +25,10 @@ const MyGigs = ({
   updateProfileSuccess,
 }) => {
   const propsRef = useRef();
-  propsRef.current = { getMyGigs, getPhases, getProfile, getStatuses };
+  propsRef.current = { getMyGigs, getProfile, getStatuses };
 
   useEffect(() => {
     propsRef.current.getMyGigs();
-    propsRef.current.getPhases();
     propsRef.current.getProfile();
     propsRef.current.getStatuses();
   }, []);
@@ -63,7 +60,6 @@ const MyGigs = ({
         </h1>
         <JobListing
           jobs={myGigs}
-          phases={phases}
           loadMore={loadMore}
           total={total}
           numLoaded={numLoaded}
@@ -111,7 +107,6 @@ const mapStateToProps = (state) => ({
   myGigs: state.myGigs.myGigs,
   total: state.myGigs.total,
   numLoaded: state.myGigs.numLoaded,
-  phases: state.lookup.gigPhases,
   profile: state.myGigs.profile,
   statuses: state.lookup.gigStatuses,
   updateProfileSuccess: state.myGigs.updatingProfileSucess,
@@ -120,7 +115,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   getMyGigs: actions.myGigs.getMyGigs,
   loadMore: actions.myGigs.loadMoreMyGigs,
-  getPhases: actions.lookup.getGigPhases,
   getProfile: actions.myGigs.getProfile,
   getStatuses: actions.lookup.getGigStatuses,
   updateProfile: actions.myGigs.updateProfile,
