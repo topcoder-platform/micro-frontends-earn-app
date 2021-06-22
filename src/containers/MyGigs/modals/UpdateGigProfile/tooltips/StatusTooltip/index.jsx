@@ -1,19 +1,19 @@
 import React from "react";
 import PT from "prop-types";
 import Tooltip from "components/Tooltip";
-import { gigStatusTooltip } from "assets/data/my-gigs.json";
-
+import { GIG_STATUS_TOOLTIP } from "../../../../../../constants";
+import { keys } from "lodash";
 import "./styles.scss";
 
 const StatusTooltip = ({ children }) => {
   const Content = () => (
     <div styleName="status-tooltip">
       <ul>
-        {Object.keys(gigStatusTooltip).map((status) => (
+        {keys(GIG_STATUS_TOOLTIP).map((status) => (
           <li styleName="item" key={status}>
             <div>
               <div styleName="caption">{status}</div>
-              <div styleName="text">{gigStatusTooltip[status]}</div>
+              <div styleName="text">{GIG_STATUS_TOOLTIP[status]}</div>
             </div>
           </li>
         ))}

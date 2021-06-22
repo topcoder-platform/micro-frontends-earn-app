@@ -139,3 +139,9 @@ export const GIG_STATUS = {
   UNAVAILABLE: "Unavailable",
   PLACED: "Placed",
 };
+
+export const GIG_STATUS_TOOLTIP = {
+  AVAILABLE: "You’re open to take on new jobs.",
+  UNAVAILABLE: "You’re not open to take on new jobs.",
+  PLACED: "You’re on a topcoder gig already.",
+};

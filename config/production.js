@@ -9,5 +9,6 @@ module.exports = {
   URL: {
     BASE: "https://www.topcoder.com",
     COMMUNITY_APP: "https://community-app.topcoder.com",
+    PLATFORM_WEBSITE_URL: "https://platform.topcoder.com",
   },
 };

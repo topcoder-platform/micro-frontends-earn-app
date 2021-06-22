@@ -42,6 +42,8 @@ const MyGigs = ({
   useEffect(() => {
     if (updateProfileSuccess) {
       setOpenUpdateSuccess(true);
+      // in case of success, let's fetch the updated profile
+      propsRef.current.getProfile();
     }
   }, [updateProfileSuccess]);
 
