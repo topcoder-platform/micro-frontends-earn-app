@@ -53,7 +53,6 @@ const MyGigs = ({
           <Button
             isPrimary
             size="lg"
-            disabled={true}
             onClick={() => {
               setOpenUpdateProfile(true);
             }}
