@@ -33,7 +33,7 @@ async function getMyProfile(currentUser) {
     country: _.get(member, "competitionCountryCode", null),
     phone: _.get(recruitProfile, "phone", null),
     resume: _.get(recruitProfile, "resume", null),
-    availability: _.get(recruitProfile, "availibility", true),
+    availability: _.get(recruitProfile, "availability", true),
   };
 }
 

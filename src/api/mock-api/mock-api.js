@@ -23,7 +23,7 @@ app.get("/api/recruit/profile", (req, res) => {
   const result = {
     phone: "555-555-55-55",
     resume: "https://resume.topcoder.com/1234567",
-    availibility: true,
+    availability: true,
   };
   res.status(200).json(result);
 });

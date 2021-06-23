@@ -113,9 +113,7 @@ async function getProfile() {
     city: profile.city,
     country: profile.country,
     phone: profile.phone,
-    file: {
-      name: profile.resume,
-    },
+    file: null,
     status: profile.availability
       ? GIG_STATUS.AVAILABLE
       : GIG_STATUS.UNAVAILABLE,
