@@ -5,7 +5,17 @@ UPDATE_CACHE=""
 
 docker build -f docker/Dockerfile -t $APP_NAME:latest \
 --build-arg APPMODE=$APPMODE \
---build-arg APPENV=$APPENV .
+--build-arg APPENV=$APPENV \
+--build-arg RECRUIT_API=$RECRUIT_API \
+--build-arg AUTH_SECRET=$AUTH_SECRET \
+--build-arg VALID_ISSUERS=$VALID_ISSUERS \
+--build-arg AUTH0_URL=$AUTH0_URL \
+--build-arg AUTH0_AUDIENCE=$AUTH0_AUDIENCE \
+--build-arg AUTH0_CLIENT_ID=$AUTH0_CLIENT_ID \
+--build-arg AUTH0_CLIENT_SECRET=$AUTH0_CLIENT_SECRET \
+--build-arg AUTH0_PROXY_SERVER_URL=$AUTH0_PROXY_SERVER_URL \
+--build-arg M2M_AUDIT_USER_ID=$M2M_AUDIT_USER_ID \
+--build-arg M2M_AUDIT_HANDLE=$M2M_AUDIT_HANDLE .
 
 docker create --name app $APP_NAME:latest
 
