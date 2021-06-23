@@ -36,6 +36,12 @@ async function doGetUserGroups() {
 }
 
 async function getCommunityList() {
+  const isLoggedIn = await utils.auth.isLoggedIn();
+
+  if (!isLoggedIn) {
+    return [];
+  }
+
   const groups = await doGetUserGroups();
   let communityListQuery = qs.stringify({ groups: groups.map((g) => g.id) });
   communityListQuery = communityListQuery
