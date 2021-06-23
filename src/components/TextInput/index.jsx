@@ -64,7 +64,11 @@ function TextInput({
           {required ? <span>&nbsp;*</span> : null}
         </label>
       ) : null}
-      {errorMsg ? <span styleName="errorMessage">{errorMsg}</span> : null}
+      {errorMsg ? (
+        <span styleName="errorMessage" className="errorMsg">
+          {errorMsg}
+        </span>
+      ) : null}
     </div>
   );
 }

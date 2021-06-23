@@ -72,7 +72,11 @@ function Dropdown({
           {required ? <span>&nbsp;*</span> : null}
         </span>
       ) : null}
-      {errorMsg ? <span styleName="errorMessage">{errorMsg}</span> : null}
+      {errorMsg ? (
+        <span styleName="errorMessage" className="errorMsg">
+          {errorMsg}
+        </span>
+      ) : null}
     </div>
   );
 }

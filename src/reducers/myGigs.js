@@ -1,13 +1,20 @@
+import { size, sortBy } from "lodash";
 import { handleActions } from "redux-actions";
 
 const defaultState = {
   loadingMyGigs: false,
   loadingMyGigsError: null,
-  myGigs: [],
+  myGigs: null,
   total: 0,
   numLoaded: 0,
   loadingMore: false,
   loadingMoreError: null,
+  profile: {},
+  loadingProfile: false,
+  loadingProfileError: null,
+  updatingProfile: false,
+  updatingProfileError: null,
+  updatingProfileSucess: null,
 };
 
 function onGetMyGigsInit(state) {
@@ -17,7 +24,7 @@ function onGetMyGigsInit(state) {
 function onGetMyGigsDone(state, { payload }) {
   return {
     ...state,
-    myGigs: payload.myGigs,
+    myGigs: sortBy(payload.myGigs, ["sortPrio"]),
     total: payload.total,
     numLoaded: payload.myGigs.length,
     loadingMyGigs: false,
@@ -30,7 +37,7 @@ function onGetMyGigsFailure(state, { payload }) {
     ...state,
     loadingMyGigs: false,
     loadingMyGigsError: payload,
-    myGigs: [],
+    myGigs: null,
     total: 0,
     numLoaded: 0,
   };
@@ -40,11 +47,11 @@ function onLoadMoreMyGigsInit(state) {
   return { ...state, loadingMore: true, loadingMoreError: null };
 }
 
-function onLoadMoreMyGigsDone(state, { payload }) {
+function onLoadMoreMyGigsDone(state, { payload: { myGigs } }) {
   return {
     ...state,
-    myGigs: state.myGigs.concat(payload),
-    numLoaded: state.numLoaded + payload.length,
+    myGigs: sortBy(state.myGigs.concat(myGigs), ["sortPrio"]),
+    numLoaded: state.numLoaded + size(myGigs),
     loadingMore: false,
     loadingMoreError: null,
   };
@@ -52,6 +59,56 @@ function onLoadMoreMyGigsDone(state, { payload }) {
 
 function onLoadMoreMyGigsFailure(state, { payload }) {
   return { ...state, loadingMore: false, loadingMoreError: payload };
+}
+
+function onGetProfileInit(state) {
+  return { ...state, loadingProfile: true, loadingProfileError: null };
+}
+
+function onGetProfileDone(state, { payload }) {
+  return {
+    ...state,
+    profile: { ...payload },
+    loadingProfile: false,
+    loadingProfileError: null,
+  };
+}
+
+function onGetProfileFailure(state, { payload }) {
+  return {
+    ...state,
+    loadingProfile: false,
+    loadingProfileError: payload,
+    profile: {},
+  };
+}
+
+function onUpdateProfileInit(state) {
+  return {
+    ...state,
+    updatingProfile: true,
+    updatingProfileError: null,
+    updatingProfileSucess: null,
+  };
+}
+
+function onUpdateProfileDone(state, { payload }) {
+  return {
+    ...state,
+    profile: { ...payload },
+    loadingProfile: false,
+    updatingProfileError: null,
+    updatingProfileSucess: true,
+  };
+}
+
+function onUpdateProfileFailure(state, { payload }) {
+  return {
+    ...state,
+    loadingProfile: false,
+    updatingProfileError: payload,
+    updatingProfileSucess: false,
+  };
 }
 
 export default handleActions(
@@ -62,6 +119,12 @@ export default handleActions(
     LOAD_MORE_MY_GIGS_INIT: onLoadMoreMyGigsInit,
     LOAD_MORE_MY_GIGS_DONE: onLoadMoreMyGigsDone,
     LOAD_MORE_MY_GIGS_FAILURE: onLoadMoreMyGigsFailure,
+    GET_PROFILE_INIT: onGetProfileInit,
+    GET_PROFILE_DONE: onGetProfileDone,
+    GET_PROFILE_FAILURE: onGetProfileFailure,
+    UPDATE_PROFILE_INIT: onUpdateProfileInit,
+    UPDATE_PROFILE_DONE: onUpdateProfileDone,
+    UPDATE_PROFILE_FAILURE: onUpdateProfileFailure,
   },
   defaultState
 );

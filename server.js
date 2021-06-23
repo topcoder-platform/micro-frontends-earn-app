@@ -1,10 +1,14 @@
 /* global process */
-
+require("./src/api/bootstrap");
 const express = require("express");
 
 const app = express();
 
-app.use('/earn-app',
+// Register routes
+require("./src/api/app-routes")(app);
+
+app.use(
+  "/earn-app",
   express.static("./dist", {
     setHeaders: function setHeaders(res) {
       res.header("Access-Control-Allow-Origin", "*");
@@ -16,10 +20,9 @@ app.use('/earn-app',
     },
   })
 );
-
-app.get('/', function (req, res) {
-  res.send('alive')
-})
+app.get("/", function (req, res) {
+  res.send("alive");
+});
 
 const PORT = process.env.PORT || 8008;
 app.listen(PORT);

@@ -1,12 +1,12 @@
 process.env.NODE_ENV = process.env.APPMODE;
 
-const config = require('config');
-const _ = require('lodash');
+const config = require("config");
+const _ = require("lodash");
 const webpackMerge = require("webpack-merge");
 const singleSpaDefaults = require("webpack-config-single-spa-react");
-const autoprefixer = require('autoprefixer');
-const path = require('path')
-const webpack = require('webpack');
+const autoprefixer = require("autoprefixer");
+const path = require("path");
+const webpack = require("webpack");
 
 module.exports = (webpackConfigEnv) => {
   const defaultConfig = singleSpaDefaults({
@@ -16,14 +16,19 @@ module.exports = (webpackConfigEnv) => {
     disableHtmlGeneration: true,
   });
 
-  const unusedFilesWebpackPlugin = defaultConfig.plugins.find(p => p.constructor.name === "UnusedFilesWebpackPlugin");
-  unusedFilesWebpackPlugin.globOptions.ignore.push("**/assets/icons/*.svg", "**/__mocks__/**");
+  const unusedFilesWebpackPlugin = defaultConfig.plugins.find(
+    (p) => p.constructor.name === "UnusedFilesWebpackPlugin"
+  );
+  unusedFilesWebpackPlugin.globOptions.ignore.push(
+    "**/assets/icons/*.svg",
+    "**/__mocks__/**"
+  );
 
   let cssLocalIdent;
-  if (process.env.APPMODE == 'development') {
-    cssLocalIdent = 'earn_[path][name]___[local]___[hash:base64:6]';
+  if (process.env.APPMODE == "development") {
+    cssLocalIdent = "earn_[path][name]___[local]___[hash:base64:6]";
   } else {
-    cssLocalIdent = '[hash:base64:6]';
+    cssLocalIdent = "[hash:base64:6]";
   }
 
   // modify the webpack config however you'd like to by adding to this object
@@ -31,7 +36,8 @@ module.exports = (webpackConfigEnv) => {
     // we have to list here all the microapps which we would like to use in imports
     // so webpack doesn't tries to import them
     externals: {
-      "@topcoder/micro-frontends-navbar-app": "@topcoder/micro-frontends-navbar-app",
+      "@topcoder/micro-frontends-navbar-app":
+        "@topcoder/micro-frontends-navbar-app",
     },
     module: {
       rules: [
@@ -43,66 +49,62 @@ module.exports = (webpackConfigEnv) => {
             /[/\\]assets[/\\]fonts/,
             /[/\\]assets[/\\]images/,
           ],
-          loader: 'babel-loader',
+          loader: "babel-loader",
         },
         {
           /* Loads images */
           test: /\.(svg|gif|jpe?g|png)$/,
-          exclude: [
-            /[/\\]assets[/\\]fonts/
-          ],
-          loader: 'file-loader',
+          exclude: [/[/\\]assets[/\\]fonts/],
+          loader: "file-loader",
           options: {
-            outputPath: 'images',
-          }
+            outputPath: "images",
+          },
         },
         {
           /* Loads fonts */
           test: /\.(eot|otf|svg|ttf|woff2?)$/,
-          exclude: [
-            /[/\\]assets[/\\]images/
-          ],
-          loader: 'file-loader',
+          exclude: [/[/\\]assets[/\\]images/],
+          loader: "file-loader",
           options: {
-            outputPath: 'fonts',
-          }
+            outputPath: "fonts",
+          },
         },
         {
           /* Loads scss stylesheets. */
           test: /\.scss$/,
-          use:  [
-              'style-loader',
-              {
-                loader: 'css-loader',
-                options: {
-                  modules: {
-                    localIdentName: cssLocalIdent,
-                    mode: 'local',
-                  }
+          use: [
+            "style-loader",
+            {
+              loader: "css-loader",
+              options: {
+                modules: {
+                  localIdentName: cssLocalIdent,
+                  mode: "local",
                 },
               },
-              {
-                loader: 'postcss-loader',
-                options: {
-                  postcssOptions: {
-                    plugins: [autoprefixer],
-                  }
+            },
+            {
+              loader: "postcss-loader",
+              options: {
+                postcssOptions: {
+                  plugins: [autoprefixer],
                 },
               },
-              'resolve-url-loader',
-              {
-                loader: 'sass-loader',
-                options: {
-                  sourceMap: true,
-                },
-              }
-            ]
-        }
+            },
+            "resolve-url-loader",
+            {
+              loader: "sass-loader",
+              options: {
+                sourceMap: true,
+              },
+            },
+          ],
+        },
       ],
     },
     plugins: [
       new webpack.DefinePlugin({
-        'process.env': {
+        "process.env": {
           ..._.mapValues(config, (value) => JSON.stringify(value)),
           APPENV: JSON.stringify(process.env.APPENV),
           APPMODE: JSON.stringify(process.env.APPMODE),
@@ -113,11 +115,17 @@ module.exports = (webpackConfigEnv) => {
       alias: {
         styles: path.resolve(__dirname, "src/styles"),
         assets: path.resolve(__dirname, "src/assets"),
-      }
+      },
     },
     devServer: {
+      clientLogLevel: config.LOG_LEVEL,
+      before: function (app) {
+        require("./src/api/bootstrap");
+        // Register routes
+        require("./src/api/app-routes")(app);
+      },
       port: 8008,
-      host: '0.0.0.0'
-    }
+      host: "0.0.0.0",
+    },
   });
 };

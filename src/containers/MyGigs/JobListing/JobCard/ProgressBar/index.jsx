@@ -21,7 +21,7 @@ const ProgressBar = ({ phases, currentPhase, currentPhaseStatus, note }) => {
     <div styleName="progress">
       <div styleName="progress-bar-wrapper">
         <div styleName="progress-bar">
-          {phases.map((phase, index) => (
+          {(phases || []).map((phase, index) => (
             <PhaseBar
               key={phase}
               phase={phase}
