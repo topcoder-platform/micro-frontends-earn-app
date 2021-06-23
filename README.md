@@ -13,18 +13,19 @@ This is a [single-spa](https://single-spa.js.org/) example React microapp.
 
 ## NPM Commands
 
-Command               | Description
---------------------- | -----------------------------------------------------------------
-`npm start`           | Run server which serves production ready build from `dist` folder
-`npm run dev`         | Run app in the development mode
-`npm run dev-https`   | Run app in the development mode using HTTPS protocol
-`npm run build`       | Build app for production and puts files to the `dist` folder
-`npm run analyze`     | Analyze dependencies sizes and opens report in the browser
-`npm run lint`        | Check code for lint errors
-`npm run format`      | Format code using prettier
-`npm run test`        | Run unit tests
-`npm run watch-tests` | Watch for file changes and run unit tests on changes
-`npm run coverage`    | Generate test code coverage report
+| Command               | Description                                                       |
+| --------------------- | ----------------------------------------------------------------- |
+| `npm start`           | Run server which serves production ready build from `dist` folder |
+| `npm run dev`         | Run app in the development mode                                   |
+| `npm run dev-https`   | Run app in the development mode using HTTPS protocol              |
+| `npm run build`       | Build app for production and puts files to the `dist` folder      |
+| `npm run analyze`     | Analyze dependencies sizes and opens report in the browser        |
+| `npm run lint`        | Check code for lint errors                                        |
+| `npm run format`      | Format code using prettier                                        |
+| `npm run test`        | Run unit tests                                                    |
+| `npm run watch-tests` | Watch for file changes and run unit tests on changes              |
+| `npm run coverage`    | Generate test code coverage report                                |
+| `npm run mock-api`    | Start the mock api which mocks Recruit api                        |
 
 ## Local Deployment
 
@@ -58,3 +59,20 @@ Make sure you have [Heroky CLI](https://devcenter.heroku.com/articles/heroku-cli
 
 - Now you have to configure frame app to use the URL provided by Heroku like `https://<APP-NAME>.herokuapp.com/earn-app/topcoder-micro-frontends-earn-app.js` to load this microapp.
 
+### Aggregator API
+
+Please refer to [Swagger Doc](./src/api/docs/swagger.yaml) for Aggregator API endpoints
+
+#### Aggregator API Configuration
+
+In the `micro-frontends-earn-app` root directory create `.env` file with the next environment variables.
+
+  ```bash
+  # Auth0 config
+  AUTH_SECRET=
+  AUTH0_URL=
+  AUTH0_AUDIENCE=
+  AUTH0_CLIENT_ID=
+  AUTH0_CLIENT_SECRET=
+  ```
+Once the earn app is started, the aggregator api will work as well

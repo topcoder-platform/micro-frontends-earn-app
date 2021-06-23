@@ -1,15 +1,14 @@
 import React from "react";
 import PT from "prop-types";
 import Tooltip from "../../../../../../components/Tooltip";
-import { phaseTooltips } from "../../../../../../assets/data/my-gigs.json";
-
+import { JOB_STATUS_MESSAGE_MAPPER } from "../../../../../../constants";
 import "./styles.scss";
 
 const PhasePointTooltip = ({ phase, children, placement, width }) => {
   const Content = () => (
     <div styleName="phase-point-tooltip" style={{ width: `${width}px` }}>
       <h5 styleName="title">{phase}</h5>
-      <p styleName="text">{phaseTooltips[phase]}</p>
+      <p styleName="text">{JOB_STATUS_MESSAGE_MAPPER[phase]}</p>
     </div>
   );
 

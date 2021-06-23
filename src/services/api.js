@@ -27,8 +27,8 @@ async function doFetch(endpoint, options = {}, v3, baseUrl) {
   });
 }
 
-async function get(endpoint) {
-  const response = await doFetch(endpoint);
+async function get(endpoint, baseUrl) {
+  const response = await doFetch(endpoint, undefined, undefined, baseUrl);
   const meta = utils.pagination.getResponseHeaders(response);
   const result = await response.json();
   result.meta = meta;

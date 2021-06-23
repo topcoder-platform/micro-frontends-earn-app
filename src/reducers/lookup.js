@@ -8,7 +8,7 @@ const defaultState = {
   tags: [],
   subCommunities: [],
   isLoggedIn: null,
-  gigPhases: [],
+  gigStatuses: [],
 };
 
 function onGetTagsDone(state, { payload }) {
@@ -23,8 +23,8 @@ function onCheckIsLoggedInDone(state, { payload }) {
   return { ...state, isLoggedIn: payload };
 }
 
-function onGetGigPhasesDone(state, { payload }) {
-  return { ...state, gigPhases: payload };
+function onGetGigStatusesDone(state, { payload }) {
+  return { ...state, gigStatuses: payload };
 }
 
 export default handleActions(
@@ -32,7 +32,7 @@ export default handleActions(
     GET_TAGS_DONE: onGetTagsDone,
     GET_COMMUNITY_LIST_DONE: onGetCommunityListDone,
     CHECK_IS_LOGGED_IN_DONE: onCheckIsLoggedInDone,
-    GET_GIG_PHASES_DONE: onGetGigPhasesDone,
+    GET_GIG_STATUSES_DONE: onGetGigStatusesDone,
   },
   defaultState
 );

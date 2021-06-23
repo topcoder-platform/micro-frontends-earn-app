@@ -26,13 +26,12 @@
   justify-content: center;
   width: 14px;
   height: 14px;
-  padding-top: 1px;
-  padding-left: 0.5px;
   margin: 4px;
-  font-weight: bold;
-  font-size: 10.5px;
-  border: 2px solid currentColor;
-  border-radius: 50%;
   cursor: default;
-  user-select: none;
+
+  svg {
+    path {
+      fill: currentColor;
+    }
+  }
 }

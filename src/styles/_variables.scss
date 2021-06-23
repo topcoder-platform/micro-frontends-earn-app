@@ -5,7 +5,6 @@
  * colors in your stylesheets.
  */
 /* Grayscale colors. */
-$tc-black: #151516;
 $tc-gray-90: #2a2a2b;
 $tc-gray-80: #404041;
 $tc-gray-70: #555;
@@ -19,7 +18,24 @@ $tc-gray-10: #d5d5d5;
 $tc-gray-05: #e0e0e0;
 $tc-gray-neutral-dark: #ebebeb;
 $tc-gray-neutral-light: #fafafb;
+$tc-black: #2A2A2A;
 $tc-white: #fff;
+
+$tc-gray1: #555555;
+$tc-gray2: #7f7f7f;
+$tc-gray3: #aaaaaa;
+$tc-gray4: #d4d4d4;
+$tc-gray5: #e9e9e9;
+$tc-gray6: #f4f4f4;
+$tc-gray7: #fbfbfb;
+
+$tc-blue: #2c95d7;
+$tc-blue-light1: #50ade8;
+$tc-blue-light2: #83c5ee;
+$tc-blue-light3: #c6e6ea;
+$tc-blue-light4: #eaf6fd;
+$tc-blue-dark1: #2984bd;
+$tc-blue-dark2: #16679a;
 
 /* Accents & Shades. */
 $tc-dark-blue-110: #006ad7;
@@ -49,6 +65,12 @@ $tc-red-100: #f52c14;
 $tc-red-70: #ff5a4c;
 $tc-red-30: #ffd4d0;
 $tc-red-10: #fff4f4;
+$tc-red: #ef476f;
+$tc-red-light1: #f37593;
+$tc-red-light2: #f7a3b7;
+$tc-red-light3: #fbd1db;
+$tc-red-dark1: #be405e;
+$tc-red-dark2: #8c384c;
 
 /* Yellow. */
 $tc-yellow-110: #f2c900;
@@ -64,6 +86,22 @@ $tc-green-100: #5cc900;
 $tc-green-70: #94db4e;
 $tc-green-30: #cef0af;
 $tc-green-10: #effae4;
+$tc-green: #63f963;
+$tc-green-light1: #8afb8a;
+$tc-green-light2: #b0fcb1;
+$tc-green-light3: #d8fdd8;
+$tc-green-dark1: #4cc94c;
+$tc-green-dark2: #35ac35;
+
+/* Turquoise */
+$tc-turquoise: #06d6a0;
+$tc-turquoise-light1: #45e1b8;
+$tc-turquoise-light2: #82eacf;
+$tc-turquoise-light3: #c1f5e7;
+$tc-turquoise-light4: #e0faf3;
+$tc-turquoise-dark1: #0ab88a;
+$tc-turquoise-dark2: #219174;
+$tc-turquoise-dark3: #137d60;
 
 /* Purples. */
 $tc-purple-120: #8231a9;
@@ -120,6 +158,10 @@ $tc-level-3: $tc-pastel-blue;
 $tc-level-4: $tc-pastel-yellow;
 $tc-level-5: $tc-pastel-crimson;
 
+/* Links */
+$tc-link-blue: #0d61bf;
+$tc-link-blue-light: #5fb7ee;
+
 /// FONTS
 
 $font-size-base: 16px;
@@ -137,10 +179,10 @@ $body-color: $tc-gray-90;
 $white: $tc-white;
 $green: #229174;
 $green2: #287d61;
-$green3: #06D6A0;
-$darkGreen: #137d60;
-$lightGreen: #0ab88a;
-$lightGreen2: #06d6a0;
+$green3: $tc-turquoise;
+$darkGreen: $tc-turquoise-dark3;
+$lightGreen: $tc-turquoise-dark1;
+$lightGreen2: $tc-turquoise;
 $blue: #2c95d7;
 $gray1: #fbfbfb;
 $gray2: #f4f4f4;
