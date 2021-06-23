@@ -4,7 +4,7 @@ import { handleActions } from "redux-actions";
 const defaultState = {
   loadingMyGigs: false,
   loadingMyGigsError: null,
-  myGigs: [],
+  myGigs: null,
   total: 0,
   numLoaded: 0,
   loadingMore: false,
@@ -37,7 +37,7 @@ function onGetMyGigsFailure(state, { payload }) {
     ...state,
     loadingMyGigs: false,
     loadingMyGigsError: payload,
-    myGigs: [],
+    myGigs: null,
     total: 0,
     numLoaded: 0,
   };

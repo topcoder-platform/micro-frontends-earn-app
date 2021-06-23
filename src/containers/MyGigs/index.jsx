@@ -5,6 +5,7 @@ import Modal from "../../components/Modal";
 import Button from "../../components/Button";
 import JobListing from "./JobListing";
 import actions from "../../actions";
+import { EMPTY_GIGS_TEXT } from "../../constants";
 
 import UpdateGigProfile from "./modals/UpdateGigProfile";
 import UpdateSuccess from "./modals/UpdateSuccess";
@@ -50,7 +51,7 @@ const MyGigs = ({
           <Button
             isPrimary
             size="lg"
-            disabled="true"
+            disabled={true}
             onClick={() => {
               setOpenUpdateProfile(true);
             }}
@@ -58,12 +59,17 @@ const MyGigs = ({
             UPDATE GIG WORK PROFILE
           </Button>
         </h1>
-        <JobListing
-          jobs={myGigs}
-          loadMore={loadMore}
-          total={total}
-          numLoaded={numLoaded}
-        />
+        {myGigs && myGigs.length == 0 && (
+          <h3 styleName="empty-label">{EMPTY_GIGS_TEXT}</h3>
+        )}
+        {myGigs && myGigs.length > 0 && (
+          <JobListing
+            jobs={myGigs}
+            loadMore={loadMore}
+            total={total}
+            numLoaded={numLoaded}
+          />
+        )}
       </div>
       <Modal open={openUpdateProfile}>
         <UpdateGigProfile

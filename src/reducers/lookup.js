@@ -23,7 +23,6 @@ function onCheckIsLoggedInDone(state, { payload }) {
   return { ...state, isLoggedIn: payload };
 }
 
-
 function onGetGigStatusesDone(state, { payload }) {
   return { ...state, gigStatuses: payload };
 }

@@ -345,3 +345,6 @@ export const GIG_STATUS = {
   UNAVAILABLE: "Unavailable",
   PLACED: "Placed",
 };
+
+export const EMPTY_GIGS_TEXT =
+  "Looks like you haven't applied to any gig opportunities yet.";
