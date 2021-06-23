@@ -6,7 +6,7 @@
     "dev-https": "cross-env APPMODE=development webpack-dev-server --https --port 8008",
     "build": "webpack --mode=${APPMODE:-development} --env.config=${APPENV:-dev}",
     "analyze": "webpack --mode=production --env.analyze=true",
-    "lint": "eslint src --ext js,jsx --fix",
+    "lint": "eslint src --ext js,jsx",
     "format": "prettier --write \"./**\"",
     "test": "cross-env BABEL_ENV=test jest",
     "watch-tests": "cross-env BABEL_ENV=test jest --watch",

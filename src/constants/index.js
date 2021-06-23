@@ -351,3 +351,6 @@ export const GIG_STATUS_TOOLTIP = {
   UNAVAILABLE: "You’re not open to take on new jobs.",
   PLACED: "You’re on a topcoder gig already.",
 };
+
+export const EMPTY_GIGS_TEXT =
+  "Looks like you haven't applied to any gig opportunities yet.";
