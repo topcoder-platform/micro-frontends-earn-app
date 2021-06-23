@@ -9,7 +9,7 @@ module.exports = {
   URL: {
     BASE: "https://www.topcoder.com",
     COMMUNITY_APP: "https://community-app.topcoder.com",
-    PLATFORM_WEBSITE_URL: "http://local.topcoder-dev.com:8008",
+    PLATFORM_WEBSITE_URL: "https://platform.topcoder.com",
   },
   RECRUIT_API: "https://www.topcoder.com",
 };
