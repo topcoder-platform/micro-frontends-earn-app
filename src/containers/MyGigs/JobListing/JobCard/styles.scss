@@ -28,6 +28,9 @@
     margin-bottom: 12px;
     line-height: 38px;
     text-transform: uppercase;
+    text-overflow: ellipsis;
+    max-width: 660px;
+    overflow: hidden;
   }
 }
 
