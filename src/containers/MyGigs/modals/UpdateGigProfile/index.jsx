@@ -36,15 +36,17 @@ const UpdateGigProfile = ({
     );
   }, [profile, countries]);
 
-  const statusOptions = useMemo(() => {
-    const selected = profile.status;
-    const options = statuses.filter((s) => s !== GIG_STATUS.PLACED);
-    return utils.createDropdownOptions(options, selected);
-  }, [profile, statuses]);
-
   const [profileEdit, setProfileEdit] = useState(
     profile ? _.clone(profile) : null
   );
+
+  const statusOptions = useMemo(() => {
+    const selected = profileEdit.status;
+    const options = statuses.filter((s) => s !== GIG_STATUS.PLACED);
+    return utils.createDropdownOptions(options, selected);
+  }, [profileEdit, statuses]);
+
+
   const [validation, setValidation] = useState(null);
   const [pristine, setPristine] = useState(true);
 
