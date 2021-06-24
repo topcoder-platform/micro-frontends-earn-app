@@ -46,7 +46,6 @@ const UpdateGigProfile = ({
     return utils.createDropdownOptions(options, selected);
   }, [profileEdit, statuses]);
 
-
   const [validation, setValidation] = useState(null);
   const [pristine, setPristine] = useState(true);
 
