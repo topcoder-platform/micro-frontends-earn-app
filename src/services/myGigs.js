@@ -114,6 +114,7 @@ async function getProfile() {
     country: profile.country,
     phone: profile.phone,
     file: null,
+    existingResume: profile.resume,
     hasProfile: profile.hasProfile,
     status: profile.availability
       ? GIG_STATUS.AVAILABLE

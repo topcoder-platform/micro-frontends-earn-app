@@ -118,6 +118,13 @@
   .details {
     display: flex;
     flex-wrap: wrap;
+    .resume-details {
+      font-size: 14px;
+      & > a {
+        color: blue;
+        text-decoration: underline;
+      }
+    }
 
     .resume {
       align-self: flex-start;
