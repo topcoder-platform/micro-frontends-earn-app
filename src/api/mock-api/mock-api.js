@@ -21,6 +21,7 @@ app.use((req, res, next) => {
 
 app.get("/api/recruit/profile", (req, res) => {
   const result = {
+    hasProfile: false,
     phone: "555-555-55-55",
     resume: "https://resume.topcoder.com/1234567",
     availability: true,

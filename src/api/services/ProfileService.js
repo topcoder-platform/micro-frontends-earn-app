@@ -31,6 +31,7 @@ async function getMyProfile(currentUser) {
     email: _.get(member, "email", null),
     city: _.get(member, "addresses[0].city", null),
     country: _.get(member, "competitionCountryCode", null),
+    hasProfile: _.get(recruitProfile, "hasProfile", false),
     phone: _.get(recruitProfile, "phone", null),
     resume: _.get(recruitProfile, "resume", null),
     availability: _.get(recruitProfile, "availability", true),
