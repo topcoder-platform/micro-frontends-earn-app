@@ -91,17 +91,17 @@ async function updateMyProfile(currentUser, files, data) {
         : "HOME";
       update.addresses[0].stateCode = update.addresses[0].stateCode
         ? update.addresses[0].stateCode
-        : "000";
+        : " ";
       update.addresses[0].zip = update.addresses[0].zip
         ? update.addresses[0].zip
-        : "000";
+        : " ";
     } else {
       update.addresses = [
         {
           city: data.city,
           type: "HOME",
-          stateCode: "000",
-          zip: "000",
+          stateCode: " ",
+          zip: " ",
         },
       ];
     }
