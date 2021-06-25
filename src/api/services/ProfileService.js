@@ -75,6 +75,7 @@ async function updateMyProfile(currentUser, files, data) {
     "fields=addresses,competitionCountryCode,homeCountryCode"
   );
   const update = {};
+  let shouldUpdateTrait = false;
   // update member data if city is different from existing one
   if (_.get(member, "addresses[0].city") !== data.city) {
     update.addresses = _.cloneDeep(member.addresses);
@@ -82,10 +83,25 @@ async function updateMyProfile(currentUser, files, data) {
       update.addresses[0].city = data.city;
       delete update.addresses[0].createdAt;
       delete update.addresses[0].updatedAt;
+      update.addresses[0].streetAddr1 = update.addresses[0].streetAddr1
+        ? update.addresses[0].streetAddr1
+        : " ";
+      update.addresses[0].type = update.addresses[0].type
+        ? update.addresses[0].type
+        : "HOME";
+      update.addresses[0].stateCode = update.addresses[0].stateCode
+        ? update.addresses[0].stateCode
+        : "000";
+      update.addresses[0].zip = update.addresses[0].zip
+        ? update.addresses[0].zip
+        : "000";
     } else {
       update.addresses = [
         {
           city: data.city,
+          type: "HOME",
+          stateCode: "000",
+          zip: "000",
         },
       ];
     }
@@ -93,13 +109,30 @@ async function updateMyProfile(currentUser, files, data) {
   // update member data if competitionCountryCode is different from existing one
   if (_.get(member, "competitionCountryCode") !== data.country) {
     update.competitionCountryCode = data.country;
+    shouldUpdateTrait = true;
   }
   if (_.get(member, "homeCountryCode") !== data.country) {
     update.homeCountryCode = data.country;
+    shouldUpdateTrait = true;
   }
   // avoid unnecessary api calls
   if (!_.isEmpty(update)) {
     await helper.updateMember(currentUser, update);
+  }
+  if (shouldUpdateTrait) {
+    const memberTraits = await helper.getMemberTraits(
+      currentUser.handle,
+      `traitIds=basic_info`
+    );
+    if (memberTraits && memberTraits.length) {
+      memberTraits[0]["traits"].data[0].country = data.countryName;
+      delete memberTraits[0].createdAt;
+      delete memberTraits[0].createdBy;
+      delete memberTraits[0].updatedAt;
+      delete memberTraits[0].updatedBy;
+      delete memberTraits[0].userId;
+      await helper.updateMemberTraits(currentUser, memberTraits);
+    }
   }
   await helper.updateRCRMProfile(currentUser, files.resume, {
     phone: data.phone,
@@ -119,6 +152,7 @@ updateMyProfile.schema = Joi.object()
       .keys({
         city: Joi.string().required(),
         country: Joi.string().required(),
+        countryName: Joi.string().required(),
         phone: Joi.string().required(),
         availability: Joi.boolean().required(),
       })

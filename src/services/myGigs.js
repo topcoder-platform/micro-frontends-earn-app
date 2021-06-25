@@ -129,6 +129,7 @@ async function updateProfile(profile) {
   const payload = {
     city: profile.city,
     country: profile.countryCode,
+    countryName: profile.country,
     phone: profile.phone,
     availability: profile.status === GIG_STATUS.AVAILABLE ? true : false,
     resume: profile.file,

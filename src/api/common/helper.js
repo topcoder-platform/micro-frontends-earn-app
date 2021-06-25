@@ -336,6 +336,26 @@ async function getMember(handle, query) {
 }
 
 /**
+ * Get member traits info
+ * @param {string} handle the handle of the user
+ * @param {string} query the query criteria
+ * @returns the object of member traitsdetails
+ */
+async function getMemberTraits(handle, query) {
+  const token = await getM2MToken();
+  const url = `${config.API.V5}/members/${handle}/traits`;
+  const res = await request
+    .get(url)
+    .query(query)
+    .set("Authorization", `Bearer ${token}`)
+    .set("Accept", "application/json");
+  localLogger.debug({
+    context: "getMemberTraits",
+    message: `response body: ${JSON.stringify(res.body)}`,
+  });
+  return res.body;
+}
+/**
  * Update member details
  * @param {string} handle the handle of the user
  * @param {object} data the data to be updated
@@ -352,6 +372,28 @@ async function updateMember(currentUser, data) {
     .send(data);
   localLogger.debug({
     context: "updateMember",
+    message: `response body: ${JSON.stringify(res.body)}`,
+  });
+  return res.body;
+}
+
+/**
+ * Update member traits
+ * @param {string} handle the handle of the user
+ * @param {object} data the data to be updated
+ * @return {object} the object of updated member details
+ */
+async function updateMemberTraits(currentUser, data) {
+  const token = currentUser.jwtToken;
+  const url = `${config.API.V5}/members/${currentUser.handle}/traits`;
+  const res = await request
+    .put(url)
+    .set("Authorization", token)
+    .set("Content-Type", "application/json")
+    .set("Accept", "application/json")
+    .send(data);
+  localLogger.debug({
+    context: "updateMemberTraits",
     message: `response body: ${JSON.stringify(res.body)}`,
   });
   return res.body;
@@ -412,7 +454,9 @@ module.exports = {
   getJobCandidates,
   getJobs,
   getMember,
+  getMemberTraits,
   updateMember,
+  updateMemberTraits,
   getRCRMProfile,
   updateRCRMProfile,
 };
