@@ -84,8 +84,13 @@ async function updateMyProfile(currentUser, files, data) {
       update.addresses[0].city = data.city;
       delete update.addresses[0].createdAt;
       delete update.addresses[0].updatedAt;
+      delete update.addresses[0].createdBy;
+      delete update.addresses[0].updatedBy;
       update.addresses[0].streetAddr1 = update.addresses[0].streetAddr1
         ? update.addresses[0].streetAddr1
+        : " ";
+      update.addresses[0].streetAddr2 = update.addresses[0].streetAddr2
+        ? update.addresses[0].streetAddr2
         : " ";
       update.addresses[0].type = update.addresses[0].type
         ? update.addresses[0].type
