@@ -145,6 +145,8 @@ async function updateMyProfile(currentUser, files, data) {
   await helper.updateRCRMProfile(currentUser, files.resume, {
     phone: data.phone,
     availability: data.availability,
+    city: data.city,
+    countryName: data.countryName,
   });
 }
 
