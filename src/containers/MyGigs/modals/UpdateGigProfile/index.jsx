@@ -76,10 +76,10 @@ const UpdateGigProfile = ({
       validation.file = profileEdit.fileError;
     }
 
-    if (!profileEdit.file) {
-      validation = validation || {};
-      validation.file = "Please, pick your CV file for uploading";
-    }
+    // if (!profileEdit.file) {
+    //   validation = validation || {};
+    //   validation.file = "Please, pick your CV file for uploading";
+    // }
 
     if ((error = utils.myGig.validateCity(profileEdit.city))) {
       validation = validation || {};
