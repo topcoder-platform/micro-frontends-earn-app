@@ -61,10 +61,11 @@ export function validatePhone(phoneNumber, country) {
   phoneNumber = phoneNumber.trim();
 
   const code = codes.find((i) => i.isoCode3 === country);
-  const regionCode = `+${code.countryCodes[0]}`;
-
-  error = !phoneNumber.startsWith(regionCode) && "Invalid country code";
-
+  let regionCode = "";
+  if (code) {
+    regionCode = `+${code.countryCodes[0]}`;
+    error = !phoneNumber.startsWith(regionCode) && "Invalid country code";
+  }
   if (!error) {
     const regexValidCharacters = /[\s0-9+-\.()]/g;
     error =
