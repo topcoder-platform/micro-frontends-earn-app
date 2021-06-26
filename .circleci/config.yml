@@ -76,7 +76,7 @@ workflows:
           filters:
             branches:
               only:
-                - issues-131
+                - integration-b
 
       # Production builds are exectuted only on tagged commits to the
       # master branch.
