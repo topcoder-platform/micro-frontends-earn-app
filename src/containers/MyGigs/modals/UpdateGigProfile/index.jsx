@@ -224,8 +224,7 @@ const UpdateGigProfile = ({
           {profile && profile.existingResume && (
             <div styleName="resume-details">
               Please upload your resume/CV. Double-check that all of your tech
-              skills are listed in your resume/CV and add them to the tech
-              skills section below.
+              skills are listed in your resume/CV.
               <a href={profile.existingResume.file_link}>
                 {profile.existingResume.filename}
               </a>
