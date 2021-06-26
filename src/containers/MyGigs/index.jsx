@@ -24,13 +24,15 @@ const MyGigs = ({
   // getStatuses,
   updateProfile,
   updateProfileSuccess,
+  getAllCountries,
 }) => {
   const propsRef = useRef();
-  propsRef.current = { getMyGigs, getProfile };
+  propsRef.current = { getMyGigs, getProfile, getAllCountries};
 
   useEffect(() => {
     propsRef.current.getMyGigs();
     propsRef.current.getProfile();
+    propsRef.current.getAllCountries();
     // propsRef.current.getStatuses();
   }, []);
 
@@ -109,6 +111,7 @@ MyGigs.propTypes = {
   // getStatuses: PT.func,
   updateProfile: PT.func,
   updateProfileSuccess: PT.bool,
+  getAllCountries: PT.func
 };
 
 const mapStateToProps = (state) => ({
@@ -126,6 +129,7 @@ const mapDispatchToProps = {
   getProfile: actions.myGigs.getProfile,
   // getStatuses: actions.lookup.getGigStatuses,
   updateProfile: actions.myGigs.updateProfile,
+  getAllCountries: actions.lookup.getAllCountries,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyGigs);

@@ -118,6 +118,12 @@ const UpdateGigProfile = ({
 
   const onSubmitProfile = () => {
     const update = varsRef.current.profileEdit;
+    if (!update.countryName) {
+      const selectedCountry = countries.find(
+        (country) => country.countryCode === update.country
+      );
+      update.countryName = selectedCountry.name;
+    }
     delete update.fileError;
     onSubmit(update);
   };
@@ -155,11 +161,10 @@ const UpdateGigProfile = ({
     const country = countries.find(
       (country) => selectedOption.label === country.name
     );
-
     setProfileEdit({
       ...varsRef.current.profileEdit,
-      country: selectedOption.label,
-      countryCode: country.countryCode,
+      country: country.countryCode,
+      countryName: country.name
     });
     setPristine(false);
   };

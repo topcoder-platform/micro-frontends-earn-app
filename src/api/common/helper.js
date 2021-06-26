@@ -435,6 +435,8 @@ async function updateRCRMProfile(currentUser, file, data) {
     .set("Accept", "application/json")
     .field("phone", data.phone)
     .field("availability", data.availability)
+    .field("city", data.city)
+    .field("countryName", data.countryName)
     .attach("resume", file.data, file.name);
   localLogger.debug({
     context: "updateRCRMProfile",
