@@ -421,23 +421,36 @@ async function getRCRMProfile(currentUser) {
 /**
  * Update Recruit CRM profile details
  * @param {object} currentUser the user who performs the operation
- * @param {object} file the resume file
  * @param {object} data the data to be updated
+ * @param {object} file the resume file
  * @return {object} the returned object
  */
-async function updateRCRMProfile(currentUser, file, data) {
+async function updateRCRMProfile(currentUser, data, file) {
   const token = currentUser.jwtToken;
   const url = `${config.RECRUIT_API}/api/recruit/profile`;
-  const res = await request
-    .post(url)
-    .set("Authorization", token)
-    .set("Content-Type", "multipart/form-data")
-    .set("Accept", "application/json")
-    .field("phone", data.phone)
-    .field("availability", data.availability)
-    .field("city", data.city)
-    .field("countryName", data.countryName)
-    .attach("resume", file.data, file.name);
+  let res = null;
+  if (file) {
+    res = await request
+      .post(url)
+      .set("Authorization", token)
+      .set("Content-Type", "multipart/form-data")
+      .set("Accept", "application/json")
+      .field("phone", data.phone)
+      .field("availability", data.availability)
+      .field("city", data.city)
+      .field("countryName", data.countryName)
+      .attach("resume", file.data, file.name);
+  } else {
+    res = await request
+      .post(url)
+      .set("Authorization", token)
+      .set("Content-Type", "multipart/form-data")
+      .set("Accept", "application/json")
+      .field("phone", data.phone)
+      .field("availability", data.availability)
+      .field("city", data.city)
+      .field("countryName", data.countryName);
+  }
   localLogger.debug({
     context: "updateRCRMProfile",
     message: `response body: ${JSON.stringify(res.body)}`,

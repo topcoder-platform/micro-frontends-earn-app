@@ -134,8 +134,10 @@ async function updateProfile(profile) {
     countryName: profile.countryName,
     phone: profile.phone,
     availability: profile.status === GIG_STATUS.AVAILABLE ? true : false,
-    resume: profile.file,
   };
+  if (profile.file) {
+    payload.resume = profile.file;
+  }
 
   // add info to formData to send to server
   const formData = new FormData();

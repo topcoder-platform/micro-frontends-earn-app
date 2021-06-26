@@ -49,13 +49,13 @@ getMyProfile.schema = Joi.object()
  * @param {object} currentUser the user who perform this operation.
  * @param {object} data the data to be updated
  */
-async function updateMyProfile(currentUser, files, data) {
+async function updateMyProfile(currentUser, data, files) {
   // we expect logged-in users
   if (currentUser.isMachine) {
     return;
   }
   // check if file was truncated
-  if (files.resume.truncated) {
+  if (files && files.resume.truncated) {
     throw new errors.BadRequestError(
       `Maximum allowed file size is ${config.MAX_ALLOWED_FILE_SIZE_MB} MB`
     );
@@ -65,7 +65,7 @@ async function updateMyProfile(currentUser, files, data) {
     `^.*\.(${_.join(config.ALLOWED_FILE_TYPES, "|")})$`,
     "i"
   );
-  if (!regex.test(files.resume.name)) {
+  if (files && !regex.test(files.resume.name)) {
     throw new errors.BadRequestError(
       `Allowed file types are: ${_.join(config.ALLOWED_FILE_TYPES, ",")}`
     );
@@ -142,33 +142,30 @@ async function updateMyProfile(currentUser, files, data) {
       await helper.updateMemberTraits(currentUser, memberTraits);
     }
   }
-  await helper.updateRCRMProfile(currentUser, files.resume, {
-    phone: data.phone,
-    availability: data.availability,
-    city: data.city,
-    countryName: data.countryName,
-  });
+  await helper.updateRCRMProfile(
+    currentUser,
+    {
+      phone: data.phone,
+      availability: data.availability,
+      city: data.city,
+      countryName: data.countryName,
+    },
+    files && files.resume
+  );
 }
 
-updateMyProfile.schema = Joi.object()
-  .keys({
-    currentUser: Joi.object().required(),
-    files: Joi.object()
-      .keys({
-        resume: Joi.object().required(),
-      })
-      .required(),
-    data: Joi.object()
-      .keys({
-        city: Joi.string().required(),
-        country: Joi.string().required(),
-        countryName: Joi.string().required(),
-        phone: Joi.string().required(),
-        availability: Joi.boolean().required(),
-      })
-      .required(),
-  })
-  .required();
+updateMyProfile.schema = Joi.object({
+  currentUser: Joi.object().required(),
+  data: Joi.object()
+    .keys({
+      city: Joi.string().required(),
+      country: Joi.string().required(),
+      countryName: Joi.string().required(),
+      phone: Joi.string().required(),
+      availability: Joi.boolean().required(),
+    })
+    .required(),
+}).unknown();
 
 module.exports = {
   getMyProfile,
