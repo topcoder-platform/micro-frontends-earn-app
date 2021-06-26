@@ -164,7 +164,7 @@ const UpdateGigProfile = ({
     setProfileEdit({
       ...varsRef.current.profileEdit,
       country: country.countryCode,
-      countryName: country.name
+      countryName: country.name,
     });
     setPristine(false);
   };

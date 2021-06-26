@@ -27,7 +27,7 @@ const MyGigs = ({
   getAllCountries,
 }) => {
   const propsRef = useRef();
-  propsRef.current = { getMyGigs, getProfile, getAllCountries};
+  propsRef.current = { getMyGigs, getProfile, getAllCountries };
 
   useEffect(() => {
     propsRef.current.getMyGigs();
@@ -111,7 +111,7 @@ MyGigs.propTypes = {
   // getStatuses: PT.func,
   updateProfile: PT.func,
   updateProfileSuccess: PT.bool,
-  getAllCountries: PT.func
+  getAllCountries: PT.func,
 };
 
 const mapStateToProps = (state) => ({
