@@ -108,6 +108,8 @@ async function updateMyProfile(currentUser, files, data) {
           type: "HOME",
           stateCode: " ",
           zip: " ",
+          streetAddr1: " ",
+          streetAddr2: " ",
         },
       ];
     }
