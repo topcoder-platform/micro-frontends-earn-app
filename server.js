@@ -1,8 +1,13 @@
 /* global process */
 require("./src/api/bootstrap");
 const express = require("express");
+const cors = require("cors");
 
 const app = express();
+app.use(cors({
+  // Allow browsers access pagination data in headers
+  exposedHeaders: ['X-Page', 'X-Per-Page', 'X-Total', 'X-Total-Pages', 'X-Prev-Page', 'X-Next-Page']
+}))
 
 // Register routes
 require("./src/api/app-routes")(app);
