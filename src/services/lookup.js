@@ -53,10 +53,6 @@ async function getCommunityList() {
   );
 }
 
-// async function getGigStatuses() {
-//   return Promise.resolve(myGigsData.gigStatuses);
-// }
-
 /**
  * Gets paginated countries
  * @param {number} page page to fetch
@@ -72,6 +68,5 @@ export default {
   getTags,
   getCommunityList,
   checkIsLoggedIn,
-  // getGigStatuses,
   getPaginatedCountries,
 };

@@ -24,10 +24,6 @@ function onCheckIsLoggedInDone(state, { payload }) {
   return { ...state, isLoggedIn: payload };
 }
 
-// function onGetGigStatusesDone(state, { payload }) {
-//   return { ...state, gigStatuses: payload };
-// }
-
 function onGetAllCountriesDone(state, { payload }) {
   return { ...state, countries: payload };
 }
@@ -37,7 +33,6 @@ export default handleActions(
     GET_TAGS_DONE: onGetTagsDone,
     GET_COMMUNITY_LIST_DONE: onGetCommunityListDone,
     CHECK_IS_LOGGED_IN_DONE: onCheckIsLoggedInDone,
-    // GET_GIG_STATUSES_DONE: onGetGigStatusesDone,
     GET_ALL_COUNTRIES_DONE: onGetAllCountriesDone,
   },
   defaultState

@@ -13,10 +13,6 @@ async function checkIsLoggedIn() {
   return service.checkIsLoggedIn();
 }
 
-// async function getGigStatuses() {
-//   return service.getGigStatuses();
-// }
-
 /**
  * Gets all the countries.
  * @returns {Array} Array containing all countries
@@ -47,6 +43,5 @@ export default createActions({
   GET_TAGS: getTags,
   GET_COMMUNITY_LIST: getCommunityList,
   CHECK_IS_LOGGED_IN: checkIsLoggedIn,
-  // GET_GIG_STATUSES: getGigStatuses,
   GET_ALL_COUNTRIES: getAllCountries,
 });

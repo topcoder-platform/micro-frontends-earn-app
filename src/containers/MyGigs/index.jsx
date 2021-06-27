@@ -19,9 +19,7 @@ const MyGigs = ({
   total,
   numLoaded,
   profile,
-  // statuses,
   getProfile,
-  // getStatuses,
   updateProfile,
   updateProfileSuccess,
   getAllCountries,
@@ -33,7 +31,6 @@ const MyGigs = ({
     propsRef.current.getMyGigs();
     propsRef.current.getProfile();
     propsRef.current.getAllCountries();
-    // propsRef.current.getStatuses();
   }, []);
 
   const [openUpdateProfile, setOpenUpdateProfile] = useState(false);
@@ -78,7 +75,6 @@ const MyGigs = ({
       <Modal open={openUpdateProfile}>
         <UpdateGigProfile
           profile={profile}
-          // statuses={statuses}
           onSubmit={(profileEdit) => {
             updateProfile(profileEdit);
             setOpenUpdateProfile(false);
@@ -106,9 +102,7 @@ MyGigs.propTypes = {
   total: PT.number,
   numLoaded: PT.number,
   profile: PT.shape(),
-  // statuses: PT.arrayOf(PT.string),
   getProfile: PT.func,
-  // getStatuses: PT.func,
   updateProfile: PT.func,
   updateProfileSuccess: PT.bool,
   getAllCountries: PT.func,
@@ -119,7 +113,6 @@ const mapStateToProps = (state) => ({
   total: state.myGigs.total,
   numLoaded: state.myGigs.numLoaded,
   profile: state.myGigs.profile,
-  // statuses: state.lookup.gigStatuses,
   updateProfileSuccess: state.myGigs.updatingProfileSucess,
 });
 
@@ -127,7 +120,6 @@ const mapDispatchToProps = {
   getMyGigs: actions.myGigs.getMyGigs,
   loadMore: actions.myGigs.loadMoreMyGigs,
   getProfile: actions.myGigs.getProfile,
-  // getStatuses: actions.lookup.getGigStatuses,
   updateProfile: actions.myGigs.updateProfile,
   getAllCountries: actions.lookup.getAllCountries,
 };
