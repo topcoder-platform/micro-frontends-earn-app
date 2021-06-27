@@ -8,7 +8,6 @@ const defaultState = {
   tags: [],
   subCommunities: [],
   isLoggedIn: null,
-  // gigStatuses: [],
   countries: [],
 };
 
