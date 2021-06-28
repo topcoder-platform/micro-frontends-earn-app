@@ -1,7 +1,6 @@
 import api from "./api";
 import qs from "qs";
 import * as utils from "../utils";
-import myGigsData from "../assets/data/my-gigs.json";
 
 async function getTags() {
   const v3 = true;
@@ -54,13 +53,20 @@ async function getCommunityList() {
   );
 }
 
-async function getGigStatuses() {
-  return Promise.resolve(myGigsData.gigStatuses);
+/**
+ * Gets paginated countries
+ * @param {number} page page to fetch
+ * @param {number} perPage number of items by page
+ * @returns
+ */
+async function getPaginatedCountries(page = 1, perPage = 100) {
+  const url = `/lookups/countries?page=${page}&perPage=${perPage}`;
+  return await api.get(url);
 }
 
 export default {
   getTags,
   getCommunityList,
   checkIsLoggedIn,
-  getGigStatuses,
+  getPaginatedCountries,
 };

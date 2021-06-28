@@ -19,7 +19,7 @@ async function getMyProfile(req, res) {
  * @param res the response
  */
 async function updateMyProfile(req, res) {
-  await service.updateMyProfile(req.authUser, req.files, req.body);
+  await service.updateMyProfile(req.authUser, req.body, req.files);
   res.status(204).end();
 }
 

@@ -19,19 +19,18 @@ const MyGigs = ({
   total,
   numLoaded,
   profile,
-  statuses,
   getProfile,
-  getStatuses,
   updateProfile,
   updateProfileSuccess,
+  getAllCountries,
 }) => {
   const propsRef = useRef();
-  propsRef.current = { getMyGigs, getProfile, getStatuses };
+  propsRef.current = { getMyGigs, getProfile, getAllCountries };
 
   useEffect(() => {
     propsRef.current.getMyGigs();
     propsRef.current.getProfile();
-    propsRef.current.getStatuses();
+    propsRef.current.getAllCountries();
   }, []);
 
   const [openUpdateProfile, setOpenUpdateProfile] = useState(false);
@@ -40,6 +39,8 @@ const MyGigs = ({
   useEffect(() => {
     if (updateProfileSuccess) {
       setOpenUpdateSuccess(true);
+      // in case of success, let's fetch the updated profile
+      propsRef.current.getProfile();
     }
   }, [updateProfileSuccess]);
 
@@ -51,7 +52,7 @@ const MyGigs = ({
           <Button
             isPrimary
             size="lg"
-            disabled={true}
+            disabled={!(profile && profile.hasProfile)}
             onClick={() => {
               setOpenUpdateProfile(true);
             }}
@@ -74,7 +75,6 @@ const MyGigs = ({
       <Modal open={openUpdateProfile}>
         <UpdateGigProfile
           profile={profile}
-          statuses={statuses}
           onSubmit={(profileEdit) => {
             updateProfile(profileEdit);
             setOpenUpdateProfile(false);
@@ -102,11 +102,10 @@ MyGigs.propTypes = {
   total: PT.number,
   numLoaded: PT.number,
   profile: PT.shape(),
-  statuses: PT.arrayOf(PT.string),
   getProfile: PT.func,
-  getStatuses: PT.func,
   updateProfile: PT.func,
   updateProfileSuccess: PT.bool,
+  getAllCountries: PT.func,
 };
 
 const mapStateToProps = (state) => ({
@@ -114,7 +113,6 @@ const mapStateToProps = (state) => ({
   total: state.myGigs.total,
   numLoaded: state.myGigs.numLoaded,
   profile: state.myGigs.profile,
-  statuses: state.lookup.gigStatuses,
   updateProfileSuccess: state.myGigs.updatingProfileSucess,
 });
 
@@ -122,8 +120,8 @@ const mapDispatchToProps = {
   getMyGigs: actions.myGigs.getMyGigs,
   loadMore: actions.myGigs.loadMoreMyGigs,
   getProfile: actions.myGigs.getProfile,
-  getStatuses: actions.lookup.getGigStatuses,
   updateProfile: actions.myGigs.updateProfile,
+  getAllCountries: actions.lookup.getAllCountries,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyGigs);

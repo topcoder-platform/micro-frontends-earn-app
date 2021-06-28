@@ -1,4 +1,3 @@
-import api from "./api";
 import { get, keys, size, sortBy, values } from "lodash";
 import {
   ACTIONS_AVAILABLE_FOR_MY_GIG_PHASE,
@@ -8,9 +7,11 @@ import {
   SORT_STATUS_ORDER,
   PHASES_FOR_JOB_STATUS,
   MY_GIG_PHASE,
+  GIG_STATUS,
 } from "../constants";
-import data from "../assets/data/my-gigs.json";
+import api from "./api";
 
+const PROFILE_URL = "/earn-app/api/my-gigs/profile";
 /**
  * Maps the data from api to data to be used by application
  * @param {Object} serverResponse data returned by the api
@@ -93,12 +94,67 @@ async function getMyGigs(page, perPage) {
   };
 }
 
+/**
+ * Get the profile info
+ * @returns {Object}
+ */
 async function getProfile() {
-  return Promise.resolve(data.gigProfile);
+  const profile = await api.get(
+    PROFILE_URL,
+    process.env.URL.PLATFORM_WEBSITE_URL
+  );
+
+  return {
+    handle: profile.handle,
+    photoURL: profile.profilePhoto,
+    firstName: profile.firstName,
+    lastName: profile.lastName,
+    email: profile.email,
+    city: profile.city,
+    country: profile.country,
+    phone: profile.phone,
+    file: null,
+    existingResume: profile.resume,
+    hasProfile: profile.hasProfile,
+    status: profile.availability
+      ? GIG_STATUS.AVAILABLE
+      : GIG_STATUS.UNAVAILABLE,
+  };
 }
 
+/**
+ * Updates the profile
+ * @param {Object} profile - profile info to be updated
+ * @returns
+ */
 async function updateProfile(profile) {
-  return Promise.resolve(profile);
+  const payload = {
+    city: profile.city,
+    country: profile.country,
+    countryName: profile.countryName,
+    phone: profile.phone,
+    availability: profile.status === GIG_STATUS.AVAILABLE ? true : false,
+  };
+  if (profile.file) {
+    payload.resume = profile.file;
+  }
+
+  // add info to formData to send to server
+  const formData = new FormData();
+  keys(payload).forEach((key) => formData.append(key, payload[key]));
+
+  const response = await api.post(
+    PROFILE_URL,
+    formData,
+    process.env.URL.PLATFORM_WEBSITE_URL
+  );
+
+  // in case of error, throw the server error
+  if (response.status !== 200 && response.status !== 204) {
+    const error = await response.json();
+    throw new Error(error.message);
+  }
+  return response;
 }
 
 export default {

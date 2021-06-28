@@ -109,9 +109,7 @@ const JobCard = ({ job }) => {
             </ul>
           </div>
           <div
-            styleName={`right-side ${
-              job.phaseAction === MY_GIG_PHASE_ACTION.STAND_BY ? "stand-by" : ""
-            } ${!job.phaseAction ? "none" : ""}`}
+            styleName={`right-side stand-by ${!job.phaseAction ? "none" : ""}`}
           >
             {job.phaseAction && <Button size="lg">{job.phaseAction}</Button>}
           </div>

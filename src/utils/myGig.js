@@ -53,7 +53,6 @@ export function validateCity(value) {
 }
 
 export function validatePhone(phoneNumber, country) {
-  const countryCode = countries.getAlpha2Code(country, "en") || "US";
   let error = validateTextRequired(phoneNumber);
   if (error) {
     return error;
@@ -61,11 +60,12 @@ export function validatePhone(phoneNumber, country) {
 
   phoneNumber = phoneNumber.trim();
 
-  const code = codes.find((i) => i.isoCode2 === countryCode);
-  const regionCode = `+${code.countryCodes[0]}`;
-
-  error = !phoneNumber.startsWith(regionCode) && "Invalid country code";
-
+  const code = codes.find((i) => i.isoCode3 === country);
+  let regionCode = "";
+  if (code) {
+    regionCode = `+${code.countryCodes[0]}`;
+    error = !phoneNumber.startsWith(regionCode) && "Invalid country code";
+  }
   if (!error) {
     const regexValidCharacters = /[\s0-9+-\.()]/g;
     error =

@@ -11,4 +11,5 @@ module.exports = {
     COMMUNITY_APP: "https://community-app.topcoder-dev.com",
     PLATFORM_WEBSITE_URL: "https://platform.topcoder-dev.com",
   },
+  RECRUIT_API: "https://www.topcoder-dev.com",
 };

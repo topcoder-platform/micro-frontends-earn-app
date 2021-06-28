@@ -343,7 +343,11 @@ export const MY_GIG_STATUS_PLACED = "PLACED";
 export const GIG_STATUS = {
   AVAILABLE: "Available",
   UNAVAILABLE: "Unavailable",
-  PLACED: "Placed",
+};
+
+export const GIG_STATUS_TOOLTIP = {
+  AVAILABLE: "You’re open to take on new jobs.",
+  UNAVAILABLE: "You’re not open to take on new jobs.",
 };
 
 export const EMPTY_GIGS_TEXT =
