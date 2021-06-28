@@ -18,30 +18,7 @@ const authenticator = require("tc-core-library-js").middleware.jwtAuthenticator;
  */
 module.exports = (app) => {
   app.use(express.json());
-  app.use(
-    cors({
-      origin: "*",
-      methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-      optionsSuccessStatus: 204,
-      preflightContinue: false,
-      allowedHeaders: [
-        "Origin",
-        "X-Requested-With",
-        "Content-Type",
-        "Accept",
-        "Authorization",
-      ],
-      // Allow browsers access pagination data in headers
-      exposedHeaders: [
-        "X-Page",
-        "X-Per-Page",
-        "X-Total",
-        "X-Total-Pages",
-        "X-Prev-Page",
-        "X-Next-Page",
-      ],
-    })
-  );
+  app.use(cors());
   app.use(
     fileUpload({
       limits: {
