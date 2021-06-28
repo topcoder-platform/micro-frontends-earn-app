@@ -20,7 +20,10 @@ module.exports = (app) => {
   app.use(express.json());
   app.use(
     cors({
-      origin: true,
+      origin: "*",
+      methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+      optionsSuccessStatus: 204,
+      preflightContinue: false,
       // Allow browsers access pagination data in headers
       exposedHeaders: [
         "X-Page",
