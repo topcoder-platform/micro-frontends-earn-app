@@ -93,8 +93,8 @@ Dropdown.defaultProps = {
 Dropdown.propTypes = {
   options: PT.arrayOf(
     PT.shape({
-      label: PT.string.isRequired,
-      selected: PT.bool.isRequired,
+      label: PT.string,
+      selected: PT.bool,
     })
   ).isRequired,
   placeholder: PT.string,

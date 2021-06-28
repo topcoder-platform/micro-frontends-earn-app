@@ -10,7 +10,10 @@ export * as myGig from "./myGig";
 export function createDropdownOptions(values, selectedValue) {
   return values.map((value) => ({
     label: `${value}`,
-    selected: !!selectedValue && selectedValue === value,
+    selected:
+      !!selectedValue &&
+      (selectedValue === value ||
+        (selectedValue.name && selectedValue.name === value)),
   }));
 }
 

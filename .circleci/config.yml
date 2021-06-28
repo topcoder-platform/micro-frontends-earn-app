@@ -76,8 +76,7 @@ workflows:
           filters:
             branches:
               only:
-                - dev
-                - fix-m2m-env-var
+                - integration-b
 
       # Production builds are exectuted only on tagged commits to the
       # master branch.

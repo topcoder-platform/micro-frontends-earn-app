@@ -1,5 +1,6 @@
 /* global process */
 import React, { useEffect, useMemo, useState, useRef } from "react";
+import { connect } from "react-redux";
 import PT from "prop-types";
 import Button from "components/Button";
 import FilePicker from "components/FilePicker";
@@ -9,35 +10,49 @@ import UserPhoto from "components/UserPhoto";
 import IconClose from "assets/icons/close.svg";
 import IconInfo from "assets/icons/info.svg";
 import StatusTooltip from "./tooltips/StatusTooltip";
-import _ from "lodash";
+import actions from "../../../../actions";
+import _, { size, values } from "lodash";
 
-import * as constants from "constants";
+import { GIG_STATUS } from "../../../../constants";
 import * as utils from "utils";
 
 import "./styles.scss";
 
-const UpdateGigProfile = ({ profile, statuses, onSubmit, onClose }) => {
+const UpdateGigProfile = ({
+  profile,
+  onSubmit,
+  onClose,
+  countries,
+  getAllCountries,
+}) => {
+  const statuses = values(GIG_STATUS);
   const countryOptions = useMemo(() => {
-    const countryMap = utils.myGig.countries.getNames("en");
-    const options = Object.keys(countryMap).map((key) => countryMap[key]);
-    const selected = profile.country;
-    return utils.createDropdownOptions(options, selected);
-  }, [profile]);
-
-  const statusOptions = useMemo(() => {
-    const selected = profile.status;
-    const options =
-      profile.gigStatus === constants.MY_GIG_STATUS_PLACED
-        ? statuses
-        : statuses.filter((s) => s !== constants.GIG_STATUS.PLACED);
-    return utils.createDropdownOptions(options, selected);
-  }, [profile, statuses]);
+    const selectedCountry = countries.find(
+      (country) => country.countryCode === profile.country
+    );
+    return utils.createDropdownOptions(
+      countries.map((country) => country.name),
+      selectedCountry
+    );
+  }, [profile, countries]);
 
   const [profileEdit, setProfileEdit] = useState(
     profile ? _.clone(profile) : null
   );
+
+  const statusOptions = useMemo(() => {
+    const selected = profileEdit.status;
+    const options = statuses.filter((s) => s !== GIG_STATUS.PLACED);
+    return utils.createDropdownOptions(options, selected);
+  }, [profileEdit, statuses]);
+
   const [validation, setValidation] = useState(null);
   const [pristine, setPristine] = useState(true);
+
+  // only fetch countries when they don't exist in redux store.
+  useEffect(() => {
+    if (size(countries) === 0) getAllCountries();
+  }, [countries, getAllCountries]);
 
   useEffect(() => {
     setProfileEdit(_.clone(profile));
@@ -61,10 +76,10 @@ const UpdateGigProfile = ({ profile, statuses, onSubmit, onClose }) => {
       validation.file = profileEdit.fileError;
     }
 
-    if (!profileEdit.file) {
-      validation = validation || {};
-      validation.file = "Please, pick your CV file for uploading";
-    }
+    // if (!profileEdit.file) {
+    //   validation = validation || {};
+    //   validation.file = "Please, pick your CV file for uploading";
+    // }
 
     if ((error = utils.myGig.validateCity(profileEdit.city))) {
       validation = validation || {};
@@ -103,8 +118,64 @@ const UpdateGigProfile = ({ profile, statuses, onSubmit, onClose }) => {
 
   const onSubmitProfile = () => {
     const update = varsRef.current.profileEdit;
+    if (!update.countryName) {
+      const selectedCountry = countries.find(
+        (country) => country.countryCode === update.country
+      );
+      update.countryName = selectedCountry.name;
+    }
     delete update.fileError;
     onSubmit(update);
+  };
+
+  const handleStatusDropdownChange = (newOptions) => {
+    const selectedOption = utils.getSelectedDropdownOption(newOptions);
+    setProfileEdit({
+      ...varsRef.current.profileEdit,
+      status: selectedOption.label,
+    });
+    setPristine(false);
+  };
+
+  const handleFilePick = (file, error) => {
+    if (error) {
+      setProfileEdit({
+        ...varsRef.current.profileEdit,
+        file,
+        fileError: error,
+        uploadTime: null,
+      });
+    } else {
+      setProfileEdit({
+        ...varsRef.current.profileEdit,
+        file,
+        fileError: null,
+        uploadTime: null,
+      });
+    }
+    setPristine(false);
+  };
+
+  const handleCountryDropdownChange = (newOptions) => {
+    const selectedOption = utils.getSelectedDropdownOption(newOptions);
+    const country = countries.find(
+      (country) => selectedOption.label === country.name
+    );
+    setProfileEdit({
+      ...varsRef.current.profileEdit,
+      country: country.countryCode,
+      countryName: country.name,
+    });
+    setPristine(false);
+  };
+  /**
+   * Generic handler for inputs to update the correct value
+   * @param {string} field
+   * @returns
+   */
+  const handleInputChange = (field) => (value) => {
+    setProfileEdit({ ...varsRef.current.profileEdit, [field]: value });
+    setPristine(false);
   };
 
   return (
@@ -138,20 +209,11 @@ const UpdateGigProfile = ({ profile, statuses, onSubmit, onClose }) => {
               <Dropdown
                 options={statusOptions}
                 size="xs"
-                onChange={(newOptions) => {
-                  const selectedOption = utils.getSelectedDropdownOption(
-                    newOptions
-                  );
-                  setProfileEdit({
-                    ...varsRef.current.profileEdit,
-                    status: selectedOption.label,
-                  });
-                  setPristine(false);
-                }}
+                onChange={handleStatusDropdownChange}
                 errorMsg={(!pristine && validation && validation.status) || ""}
               />
             </div>
-            <StatusTooltip>
+            <StatusTooltip statuses={statuses}>
               <i styleName="icon">
                 <IconInfo />
               </i>
@@ -159,6 +221,15 @@ const UpdateGigProfile = ({ profile, statuses, onSubmit, onClose }) => {
           </div>
         </div>
         <div styleName="details">
+          {profile && profile.existingResume && (
+            <div styleName="resume-details">
+              Please upload your resume/CV. Double-check that all of your tech
+              skills are listed in your resume/CV.&nbsp;&nbsp;&nbsp;
+              <a href={profile.existingResume.file_link} target="_blank">
+                {profile.existingResume.filename}
+              </a>
+            </div>
+          )}
           <div styleName="resume">
             <FilePicker
               label="Drag & drop your resume or CV here - Please Omit Contact Information"
@@ -167,24 +238,7 @@ const UpdateGigProfile = ({ profile, statuses, onSubmit, onClose }) => {
               uploadTime={profileEdit.uploadTime}
               accept=".pdf, .docx"
               errorMsg={(!pristine && validation && validation.file) || ""}
-              onFilePick={(file, error) => {
-                if (error) {
-                  setProfileEdit({
-                    ...varsRef.current.profileEdit,
-                    file,
-                    fileError: error,
-                    uploadTime: null,
-                  });
-                } else {
-                  setProfileEdit({
-                    ...varsRef.current.profileEdit,
-                    file,
-                    fileError: null,
-                    uploadTime: null,
-                  });
-                }
-                setPristine(false);
-              }}
+              onFilePick={handleFilePick}
             />
           </div>
           <div styleName="city">
@@ -192,10 +246,7 @@ const UpdateGigProfile = ({ profile, statuses, onSubmit, onClose }) => {
               value={profileEdit.city}
               label="City"
               required
-              onChange={(value) => {
-                setProfileEdit({ ...varsRef.current.profileEdit, city: value });
-                setPristine(false);
-              }}
+              onChange={handleInputChange("city")}
               errorMsg={(!pristine && validation && validation.city) || ""}
             />
           </div>
@@ -204,16 +255,7 @@ const UpdateGigProfile = ({ profile, statuses, onSubmit, onClose }) => {
               options={countryOptions}
               label="Country"
               required
-              onChange={(newOptions) => {
-                const selectedOption = utils.getSelectedDropdownOption(
-                  newOptions
-                );
-                setProfileEdit({
-                  ...varsRef.current.profileEdit,
-                  country: selectedOption.label,
-                });
-                setPristine(false);
-              }}
+              onChange={handleCountryDropdownChange}
               errorMsg={(!pristine && validation && validation.country) || ""}
             />
           </div>
@@ -222,13 +264,7 @@ const UpdateGigProfile = ({ profile, statuses, onSubmit, onClose }) => {
               value={profileEdit.phone}
               label="Phone - Please have the Country Code Included"
               required
-              onChange={(value) => {
-                setProfileEdit({
-                  ...varsRef.current.profileEdit,
-                  phone: value,
-                });
-                setPristine(false);
-              }}
+              onChange={handleInputChange("phone")}
               errorMsg={(!pristine && validation && validation.phone) || ""}
             />
           </div>
@@ -256,9 +292,26 @@ const UpdateGigProfile = ({ profile, statuses, onSubmit, onClose }) => {
 
 UpdateGigProfile.propTypes = {
   profile: PT.shape(),
-  statuses: PT.arrayOf(PT.string),
   onSubmit: PT.func,
   onClose: PT.func,
 };
 
-export default UpdateGigProfile;
+const mapStateToProps = (state) => ({
+  countries: state.lookup.countries,
+});
+
+const mergeProps = (stateProps, dispatchProps, ownProps) => ({
+  ...ownProps,
+  ...stateProps,
+  ...dispatchProps,
+});
+
+const mapDispatchToProps = {
+  getAllCountries: actions.lookup.getAllCountries,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+  mergeProps
+)(UpdateGigProfile);

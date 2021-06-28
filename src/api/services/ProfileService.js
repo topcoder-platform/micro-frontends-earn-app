@@ -31,9 +31,10 @@ async function getMyProfile(currentUser) {
     email: _.get(member, "email", null),
     city: _.get(member, "addresses[0].city", null),
     country: _.get(member, "competitionCountryCode", null),
+    hasProfile: _.get(recruitProfile, "hasProfile", false),
     phone: _.get(recruitProfile, "phone", null),
     resume: _.get(recruitProfile, "resume", null),
-    availability: _.get(recruitProfile, "availibility", true),
+    availability: _.get(recruitProfile, "availability", true),
   };
 }
 
@@ -48,13 +49,13 @@ getMyProfile.schema = Joi.object()
  * @param {object} currentUser the user who perform this operation.
  * @param {object} data the data to be updated
  */
-async function updateMyProfile(currentUser, files, data) {
+async function updateMyProfile(currentUser, data, files) {
   // we expect logged-in users
   if (currentUser.isMachine) {
     return;
   }
   // check if file was truncated
-  if (files.resume.truncated) {
+  if (files && files.resume.truncated) {
     throw new errors.BadRequestError(
       `Maximum allowed file size is ${config.MAX_ALLOWED_FILE_SIZE_MB} MB`
     );
@@ -64,7 +65,7 @@ async function updateMyProfile(currentUser, files, data) {
     `^.*\.(${_.join(config.ALLOWED_FILE_TYPES, "|")})$`,
     "i"
   );
-  if (!regex.test(files.resume.name)) {
+  if (files && !regex.test(files.resume.name)) {
     throw new errors.BadRequestError(
       `Allowed file types are: ${_.join(config.ALLOWED_FILE_TYPES, ",")}`
     );
@@ -75,6 +76,7 @@ async function updateMyProfile(currentUser, files, data) {
     "fields=addresses,competitionCountryCode,homeCountryCode"
   );
   const update = {};
+  let shouldUpdateTrait = false;
   // update member data if city is different from existing one
   if (_.get(member, "addresses[0].city") !== data.city) {
     update.addresses = _.cloneDeep(member.addresses);
@@ -82,10 +84,32 @@ async function updateMyProfile(currentUser, files, data) {
       update.addresses[0].city = data.city;
       delete update.addresses[0].createdAt;
       delete update.addresses[0].updatedAt;
+      delete update.addresses[0].createdBy;
+      delete update.addresses[0].updatedBy;
+      update.addresses[0].streetAddr1 = update.addresses[0].streetAddr1
+        ? update.addresses[0].streetAddr1
+        : " ";
+      update.addresses[0].streetAddr2 = update.addresses[0].streetAddr2
+        ? update.addresses[0].streetAddr2
+        : " ";
+      update.addresses[0].type = update.addresses[0].type
+        ? update.addresses[0].type
+        : "HOME";
+      update.addresses[0].stateCode = update.addresses[0].stateCode
+        ? update.addresses[0].stateCode
+        : " ";
+      update.addresses[0].zip = update.addresses[0].zip
+        ? update.addresses[0].zip
+        : " ";
     } else {
       update.addresses = [
         {
           city: data.city,
+          type: "HOME",
+          stateCode: " ",
+          zip: " ",
+          streetAddr1: " ",
+          streetAddr2: " ",
         },
       ];
     }
@@ -93,38 +117,55 @@ async function updateMyProfile(currentUser, files, data) {
   // update member data if competitionCountryCode is different from existing one
   if (_.get(member, "competitionCountryCode") !== data.country) {
     update.competitionCountryCode = data.country;
+    shouldUpdateTrait = true;
   }
   if (_.get(member, "homeCountryCode") !== data.country) {
     update.homeCountryCode = data.country;
+    shouldUpdateTrait = true;
   }
   // avoid unnecessary api calls
   if (!_.isEmpty(update)) {
     await helper.updateMember(currentUser, update);
   }
-  await helper.updateRCRMProfile(currentUser, files.resume, {
-    phone: data.phone,
-    availability: data.availability,
-  });
+  if (shouldUpdateTrait) {
+    const memberTraits = await helper.getMemberTraits(
+      currentUser.handle,
+      `traitIds=basic_info`
+    );
+    if (memberTraits && memberTraits.length) {
+      memberTraits[0]["traits"].data[0].country = data.countryName;
+      delete memberTraits[0].createdAt;
+      delete memberTraits[0].createdBy;
+      delete memberTraits[0].updatedAt;
+      delete memberTraits[0].updatedBy;
+      delete memberTraits[0].userId;
+      await helper.updateMemberTraits(currentUser, memberTraits);
+    }
+  }
+  await helper.updateRCRMProfile(
+    currentUser,
+    {
+      phone: data.phone,
+      availability: data.availability,
+      city: data.city,
+      countryName: data.countryName,
+    },
+    files && files.resume
+  );
 }
 
-updateMyProfile.schema = Joi.object()
-  .keys({
-    currentUser: Joi.object().required(),
-    files: Joi.object()
-      .keys({
-        resume: Joi.object().required(),
-      })
-      .required(),
-    data: Joi.object()
-      .keys({
-        city: Joi.string().required(),
-        country: Joi.string().required(),
-        phone: Joi.string().required(),
-        availability: Joi.boolean().required(),
-      })
-      .required(),
-  })
-  .required();
+updateMyProfile.schema = Joi.object({
+  currentUser: Joi.object().required(),
+  data: Joi.object()
+    .keys({
+      city: Joi.string().required(),
+      country: Joi.string().required(),
+      countryName: Joi.string().required(),
+      phone: Joi.string().required(),
+      availability: Joi.boolean().required(),
+    })
+    .required(),
+}).unknown();
 
 module.exports = {
   getMyProfile,
