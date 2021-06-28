@@ -25,7 +25,11 @@ module.exports = (app) => {
       optionsSuccessStatus: 204,
       preflightContinue: false,
       allowedHeaders: [
-        'Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'
+        "Origin",
+        "X-Requested-With",
+        "Content-Type",
+        "Accept",
+        "Authorization",
       ],
       // Allow browsers access pagination data in headers
       exposedHeaders: [
