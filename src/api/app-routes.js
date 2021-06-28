@@ -24,6 +24,9 @@ module.exports = (app) => {
       methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
       optionsSuccessStatus: 204,
       preflightContinue: false,
+      allowedHeaders: [
+        'Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'
+      ],
       // Allow browsers access pagination data in headers
       exposedHeaders: [
         "X-Page",
