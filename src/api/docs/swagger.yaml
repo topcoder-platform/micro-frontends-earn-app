@@ -49,6 +49,12 @@ paths:
             type: string
             default: desc
             enum: ["desc", "asc"]
+        - in: query
+          name: jobExternalId
+          required: false
+          schema:
+            type: string
+            default: ''
       responses:
         "200":
           description: OK
@@ -190,6 +196,7 @@ components:
     JobApplication:
       required:
         - title
+        - externalId
         - payment
         - hoursPerWeek
         - location
@@ -204,6 +211,10 @@ components:
           example: "Dummy title"
           description: "The title."
           maxLength: 64
+        externalId:
+          type: string
+          example: "55162131"
+          description: "The Job External ID"
         payment:
           $ref: "#/components/schemas/Payment"
         hoursPerWeek:

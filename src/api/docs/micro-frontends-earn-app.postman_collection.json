@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "2e63b877-2392-4487-a330-cbdad46c784b",
+		"_postman_id": "2d8b7a74-b365-48d1-ad35-6e9c588e929d",
 		"name": "micro-frontends-earn-app",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -33,7 +33,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{URL}}/myJobApplications?page=1&perPage=10&sortBy=status&sortOrder=desc",
+							"raw": "{{URL}}/myJobApplications?page=1&perPage=10&sortBy=status&sortOrder=desc&jobExternalId=55162131",
 							"host": [
 								"{{URL}}"
 							],
@@ -56,6 +56,10 @@
 								{
 									"key": "sortOrder",
 									"value": "desc"
+								},
+								{
+									"key": "jobExternalId",
+									"value": "55162131"
 								}
 							]
 						}
@@ -763,16 +767,16 @@
 								{
 									"key": "resume",
 									"type": "file",
-									"src": "./src/api/data/resume.txt"
+									"src": ""
 								},
 								{
 									"key": "city",
-									"value": "Ankara",
+									"value": "NewYork",
 									"type": "text"
 								},
 								{
 									"key": "country",
-									"value": "TR",
+									"value": "USA",
 									"type": "text"
 								},
 								{
@@ -783,6 +787,11 @@
 								{
 									"key": "availability",
 									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "countryName",
+									"value": "Unite States",
 									"type": "text"
 								}
 							],

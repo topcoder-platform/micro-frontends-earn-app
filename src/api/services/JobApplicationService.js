@@ -18,6 +18,7 @@ async function getMyJobApplications(currentUser, criteria) {
   const perPage = criteria.perPage;
   const sortBy = criteria.sortBy;
   const sortOrder = criteria.sortOrder;
+  const jobExternalId = criteria.jobExternalId;
   const emptyResult = {
     total: 0,
     page,
@@ -57,6 +58,7 @@ async function getMyJobApplications(currentUser, criteria) {
     const job = _.find(jobs, ["id", jobCandidate.jobId]);
     return {
       title: job.title,
+      externalId: job.externalId,
       payment: {
         min: job.minSalary,
         max: job.maxSalary,
@@ -74,6 +76,14 @@ async function getMyJobApplications(currentUser, criteria) {
       duration: job.duration,
     };
   });
+  if (jobExternalId && jobExternalId != "") {
+    const newlyJob = jobApplications.find(
+      (item) => item.externalId == jobExternalId
+    );
+    if (!newlyJob) {
+      return emptyResult;
+    }
+  }
   return {
     total: jobCandidates.total,
     page: jobCandidates.page,
@@ -91,6 +101,7 @@ getMyJobApplications.schema = Joi.object()
         perPage: Joi.perPage(),
         sortBy: Joi.string().valid("id", "status").default("id"),
         sortOrder: Joi.string().valid("desc", "asc").default("desc"),
+        jobExternalId: Joi.optional(),
       })
       .required(),
   })
