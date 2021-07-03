@@ -352,3 +352,5 @@ export const GIG_STATUS_TOOLTIP = {
 
 export const EMPTY_GIGS_TEXT =
   "Looks like you haven't applied to any gig opportunities yet.";
+
+export const CHECKING_GIG_TIMES = 3;

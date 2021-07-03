@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useLocation } from "@reach/router";
 import PT from "prop-types";
 import { connect } from "react-redux";
 import Modal from "../../components/Modal";
@@ -6,6 +7,7 @@ import Button from "../../components/Button";
 import JobListing from "./JobListing";
 import actions from "../../actions";
 import { EMPTY_GIGS_TEXT } from "../../constants";
+import * as utils from "../../utils";
 
 import UpdateGigProfile from "./modals/UpdateGigProfile";
 import UpdateSuccess from "./modals/UpdateSuccess";
@@ -23,15 +25,40 @@ const MyGigs = ({
   updateProfile,
   updateProfileSuccess,
   getAllCountries,
+  checkingGigs,
+  startCheckingGigs,
 }) => {
+  const location = useLocation();
+  const params = utils.url.parseUrlQuery(location.search);
   const propsRef = useRef();
-  propsRef.current = { getMyGigs, getProfile, getAllCountries };
+  propsRef.current = {
+    getMyGigs,
+    getProfile,
+    getAllCountries,
+    startCheckingGigs,
+    params,
+  };
 
   useEffect(() => {
-    propsRef.current.getMyGigs();
     propsRef.current.getProfile();
     propsRef.current.getAllCountries();
+    if (propsRef.current.params.externalId) {
+      propsRef.current.startCheckingGigs(propsRef.current.params.externalId);
+    } else {
+      propsRef.current.getMyGigs();
+    }
   }, []);
+
+  const isInitialMount = useRef(true);
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+    if (!checkingGigs) {
+      propsRef.current.getMyGigs();
+    }
+  }, [checkingGigs]);
 
   const [openUpdateProfile, setOpenUpdateProfile] = useState(false);
   const [openUpdateSuccess, setOpenUpdateSuccess] = useState(false);
@@ -106,9 +133,12 @@ MyGigs.propTypes = {
   updateProfile: PT.func,
   updateProfileSuccess: PT.bool,
   getAllCountries: PT.func,
+  checkingGigs: PT.bool,
+  startCheckingGigs: PT.func,
 };
 
 const mapStateToProps = (state) => ({
+  checkingGigs: state.myGigs.checkingGigs,
   myGigs: state.myGigs.myGigs,
   total: state.myGigs.total,
   numLoaded: state.myGigs.numLoaded,
@@ -122,6 +152,7 @@ const mapDispatchToProps = {
   getProfile: actions.myGigs.getProfile,
   updateProfile: actions.myGigs.updateProfile,
   getAllCountries: actions.lookup.getAllCountries,
+  startCheckingGigs: actions.myGigs.startCheckingGigs,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyGigs);

@@ -1,5 +1,5 @@
 import { createActions } from "redux-actions";
-import { PER_PAGE } from "../constants";
+import { PER_PAGE, CHECKING_GIG_TIMES } from "../constants";
 import service from "../services/myGigs";
 
 /**
@@ -30,9 +30,24 @@ async function updateProfile(profile) {
   return service.updateProfile(profile);
 }
 
+async function startCheckingGigs(externalId) {
+  let i = 0;
+  while (i < CHECKING_GIG_TIMES) {
+    const res = await service.startCheckingGigs(externalId);
+    if (res && !res.synced) {
+      i++;
+      continue;
+    } else {
+      return {};
+    }
+  }
+  return {};
+}
+
 export default createActions({
   GET_MY_GIGS: getMyGigs,
   LOAD_MORE_MY_GIGS: loadMoreMyGigs,
   GET_PROFILE: getProfile,
   UPDATE_PROFILE: updateProfile,
+  START_CHECKING_GIGS: startCheckingGigs,
 });
