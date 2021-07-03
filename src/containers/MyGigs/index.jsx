@@ -4,6 +4,7 @@ import PT from "prop-types";
 import { connect } from "react-redux";
 import Modal from "../../components/Modal";
 import Button from "../../components/Button";
+import Loading from "../../components/Loading";
 import JobListing from "./JobListing";
 import actions from "../../actions";
 import { EMPTY_GIGS_TEXT } from "../../constants";
@@ -87,10 +88,10 @@ const MyGigs = ({
             UPDATE GIG WORK PROFILE
           </Button>
         </h1>
-        {myGigs && myGigs.length == 0 && (
+        {!checkingGigs && myGigs && myGigs.length == 0 && (
           <h3 styleName="empty-label">{EMPTY_GIGS_TEXT}</h3>
         )}
-        {myGigs && myGigs.length > 0 && (
+        {!checkingGigs && myGigs && myGigs.length > 0 && (
           <JobListing
             jobs={myGigs}
             loadMore={loadMore}
@@ -98,6 +99,7 @@ const MyGigs = ({
             numLoaded={numLoaded}
           />
         )}
+        {checkingGigs && <Loading />}
       </div>
       <Modal open={openUpdateProfile}>
         <UpdateGigProfile
