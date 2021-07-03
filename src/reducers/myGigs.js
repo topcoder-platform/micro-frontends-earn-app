@@ -15,7 +15,7 @@ const defaultState = {
   updatingProfile: false,
   updatingProfileError: null,
   updatingProfileSucess: null,
-  checkingGigs: true,
+  checkingGigs: false,
 };
 
 function onGetMyGigsInit(state) {
