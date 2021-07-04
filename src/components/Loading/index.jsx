@@ -16,7 +16,7 @@ const Loading = (props) => {
             width={width}
           />
         </div>
-        <h4>LOADING</h4>
+        <h6>LOADING</h6>
         <span>We are processing your gigs data</span>
       </div>
     </div>
