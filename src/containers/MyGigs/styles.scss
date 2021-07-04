@@ -11,13 +11,16 @@
   display: flex;
   align-items: center;
   margin-bottom: 22px;
+  justify-content: space-between;
 
   .text {
     align-self: flex-start;
   }
 
-  button {
-    margin-left: auto;
+  .operation {
+    width: 375px;
+    display: flex;
+    justify-content: space-between;
   }
 }
 

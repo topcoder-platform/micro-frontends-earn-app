@@ -77,16 +77,21 @@ const MyGigs = ({
       <div styleName="page">
         <h1 styleName="title">
           <span styleName="text">MY GIGS</span>
-          <Button
-            isPrimary
-            size="lg"
-            disabled={!(profile && profile.hasProfile)}
-            onClick={() => {
-              setOpenUpdateProfile(true);
-            }}
-          >
-            UPDATE GIG WORK PROFILE
-          </Button>
+          <div styleName="operation">
+            <Button size="lg" onClick={() => {
+              window.location.href = `${process.env.URL.BASE}/gigs`
+            }}>VIEW GIGS</Button>
+            <Button
+              isPrimary
+              size="lg"
+              disabled={!(profile && profile.hasProfile)}
+              onClick={() => {
+                setOpenUpdateProfile(true);
+              }}
+            >
+              UPDATE GIG WORK PROFILE
+            </Button>
+          </div>
         </h1>
         {!checkingGigs && myGigs && myGigs.length == 0 && (
           <h3 styleName="empty-label">{EMPTY_GIGS_TEXT}</h3>
