@@ -78,9 +78,14 @@ const MyGigs = ({
         <h1 styleName="title">
           <span styleName="text">MY GIGS</span>
           <div styleName="operation">
-            <Button size="lg" onClick={() => {
-              window.location.href = `${process.env.URL.BASE}/gigs`
-            }}>VIEW GIGS</Button>
+            <Button
+              size="lg"
+              onClick={() => {
+                window.location.href = `${process.env.URL.BASE}/gigs`;
+              }}
+            >
+              VIEW GIGS
+            </Button>
             <Button
               isPrimary
               size="lg"
