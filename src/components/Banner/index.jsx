@@ -41,10 +41,10 @@ const Banner = () => {
             You can click on the Feedback button on page or file a github ticket
             at{" "}
             <a
-              href="https://github.com/topcoder-platform/micro-frontends-earn-app/issues/new?assignees=&labels=&template=bug_report.md"
+              href="https://discussions.topcoder.com/discussion/8870/new-beta-site-discuss?new=1"
               target="_blank"
             >
-              https://github.com/topcoder-platform/micro-frontends-earn-app/issues/new?template=bug_report.md
+              https://discussions.topcoder.com/discussion/8870/new-beta-site-discuss?new=1
             </a>
             .
           </p>
