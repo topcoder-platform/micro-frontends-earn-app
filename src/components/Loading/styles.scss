@@ -13,19 +13,18 @@
         justify-content: center;
         align-items: center;
         & > h4 {
-            margin-top: 10px;
-            font-size: 34px;
+            margin-top: 15px;
+            font-size: 20px;
             color: $tc-turquoise-dark1;
-            line-height: 38px;
-            letter-spacing: 0;
-            text-align: center;
+            line-height: 24px;
+            @include barlow-bold;
         }
         & > span {
             font-size: 16px;
             color: $tc-gray1;
-            text-align: center;
             line-height: 26px;
-            margin-top: 10px;
+            margin-top: 5px;
+            @include roboto-regular;
         }
         svg {
             path:first-child {
