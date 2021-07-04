@@ -79,14 +79,6 @@ const MyGigs = ({
           <span styleName="text">MY GIGS</span>
           <div styleName="operation">
             <Button
-              size="lg"
-              onClick={() => {
-                window.location.href = `${process.env.URL.BASE}/gigs`;
-              }}
-            >
-              VIEW GIGS
-            </Button>
-            <Button
               isPrimary
               size="lg"
               disabled={!(profile && profile.hasProfile)}
@@ -95,6 +87,14 @@ const MyGigs = ({
               }}
             >
               UPDATE GIG WORK PROFILE
+            </Button>
+            <Button
+              size="lg"
+              onClick={() => {
+                window.location.href = `${process.env.URL.BASE}/gigs`;
+              }}
+            >
+              VIEW GIGS
             </Button>
           </div>
         </h1>
