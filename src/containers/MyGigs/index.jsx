@@ -5,9 +5,9 @@ import { connect } from "react-redux";
 import Modal from "../../components/Modal";
 import Button from "../../components/Button";
 import Loading from "../../components/Loading";
+import Empty from "../../components/Empty";
 import JobListing from "./JobListing";
 import actions from "../../actions";
-import { EMPTY_GIGS_TEXT } from "../../constants";
 import * as utils from "../../utils";
 
 import UpdateGigProfile from "./modals/UpdateGigProfile";
@@ -98,9 +98,7 @@ const MyGigs = ({
             </Button>
           </div>
         </h1>
-        {!checkingGigs && myGigs && myGigs.length == 0 && (
-          <h3 styleName="empty-label">{EMPTY_GIGS_TEXT}</h3>
-        )}
+        {!checkingGigs && myGigs && myGigs.length == 0 && <Empty />}
         {!checkingGigs && myGigs && myGigs.length > 0 && (
           <JobListing
             jobs={myGigs}
