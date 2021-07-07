@@ -5,6 +5,7 @@
 const Scopes = {
   // JobApplication
   READ_JOBAPPLICATION: "read:earn-jobApplications",
+  READ_JOB: "read:earn-job",
   READ_PROFILE: "read:earn-profile",
   WRITE_PROFILE: "write:earn-profile",
   ALL_PROFILE: "all:earn-profile",

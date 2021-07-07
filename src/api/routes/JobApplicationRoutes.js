@@ -12,4 +12,12 @@ module.exports = {
       scopes: [constants.Scopes.READ_JOBAPPLICATION],
     },
   },
+  "/job": {
+    get: {
+      controller: "JobApplicationController",
+      method: "getJob",
+      auth: "jwt",
+      scopes: [constants.Scopes.READ_JOB],
+    },
+  },
 };
