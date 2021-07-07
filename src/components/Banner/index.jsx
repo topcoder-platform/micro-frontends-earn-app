@@ -37,17 +37,7 @@ const Banner = () => {
             please let us know! This is what the Beta phase is intended for, and
             your feedback will enable us to greatly improve the new site.{" "}
           </p>
-          <p>
-            You can click on the Feedback button on page or file a github ticket
-            at{" "}
-            <a
-              href="https://discussions.topcoder.com/discussion/8870/new-beta-site-discuss?new=1"
-              target="_blank"
-            >
-              https://discussions.topcoder.com/discussion/8870/new-beta-site-discuss?new=1
-            </a>
-            .
-          </p>
+          <p>You can click on the Feedback button on page.</p>
           <p>Thank you!</p>
         </div>
       )}
