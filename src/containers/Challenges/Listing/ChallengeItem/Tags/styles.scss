@@ -1,0 +1,21 @@
+@import "styles/variables";
+
+.tags {
+  > * {
+    margin-right: 4px;
+    margin-bottom: 4px;
+  }
+}
+
+.tag {
+  display: inline-block;
+  padding: 3px 0.5em;
+  font-size: $font-size-xs;
+  line-height: 15px;
+  letter-spacing: 0.55px;
+  background: $white;
+  border: 1px solid $body-color;
+  border-radius: $border-radius-sm;
+  cursor: pointer;
+}
+
