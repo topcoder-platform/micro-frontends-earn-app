@@ -37,17 +37,7 @@ const Banner = () => {
             please let us know! This is what the Beta phase is intended for, and
             your feedback will enable us to greatly improve the new site.{" "}
           </p>
-          <p>
-            You can click on the Feedback button on page or file a github ticket
-            at{" "}
-            <a
-              href="https://github.com/topcoder-platform/micro-frontends-earn-app/issues/new?assignees=&labels=&template=bug_report.md"
-              target="_blank"
-            >
-              https://github.com/topcoder-platform/micro-frontends-earn-app/issues/new?template=bug_report.md
-            </a>
-            .
-          </p>
+          <p>You can click on the Feedback button on page.</p>
           <p>Thank you!</p>
         </div>
       )}

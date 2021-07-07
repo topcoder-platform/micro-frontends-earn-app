@@ -15,6 +15,12 @@ async function getMyJobApplications(req, res) {
   res.send(result.result);
 }
 
+async function getJob(req, res) {
+  const result = await service.getJob(req.authUser, req.query);
+  res.send(result);
+}
+
 module.exports = {
   getMyJobApplications,
+  getJob,
 };

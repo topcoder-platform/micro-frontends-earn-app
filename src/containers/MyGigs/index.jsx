@@ -1,11 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useLocation } from "@reach/router";
 import PT from "prop-types";
 import { connect } from "react-redux";
 import Modal from "../../components/Modal";
 import Button from "../../components/Button";
+import Loading from "../../components/Loading";
+import Empty from "../../components/Empty";
 import JobListing from "./JobListing";
 import actions from "../../actions";
-import { EMPTY_GIGS_TEXT } from "../../constants";
+import * as utils from "../../utils";
 
 import UpdateGigProfile from "./modals/UpdateGigProfile";
 import UpdateSuccess from "./modals/UpdateSuccess";
@@ -23,15 +26,40 @@ const MyGigs = ({
   updateProfile,
   updateProfileSuccess,
   getAllCountries,
+  checkingGigs,
+  startCheckingGigs,
 }) => {
+  const location = useLocation();
+  const params = utils.url.parseUrlQuery(location.search);
   const propsRef = useRef();
-  propsRef.current = { getMyGigs, getProfile, getAllCountries };
+  propsRef.current = {
+    getMyGigs,
+    getProfile,
+    getAllCountries,
+    startCheckingGigs,
+    params,
+  };
 
   useEffect(() => {
-    propsRef.current.getMyGigs();
     propsRef.current.getProfile();
     propsRef.current.getAllCountries();
+    if (propsRef.current.params.externalId) {
+      propsRef.current.startCheckingGigs(propsRef.current.params.externalId);
+    } else {
+      propsRef.current.getMyGigs();
+    }
   }, []);
+
+  const isInitialMount = useRef(true);
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+    if (!checkingGigs) {
+      propsRef.current.getMyGigs();
+    }
+  }, [checkingGigs]);
 
   const [openUpdateProfile, setOpenUpdateProfile] = useState(false);
   const [openUpdateSuccess, setOpenUpdateSuccess] = useState(false);
@@ -49,21 +77,29 @@ const MyGigs = ({
       <div styleName="page">
         <h1 styleName="title">
           <span styleName="text">MY GIGS</span>
-          <Button
-            isPrimary
-            size="lg"
-            disabled={!(profile && profile.hasProfile)}
-            onClick={() => {
-              setOpenUpdateProfile(true);
-            }}
-          >
-            UPDATE GIG WORK PROFILE
-          </Button>
+          <div styleName="operation">
+            <Button
+              isPrimary
+              size="lg"
+              disabled={!(profile && profile.hasProfile)}
+              onClick={() => {
+                setOpenUpdateProfile(true);
+              }}
+            >
+              UPDATE GIG WORK PROFILE
+            </Button>
+            <Button
+              size="lg"
+              onClick={() => {
+                window.location.href = `${process.env.URL.BASE}/gigs`;
+              }}
+            >
+              VIEW GIGS
+            </Button>
+          </div>
         </h1>
-        {myGigs && myGigs.length == 0 && (
-          <h3 styleName="empty-label">{EMPTY_GIGS_TEXT}</h3>
-        )}
-        {myGigs && myGigs.length > 0 && (
+        {!checkingGigs && myGigs && myGigs.length == 0 && <Empty />}
+        {!checkingGigs && myGigs && myGigs.length > 0 && (
           <JobListing
             jobs={myGigs}
             loadMore={loadMore}
@@ -71,6 +107,7 @@ const MyGigs = ({
             numLoaded={numLoaded}
           />
         )}
+        {checkingGigs && <Loading />}
       </div>
       <Modal open={openUpdateProfile}>
         <UpdateGigProfile
@@ -106,9 +143,12 @@ MyGigs.propTypes = {
   updateProfile: PT.func,
   updateProfileSuccess: PT.bool,
   getAllCountries: PT.func,
+  checkingGigs: PT.bool,
+  startCheckingGigs: PT.func,
 };
 
 const mapStateToProps = (state) => ({
+  checkingGigs: state.myGigs.checkingGigs,
   myGigs: state.myGigs.myGigs,
   total: state.myGigs.total,
   numLoaded: state.myGigs.numLoaded,
@@ -122,6 +162,7 @@ const mapDispatchToProps = {
   getProfile: actions.myGigs.getProfile,
   updateProfile: actions.myGigs.updateProfile,
   getAllCountries: actions.lookup.getAllCountries,
+  startCheckingGigs: actions.myGigs.startCheckingGigs,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyGigs);

@@ -61,7 +61,8 @@ async function getMyJobApplications(currentUser, criteria) {
         min: job.minSalary,
         max: job.maxSalary,
         frequency: job.rateType,
-        currency: job.currency,
+        // currency: job.currency,
+        currency: "$",
       },
       hoursPerWeek: job.hoursPerWeek,
       location: job.jobLocation,
@@ -96,6 +97,51 @@ getMyJobApplications.schema = Joi.object()
   })
   .required();
 
+async function getJob(currentUser, criteria) {
+  const emptyResult = {
+    synced: false,
+  };
+  // we expect logged-in users
+  if (currentUser.isMachine) {
+    return emptyResult;
+  }
+  // get user id by calling taas-api with current user's token
+  const { id: userId } = await helper.getCurrentUserDetails(
+    currentUser.jwtToken
+  );
+  if (!userId) {
+    throw new errors.NotFoundError(
+      `Id for user: ${currentUser.userId} not found`
+    );
+  }
+  // get job based on the jobExternalId
+  const { result: jobs } = await helper.getJobs(criteria);
+  if (jobs && jobs.length) {
+    const candidates = jobs[0].candidates || [];
+    const newJob = candidates.find((item) => item.userId == userId);
+    if (newJob) {
+      return {
+        synced: true,
+      };
+    }
+  }
+  return {
+    synced: false,
+  };
+}
+
+getJob.schema = Joi.object()
+  .keys({
+    currentUser: Joi.object().required(),
+    criteria: Joi.object()
+      .keys({
+        externalId: Joi.string(),
+      })
+      .required(),
+  })
+  .required();
+
 module.exports = {
   getMyJobApplications,
+  getJob,
 };

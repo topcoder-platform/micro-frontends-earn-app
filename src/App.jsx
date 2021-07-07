@@ -112,8 +112,8 @@ const App = () => {
           </div>
           <div className="sidebar-footer">
             <a
-              className="button button-primary"
-              href="https://github.com/topcoder-platform/micro-frontends-earn-app/issues/new?assignees=&labels=&template=bug_report.md&title="
+              className="button"
+              href="https://discussions.topcoder.com/discussion/8870/new-beta-site-discuss?new=1"
               target="_blank"
             >
               GIVE APPLICATION FEEDBACK

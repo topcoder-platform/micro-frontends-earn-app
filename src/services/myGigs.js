@@ -157,8 +157,17 @@ async function updateProfile(profile) {
   return response;
 }
 
+async function startCheckingGigs(externalId) {
+  const res = await api.get(
+    `/earn-app/api/my-gigs/job?externalId=${externalId}`,
+    process.env.URL.PLATFORM_WEBSITE_URL
+  );
+  return res;
+}
+
 export default {
   getMyGigs,
   getProfile,
   updateProfile,
+  startCheckingGigs,
 };

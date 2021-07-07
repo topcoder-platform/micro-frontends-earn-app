@@ -15,6 +15,7 @@ const defaultState = {
   updatingProfile: false,
   updatingProfileError: null,
   updatingProfileSucess: null,
+  checkingGigs: false,
 };
 
 function onGetMyGigsInit(state) {
@@ -111,6 +112,20 @@ function onUpdateProfileFailure(state, { payload }) {
   };
 }
 
+function onCheckingGigsInit(state) {
+  return {
+    ...state,
+    checkingGigs: true,
+  };
+}
+
+function onCheckingGigsDone(state) {
+  return {
+    ...state,
+    checkingGigs: false,
+  };
+}
+
 export default handleActions(
   {
     GET_MY_GIGS_INIT: onGetMyGigsInit,
@@ -125,6 +140,8 @@ export default handleActions(
     UPDATE_PROFILE_INIT: onUpdateProfileInit,
     UPDATE_PROFILE_DONE: onUpdateProfileDone,
     UPDATE_PROFILE_FAILURE: onUpdateProfileFailure,
+    START_CHECKING_GIGS_INIT: onCheckingGigsInit,
+    START_CHECKING_GIGS_DONE: onCheckingGigsDone,
   },
   defaultState
 );

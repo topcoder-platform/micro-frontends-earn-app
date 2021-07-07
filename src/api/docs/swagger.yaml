@@ -88,6 +88,60 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  /job:
+    get:
+      tags:
+        - Job
+      description: |
+        Check whether the Job Application info has been synced.
+        
+        **Authorization** All topcoder members are allowed.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: externalId
+          required: true
+          schema:
+            type: string
+          description: The Job External Id
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JobSynced"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /profile:
     get:
       tags:
@@ -187,6 +241,14 @@ components:
       scheme: bearer
       bearerFormat: JWT
   schemas:
+    JobSynced:
+      required:
+        - synced
+      properties:
+        synced:
+          type: boolean
+          description: "Whether the job application has been synced"
+          example: true
     JobApplication:
       required:
         - title

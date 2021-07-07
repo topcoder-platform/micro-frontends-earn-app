@@ -351,4 +351,8 @@ export const GIG_STATUS_TOOLTIP = {
 };
 
 export const EMPTY_GIGS_TEXT =
-  "Looks like you haven't applied to any gig opportunities yet.";
+  "LOOKS LIKE YOU HAVEN'T APPLIED TO ANY GIG OPPORTUNITIES YET.";
+
+export const CHECKING_GIG_TIMES = 3;
+
+export const DELAY_CHECK_GIG_TIME = 2000;
