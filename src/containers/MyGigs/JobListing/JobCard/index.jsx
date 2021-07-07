@@ -65,10 +65,11 @@ const JobCard = ({ job }) => {
                       job.paymentRangeTo &&
                       job.currency && (
                         <>
-                          {job.currency}{" "}
+                          {job.currency}
                           {formatMoneyValue(job.paymentRangeFrom, "")}
                           {" - "}
                           {formatMoneyValue(job.paymentRangeTo, "")}
+                          {" (USD)"}
                           {" / "}
                           {job.paymentRangeRateType}
                         </>
