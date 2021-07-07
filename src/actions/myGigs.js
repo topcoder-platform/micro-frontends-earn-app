@@ -1,5 +1,9 @@
 import { createActions } from "redux-actions";
-import { PER_PAGE, CHECKING_GIG_TIMES } from "../constants";
+import {
+  PER_PAGE,
+  CHECKING_GIG_TIMES,
+  DELAY_CHECK_GIG_TIME,
+} from "../constants";
 import service from "../services/myGigs";
 
 /**
@@ -35,6 +39,11 @@ async function startCheckingGigs(externalId) {
   while (i < CHECKING_GIG_TIMES) {
     const res = await service.startCheckingGigs(externalId);
     if (res && !res.synced) {
+      await new Promise((resolve) => {
+        setTimeout(() => {
+          resolve();
+        }, DELAY_CHECK_GIG_TIME);
+      });
       i++;
       continue;
     } else {
