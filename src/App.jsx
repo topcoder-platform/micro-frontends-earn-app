@@ -38,6 +38,9 @@ const App = () => {
       selected={selectedMenuItem}
       onSelect={(item) => {
         setSelectedMenuItem(item);
+        if (item == "Gigs") {
+          window.location.href = `${process.env.URL.BASE}/gigs`;
+        }
       }}
       isLoggedIn={isLoggedIn}
     />

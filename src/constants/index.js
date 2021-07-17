@@ -29,6 +29,10 @@ export const NAV_MENU = {
           name: "Challenges",
           path: "/earn/find/challenges",
         },
+        {
+          name: "Gigs",
+          path: "",
+        },
       ],
     },
   ],
