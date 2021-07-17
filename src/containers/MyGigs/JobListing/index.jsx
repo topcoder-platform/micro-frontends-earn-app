@@ -3,10 +3,11 @@ import PT from "prop-types";
 import JobCard from "./JobCard";
 import Button from "../../../components/Button";
 import { useScrollLock } from "../../../utils/hooks";
+import * as constants from "../../../constants";
 
 import "./styles.scss";
 
-const JobListing = ({ jobs, loadMore, total, numLoaded }) => {
+const JobListing = ({ jobs, loadMore, total, numLoaded, gigStatus }) => {
   const scrollLock = useScrollLock();
   const [page, setPage] = useState(1);
 
@@ -17,12 +18,16 @@ const JobListing = ({ jobs, loadMore, total, numLoaded }) => {
     const nextPage = page + 1;
     scrollLock(true);
     setPage(nextPage);
-    loadMore(nextPage);
+    loadMore(constants.GIGS_FILTER_STATUSES_PARAM[gigStatus], nextPage);
   };
 
   useEffect(() => {
     varsRef.current.scrollLock(false);
   }, [jobs]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [gigStatus]);
 
   return (
     <div styleName="card-container">
@@ -32,7 +37,7 @@ const JobListing = ({ jobs, loadMore, total, numLoaded }) => {
         </div>
       ))}
 
-      {numLoaded < total && (
+      {numLoaded < total && page * constants.PER_PAGE < total && (
         <div styleName="load-more">
           <Button onClick={handleLoadMoreClick}>LOAD MORE</Button>
         </div>
@@ -46,6 +51,7 @@ JobListing.propTypes = {
   loadMore: PT.func,
   total: PT.number,
   numLoaded: PT.number,
+  gigStatus: PT.string,
 };
 
 export default JobListing;

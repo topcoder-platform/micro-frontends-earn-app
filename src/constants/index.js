@@ -103,6 +103,18 @@ export const CURRENCY_SYMBOL = {
   USD: "$",
 };
 
+export const GIGS_FILTER_STATUSES = {
+  OPEN_JOBS: "Open Applications",
+  COMPLETED_JOBS: "Completed Gigs",
+  ARCHIVED_JOBS: "Archived Applications",
+};
+
+export const GIGS_FILTER_STATUSES_PARAM = {
+  [GIGS_FILTER_STATUSES.OPEN_JOBS]: "open_jobs",
+  [GIGS_FILTER_STATUSES.COMPLETED_JOBS]: "completed_jobs",
+  [GIGS_FILTER_STATUSES.ARCHIVED_JOBS]: "archived_jobs",
+};
+
 export const MY_GIG_PHASE = {
   APPLIED: "Applied",
   SKILLS_TEST: "Skills Test",

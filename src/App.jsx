@@ -5,6 +5,7 @@ import React, { useState, useLayoutEffect, useEffect, useRef } from "react";
 import { Router, useLocation, Redirect } from "@reach/router";
 import Challenges from "./containers/Challenges";
 import Filter from "./containers/Filter";
+import MyGigsFilter from "./containers/MyGigsFilter";
 import MyGigs from "./containers/MyGigs";
 import Menu from "./components/Menu";
 import { disableSidebarForRoute } from "@topcoder/micro-frontends-navbar-app";
@@ -12,7 +13,7 @@ import * as constants from "./constants";
 import actions from "./actions";
 import * as utils from "./utils";
 import store from "./store";
-import { initialChallengeFilter } from "./reducers/filter";
+import { initialChallengeFilter, initialGigFilter } from "./reducers/filter";
 import _ from "lodash";
 import { usePreviousLocation } from "./utils/hooks";
 import { useSelector } from "react-redux";
@@ -49,7 +50,7 @@ const App = () => {
   const location = useLocation();
   const previousLocation = usePreviousLocation();
 
-  const getChallengesDebounced = useRef(_.debounce((f) => f(), 500));
+  const getDataDebounced = useRef(_.debounce((f) => f(), 500));
 
   useEffect(() => {
     store.dispatch(actions.lookup.checkIsLoggedIn());
@@ -77,11 +78,43 @@ const App = () => {
       if (diff) {
         store.dispatch(actions.filter.updateFilter(updatedFilter));
       }
-      getChallengesDebounced.current(() =>
+      getDataDebounced.current(() =>
         store.dispatch(actions.challenges.getChallenges(updatedFilter))
       );
     }
   }, [location]);
+
+  useEffect(() => {
+    if (location.pathname === "/earn/my-gigs" && isLoggedIn) {
+      if (!location.search) {
+        store.dispatch(
+          actions.myGigs.getMyGigs(
+            constants.GIGS_FILTER_STATUSES_PARAM[initialGigFilter.status]
+          )
+        );
+        return;
+      }
+      const params = utils.url.parseUrlQuery(location.search);
+      if (_.keys(params).length == 1 && params.externalId) {
+        return;
+      }
+      const updatedGigFilter = {
+        status: params.status || "Open Applications",
+      };
+      const currentGig = store.getState().filter.gig;
+      const diff = !_.isEqual(updatedGigFilter, currentGig);
+      if (diff) {
+        store.dispatch(actions.filter.updateGigFilter(updatedGigFilter));
+      }
+      getDataDebounced.current(() =>
+        store.dispatch(
+          actions.myGigs.getMyGigs(
+            constants.GIGS_FILTER_STATUSES_PARAM[updatedGigFilter.status]
+          )
+        )
+      );
+    }
+  }, [location, isLoggedIn]);
 
   const varsRef = useRef();
   varsRef.current = { previousLocation };
@@ -111,7 +144,8 @@ const App = () => {
           <div className="sidebar-content">
             {menu}
             <hr />
-            <Filter />
+            {location.pathname === "/earn/find/challenges" && <Filter />}
+            {location.pathname === "/earn/my-gigs" && <MyGigsFilter />}
           </div>
           <div className="sidebar-footer">
             <a

@@ -1,5 +1,7 @@
 import codes from "country-calling-code";
 import countries from "i18n-iso-countries";
+import _ from "lodash";
+import Joi from "joi";
 import enLocale from "i18n-iso-countries/langs/en.json";
 import * as constants from "../constants";
 
@@ -36,6 +38,17 @@ export function createTextImage(text) {
   ctx.fillText(text, 40, 48);
 
   return canvas.toDataURL();
+}
+
+const queryScheme = {
+  bucket: Joi.string(),
+};
+
+export function createGigParams(filter) {
+  let params = _.pick(filter, Object.keys(queryScheme));
+  return {
+    status: constants.GIGS_FILTER_STATUSES_PARAM[params.status || "open_jobs"],
+  };
 }
 
 function validateTextRequired(value) {
