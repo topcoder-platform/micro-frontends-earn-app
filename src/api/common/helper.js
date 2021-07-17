@@ -4,6 +4,7 @@
 
 const _ = require("lodash");
 const config = require("config");
+const constants = require("../app-constants");
 const logger = require("./logger");
 const httpStatus = require("http-status");
 const Interceptor = require("express-interceptor");
@@ -265,10 +266,18 @@ async function getCurrentUserDetails(token) {
  */
 async function getJobCandidates(criteria) {
   const token = await getM2MToken();
+  let body = { statuses: [] };
+  if (criteria.status) {
+    body = constants.JOB_APPLICATION_STATUS_MAPPER[criteria.status] || {
+      statuses: [],
+    };
+  }
+  delete criteria.status;
   const url = `${config.API.V5}/jobCandidates`;
   const res = await request
     .get(url)
     .query(criteria)
+    .send(body)
     .set("Authorization", `Bearer ${token}`)
     .set("Accept", "application/json");
   localLogger.debug({
@@ -281,6 +290,103 @@ async function getJobCandidates(criteria) {
     perPage: Number(_.get(res.headers, "x-per-page")),
     result: res.body,
   };
+}
+
+/**
+ *
+ * @param {*} jobCandidates
+ * @param {*} userId
+ * @returns
+ */
+async function handlePlacedJobCandidates(jobCandidates, userId) {
+  if (!jobCandidates || jobCandidates.length == 0 || !userId) {
+    return;
+  }
+  const placedJobs = jobCandidates.filter(
+    (item) => item.status == constants.MY_GIGS_JOB_STATUS.PLACED
+  );
+  if (placedJobs.length == 0) {
+    return;
+  }
+  const token = await getM2MToken();
+  const url = `${config.API.V5}/resourceBookings`;
+  const criteria = {
+    userId: userId,
+    page: 1,
+    perPage: placedJobs.length,
+  };
+  const body = {
+    jobIds: _.map(placedJobs, "jobId"),
+  };
+  const res = await request
+    .get(url)
+    .query(criteria)
+    .send(body)
+    .set("Authorization", `Bearer ${token}`)
+    .set("Accept", "application/json");
+  localLogger.debug({
+    context: "handlePlacedJobCandidates",
+    message: `response body: ${JSON.stringify(res.body)}`,
+  });
+  if (res.body && res.body.length == 0) {
+    return;
+  }
+  // Handle placed job status with RB result
+  const rbRes = res.body;
+  _.each(rbRes, (rb) => {
+    const jc = jobCandidates.find(
+      (item) => item.userId == rb.userId && item.jobId == rb.jobId
+    );
+    if (jc) {
+      // jc.completed = (new Date(rb.endDate) <= new Date()) && rb.status == 'placed'
+      jc.completed = new Date(rb.endDate) <= new Date();
+    }
+  });
+  return;
+}
+
+function handleArchivedJobCandidates(jobCandidates, jobs) {
+  if (
+    !jobCandidates ||
+    jobCandidates.length == 0 ||
+    !jobs ||
+    jobs.length == 0
+  ) {
+    return;
+  }
+  // find at least one placed jobCandidate whose job is having hoursPerWeek >= 20
+  // if true, assign all open application with a withdraw status = true
+  // else, assign all open application with a withdraw status = false
+  let assignWithDraw = false;
+  const jcs = jobCandidates.filter(
+    (item) =>
+      item.status == constants.MY_GIGS_JOB_STATUS.PLACED && !item.completed
+  );
+  _.each(jcs, (jc) => {
+    const job = _.find(jobs, ["id", jc.jobId]);
+    if (job.hoursPerWeek >= constants.MIN_HOUR_PER_WEEK_TO_WITHDRAW) {
+      assignWithDraw = true;
+      return;
+    }
+  });
+
+  const openJobs = [
+    constants.MY_GIGS_JOB_STATUS.SKILLS_TEST,
+    constants.MY_GIGS_JOB_STATUS.PHONE_SCREEN,
+    constants.MY_GIGS_JOB_STATUS.SCREEN_PASS,
+    constants.MY_GIGS_JOB_STATUS.INTERVIEW,
+    constants.MY_GIGS_JOB_STATUS.SELECTED,
+    constants.MY_GIGS_JOB_STATUS.OFFERED,
+  ];
+  _.each(jobCandidates, (jobCandidate) => {
+    if (openJobs.indexOf(jobCandidate.status) >= 0) {
+      jobCandidate.withdraw = assignWithDraw;
+    } else if (jobCandidate.status == constants.MY_GIGS_JOB_STATUS.PLACED) {
+      jobCandidate.withdraw = !!jobCandidate.completed;
+    } else {
+      jobCandidate.withdraw = true;
+    }
+  });
 }
 
 /**
@@ -467,6 +573,8 @@ module.exports = {
   getM2MToken,
   getCurrentUserDetails,
   getJobCandidates,
+  handlePlacedJobCandidates,
+  handleArchivedJobCandidates,
   getJobs,
   getMember,
   getMemberTraits,
