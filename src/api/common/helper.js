@@ -366,7 +366,7 @@ function handleArchivedJobCandidates(jobCandidates, jobs) {
     const job = _.find(jobs, ["id", jc.jobId]);
     if (job.hoursPerWeek >= constants.MIN_HOUR_PER_WEEK_TO_WITHDRAW) {
       assignWithDraw = true;
-      return;
+      return false;
     }
   });
 
