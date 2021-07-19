@@ -339,7 +339,7 @@ async function handlePlacedJobCandidates(jobCandidates, userId) {
     );
     if (jc) {
       // jc.completed = (new Date(rb.endDate) <= new Date()) && rb.status == 'placed'
-      jc.completed = endDate ? new Date(rb.endDate) <= new Date() : false;
+      jc.completed = rb.endDate ? new Date(rb.endDate) <= new Date() : false;
     }
   });
   return;
