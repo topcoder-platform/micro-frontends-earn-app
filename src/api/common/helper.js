@@ -339,7 +339,7 @@ async function handlePlacedJobCandidates(jobCandidates, userId) {
     );
     if (jc) {
       // jc.completed = (new Date(rb.endDate) <= new Date()) && rb.status == 'placed'
-      jc.completed = new Date(rb.endDate) <= new Date();
+      jc.completed = endDate ? new Date(rb.endDate) <= new Date() : false;
     }
   });
   return;
@@ -371,6 +371,7 @@ function handleArchivedJobCandidates(jobCandidates, jobs) {
   });
 
   const openJobs = [
+    constants.MY_GIGS_JOB_STATUS.APPLIED,
     constants.MY_GIGS_JOB_STATUS.SKILLS_TEST,
     constants.MY_GIGS_JOB_STATUS.PHONE_SCREEN,
     constants.MY_GIGS_JOB_STATUS.SCREEN_PASS,
@@ -382,7 +383,7 @@ function handleArchivedJobCandidates(jobCandidates, jobs) {
     if (openJobs.indexOf(jobCandidate.status) >= 0) {
       jobCandidate.withdraw = assignWithDraw;
     } else if (jobCandidate.status == constants.MY_GIGS_JOB_STATUS.PLACED) {
-      jobCandidate.withdraw = !!jobCandidate.completed;
+      jobCandidate.withdraw = false;
     } else {
       jobCandidate.withdraw = true;
     }
