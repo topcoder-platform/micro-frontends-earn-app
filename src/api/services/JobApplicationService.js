@@ -55,10 +55,11 @@ async function getMyJobApplications(currentUser, criteria) {
   // handle placed status for completed_jobs, archived_jobs query
   if (status && status != "open_jobs") {
     await helper.handlePlacedJobCandidates(jobCandidates.result, userId);
-    jcResult = jobCandidates.result.filter(
-      (item) =>
-        item.status != "placed" || (item.status == "placed" && item.completed)
-    );
+    if (status == "completed_jobs") {
+      jcResult = jobCandidates.result.filter(
+        (item) => item.status == "placed" && item.completed
+      );
+    }
   }
 
   const jobIds = _.map(jcResult, "jobId");
@@ -66,6 +67,10 @@ async function getMyJobApplications(currentUser, criteria) {
   const { result: jobs } = await helper.getJobs({ jobIds, page: 1, perPage });
 
   if (status && status == "archived_jobs") {
+    jcResult = jobCandidates.result.filter(
+      (item) =>
+        item.status != "placed" || (item.status == "placed" && !item.completed)
+    );
     helper.handleArchivedJobCandidates(jcResult, jobs);
     jcResult = jcResult.filter((item) => item.withdraw);
   }
