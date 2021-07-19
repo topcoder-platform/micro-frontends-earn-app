@@ -334,11 +334,13 @@ async function handlePlacedJobCandidates(jobCandidates, userId) {
   // Handle placed job status with RB result
   const rbRes = res.body;
   _.each(rbRes, (rb) => {
-    _.each(jobCandidates, (jc) => {
-      if (rb.userId == jc.userId && rb.jobId == jc.userId) {
-        jc.completed = rb.endDate ? new Date(rb.endDate) <= new Date() : false;
-      }
-    });
+    const jc = jobCandidates.find(
+      (item) => item.userId == rb.userId && item.jobId == rb.jobId
+    );
+    if (jc) {
+      // jc.completed = (new Date(rb.endDate) <= new Date()) && rb.status == 'placed'
+      jc.completed = rb.endDate ? new Date(rb.endDate) <= new Date() : false;
+    }
   });
   return;
 }
