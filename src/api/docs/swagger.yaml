@@ -266,6 +266,7 @@ components:
         - status
         - remark
         - interview
+        - jobExternalId
       properties:
         title:
           type: string
@@ -311,6 +312,10 @@ components:
           description: "The remark of candidate"
         interview:
           $ref: "#/components/schemas/Interview"
+        jobExternalId:
+          type: string
+          example: "51313517"
+          description: "The corresponding gig ID on community app"
     Payment:
       required:
         - min

@@ -95,6 +95,7 @@ async function getMyJobApplications(currentUser, criteria) {
         : null,
       remark: jobCandidate.remark,
       duration: job.duration,
+      jobExternalId: job.externalId,
     };
   });
   return {
