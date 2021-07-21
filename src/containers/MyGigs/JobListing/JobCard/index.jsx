@@ -55,7 +55,13 @@ const JobCard = ({ job }) => {
       <div styleName="card-body">
         <div styleName="job-card-content">
           <div styleName="content">
-            <h4 styleName="title">{job.title}</h4>
+            <h4 styleName="title">
+              <a
+                href={`${process.env.URL.BASE}/gigs/${job.jobExternalId}`} // eslint-disable-line no-undef
+              >
+                {job.title}
+              </a>
+            </h4>
             <ul styleName="job-items">
               <li>
                 <div styleName="job-item">
