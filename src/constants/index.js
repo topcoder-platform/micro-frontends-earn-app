@@ -127,6 +127,7 @@ export const MY_GIG_PHASE = {
   NOT_SELECTED: "Not Selected",
   JOB_CLOSED: "Job Closed",
   WITHDRAWN: "Withdrawn",
+  COMPLETED: "Completed",
 };
 
 export const MY_GIG_PHASE_LABEL = {
@@ -141,6 +142,7 @@ export const MY_GIG_PHASE_LABEL = {
   NOT_SELECTED: "NOT SELECTED",
   JOB_CLOSED: "JOB CLOSED",
   WITHDRAWN: "WITHDRAWN",
+  COMPLETED: "COMPLETED",
 };
 
 export const MY_GIG_PHASE_STATUS = {
@@ -169,6 +171,7 @@ export const MY_GIGS_JOB_STATUS = {
   JOB_CLOSED: "job-closed",
   WITHDRAWN: "withdrawn",
   WITHDRAWN_PRESCREEN: "withdrawn-prescreen",
+  COMPLETED: "completed",
 };
 /**
  * Maps the status from API to gig status
@@ -189,6 +192,7 @@ export const JOB_STATUS_MAPPER = {
   [MY_GIGS_JOB_STATUS.JOB_CLOSED]: MY_GIG_PHASE.JOB_CLOSED,
   [MY_GIGS_JOB_STATUS.WITHDRAWN]: MY_GIG_PHASE.WITHDRAWN,
   [MY_GIGS_JOB_STATUS.WITHDRAWN_PRESCREEN]: MY_GIG_PHASE.WITHDRAWN,
+  [MY_GIGS_JOB_STATUS.COMPLETED]: MY_GIG_PHASE.COMPLETED,
 };
 
 /**
@@ -215,6 +219,7 @@ export const JOB_STATUS_MESSAGE_MAPPER = {
     "This position is no longer active.  Please apply to other open gigs.",
   [MY_GIG_PHASE.WITHDRAWN]:
     "You withdrew your application for this gig or you have been placed in another gig.",
+  [MY_GIG_PHASE.COMPLETED]: "Congrats on completing the gig!",
 };
 
 export const ACTIONS_AVAILABLE_FOR_MY_GIG_PHASE = {
@@ -330,6 +335,7 @@ export const PHASES_FOR_JOB_STATUS = {
   [MY_GIGS_JOB_STATUS.JOB_CLOSED]: [MY_GIG_PHASE.JOB_CLOSED],
   [MY_GIGS_JOB_STATUS.WITHDRAWN]: [MY_GIG_PHASE.WITHDRAWN],
   [MY_GIGS_JOB_STATUS.WITHDRAWN_PRESCREEN]: [MY_GIG_PHASE.WITHDRAWN],
+  [MY_GIGS_JOB_STATUS.COMPLETED]: [MY_GIG_PHASE.COMPLETED],
 };
 
 /**
@@ -347,6 +353,7 @@ export const SORT_STATUS_ORDER = [
   MY_GIG_PHASE.APPLIED,
   MY_GIG_PHASE.JOB_CLOSED,
   MY_GIG_PHASE.NOT_SELECTED,
+  MY_GIG_PHASE.COMPLETED,
   MY_GIG_PHASE.WITHDRAWN,
 ];
 
