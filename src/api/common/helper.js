@@ -339,7 +339,9 @@ async function handlePlacedJobCandidates(jobCandidates, userId) {
       (item) => item.userId == rb.userId && item.jobId == rb.jobId
     );
     if (jc) {
-      const completed = rb.endDate ? new Date(rb.endDate) < new Date() : false;
+      const completed = rb.endDate
+        ? new Date(rb.endDate).toDateString() < new Date().toDateString()
+        : false;
       if (completed) {
         jc.status = "completed";
       }
