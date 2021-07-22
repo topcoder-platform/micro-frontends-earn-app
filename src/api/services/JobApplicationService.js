@@ -53,27 +53,17 @@ async function getMyJobApplications(currentUser, criteria) {
   }
   let jcResult = jobCandidates.result;
   // handle placed status for completed_jobs, archived_jobs query
-  if (status && status != "open_jobs") {
+  if (status && status == "completed_jobs") {
     await helper.handlePlacedJobCandidates(jobCandidates.result, userId);
-    if (status == "completed_jobs") {
-      jcResult = jobCandidates.result.filter(
-        (item) => item.status == "placed" && item.completed
-      );
-    }
+    jcResult = jobCandidates.result.filter(
+      (item) => item.status == "placed" && item.completed
+    );
   }
 
   const jobIds = _.map(jcResult, "jobId");
   // get jobs of current user by calling taas-api
   const { result: jobs } = await helper.getJobs({ jobIds, page: 1, perPage });
 
-  if (status && status == "archived_jobs") {
-    jcResult = jobCandidates.result.filter(
-      (item) =>
-        item.status != "placed" || (item.status == "placed" && !item.completed)
-    );
-    helper.handleArchivedJobCandidates(jcResult, jobs);
-    jcResult = jcResult.filter((item) => item.withdraw);
-  }
   // apply desired structure
   const jobApplications = _.map(jcResult, (jobCandidate) => {
     const job = _.find(jobs, ["id", jobCandidate.jobId]);

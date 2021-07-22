@@ -293,6 +293,7 @@ async function getJobCandidates(criteria) {
 }
 
 /**
+ * Process placed job candidate to calculate the completed status
  *
  * @param {*} jobCandidates
  * @param {*} userId
@@ -343,51 +344,6 @@ async function handlePlacedJobCandidates(jobCandidates, userId) {
     }
   });
   return;
-}
-
-function handleArchivedJobCandidates(jobCandidates, jobs) {
-  if (
-    !jobCandidates ||
-    jobCandidates.length == 0 ||
-    !jobs ||
-    jobs.length == 0
-  ) {
-    return;
-  }
-  // find at least one placed jobCandidate whose job is having hoursPerWeek >= 20
-  // if true, assign all open application with a withdraw status = true
-  // else, assign all open application with a withdraw status = false
-  let assignWithDraw = false;
-  const jcs = jobCandidates.filter(
-    (item) =>
-      item.status == constants.MY_GIGS_JOB_STATUS.PLACED && !item.completed
-  );
-  _.each(jcs, (jc) => {
-    const job = _.find(jobs, ["id", jc.jobId]);
-    if (job.hoursPerWeek >= constants.MIN_HOUR_PER_WEEK_TO_WITHDRAW) {
-      assignWithDraw = true;
-      return false;
-    }
-  });
-
-  const openJobs = [
-    constants.MY_GIGS_JOB_STATUS.APPLIED,
-    constants.MY_GIGS_JOB_STATUS.SKILLS_TEST,
-    constants.MY_GIGS_JOB_STATUS.PHONE_SCREEN,
-    constants.MY_GIGS_JOB_STATUS.SCREEN_PASS,
-    constants.MY_GIGS_JOB_STATUS.INTERVIEW,
-    constants.MY_GIGS_JOB_STATUS.SELECTED,
-    constants.MY_GIGS_JOB_STATUS.OFFERED,
-  ];
-  _.each(jobCandidates, (jobCandidate) => {
-    if (openJobs.indexOf(jobCandidate.status) >= 0) {
-      jobCandidate.withdraw = assignWithDraw;
-    } else if (jobCandidate.status == constants.MY_GIGS_JOB_STATUS.PLACED) {
-      jobCandidate.withdraw = false;
-    } else {
-      jobCandidate.withdraw = true;
-    }
-  });
 }
 
 /**
@@ -575,7 +531,6 @@ module.exports = {
   getCurrentUserDetails,
   getJobCandidates,
   handlePlacedJobCandidates,
-  handleArchivedJobCandidates,
   getJobs,
   getMember,
   getMemberTraits,
