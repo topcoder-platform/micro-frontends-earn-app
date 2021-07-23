@@ -12,8 +12,8 @@ import service from "../services/myGigs";
  * @param {number} perPage items per page. by default is 10.
  * @returns
  */
-async function getMyGigs(page = 1, perPage = PER_PAGE) {
-  return service.getMyGigs(page, perPage);
+async function getMyGigs(status = "open_jobs", page = 1, perPage = PER_PAGE) {
+  return service.getMyGigs(status, page, perPage);
 }
 
 /**
@@ -22,8 +22,8 @@ async function getMyGigs(page = 1, perPage = PER_PAGE) {
  * @param {*} perPage items per page. by default is 10
  * @returns
  */
-async function loadMoreMyGigs(nextPage, perPage = PER_PAGE) {
-  return service.getMyGigs(nextPage, perPage);
+async function loadMoreMyGigs(status, nextPage, perPage = PER_PAGE) {
+  return service.getMyGigs(status, nextPage, perPage);
 }
 
 async function getProfile() {

@@ -21,6 +21,9 @@ const defaultState = {
 
     bucket: constants.FILTER_BUCKETS[1],
   },
+  gig: {
+    status: constants.GIGS_FILTER_STATUSES.OPEN_JOBS,
+  },
 };
 
 function onInitApp(state, { payload }) {
@@ -41,13 +44,25 @@ function onClearChallengeFilter(state, { payload }) {
   return { ...state, challenge: { ...state.challenge, ...payload } };
 }
 
+function onUpdateGigFilter(state, { payload }) {
+  return {
+    ...state,
+    gig: {
+      ...state.gig,
+      ...payload,
+    },
+  };
+}
+
 export default handleActions(
   {
     INIT_APP: onInitApp,
     UPDATE_FILTER: onUpdateFilter,
     CLEAR_CHALLENGE_FILTER: onClearChallengeFilter,
+    UPDATE_GIG_FILTER: onUpdateGigFilter,
   },
   defaultState
 );
 
 export const initialChallengeFilter = _.cloneDeep(defaultState.challenge);
+export const initialGigFilter = _.cloneDeep(defaultState.gig);

@@ -135,6 +135,9 @@ const JobCard = ({ job }) => {
           {![
             MY_GIGS_JOB_STATUS.JOB_CLOSED,
             MY_GIGS_JOB_STATUS.REJECTED_OTHER,
+            MY_GIGS_JOB_STATUS.COMPLETED,
+            MY_GIGS_JOB_STATUS.WITHDRAWN,
+            MY_GIGS_JOB_STATUS.WITHDRAWN_PRESCREEN,
           ].includes(job.status) && (
             <span styleName={`${expanded ? "show-less" : "show-more"}`}>
               <Button
@@ -155,6 +158,9 @@ const JobCard = ({ job }) => {
         {![
           MY_GIGS_JOB_STATUS.JOB_CLOSED,
           MY_GIGS_JOB_STATUS.REJECTED_OTHER,
+          MY_GIGS_JOB_STATUS.COMPLETED,
+          MY_GIGS_JOB_STATUS.WITHDRAWN,
+          MY_GIGS_JOB_STATUS.WITHDRAWN_PRESCREEN,
         ].includes(job.status) && (
           <div
             styleName="progress-bar"

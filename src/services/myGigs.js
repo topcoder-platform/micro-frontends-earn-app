@@ -83,9 +83,9 @@ const mapMyGigsData = (serverResponse) => {
  * @param {*} perPage item per page to request
  * @returns
  */
-async function getMyGigs(page, perPage) {
+async function getMyGigs(status, page, perPage) {
   const response = await api.get(
-    `/earn-app/api/my-gigs/myJobApplications?page=${page}&perPage=${perPage}`,
+    `/earn-app/api/my-gigs/myJobApplications?status=${status}&page=${page}&perPage=${perPage}`,
     process.env.URL.PLATFORM_WEBSITE_URL
   );
 

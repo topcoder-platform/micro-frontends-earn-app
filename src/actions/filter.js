@@ -5,6 +5,10 @@ function updateFilter(partialUpdate) {
   return partialUpdate;
 }
 
+function updateGigFilter(partialUpdate) {
+  return partialUpdate;
+}
+
 function clearChallengeFilter(defaultFilter) {
   return defaultFilter;
 }
@@ -15,8 +19,16 @@ function updateChallengeQuery(filter) {
   return params;
 }
 
+function updateGigQuery(filter) {
+  const params = utils.myGig.createGigParams(filter);
+  utils.url.updateQuery(params);
+  return params;
+}
+
 export default createActions({
   UPDATE_FILTER: updateFilter,
   CLEAR_CHALLENGE_FILTER: clearChallengeFilter,
   UPDATE_CHALLENGE_QUERY: updateChallengeQuery,
+  UPDATE_GIG_FILTER: updateGigFilter,
+  UPDATE_GIG_QUERY: updateGigQuery,
 });

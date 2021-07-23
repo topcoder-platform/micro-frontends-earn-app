@@ -49,6 +49,12 @@ paths:
             type: string
             default: desc
             enum: ["desc", "asc"]
+        - in: query
+          name: status
+          required: false
+          schema:
+            type: string
+            enum: ["active_jobs", "open_jobs", "completed_jobs", "archived_jobs"]
       responses:
         "200":
           description: OK
@@ -260,6 +266,7 @@ components:
         - status
         - remark
         - interview
+        - jobExternalId
       properties:
         title:
           type: string
@@ -305,6 +312,10 @@ components:
           description: "The remark of candidate"
         interview:
           $ref: "#/components/schemas/Interview"
+        jobExternalId:
+          type: string
+          example: "51313517"
+          description: "The corresponding gig ID on community app"
     Payment:
       required:
         - min

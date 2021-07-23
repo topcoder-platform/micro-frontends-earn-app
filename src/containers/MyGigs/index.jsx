@@ -28,6 +28,7 @@ const MyGigs = ({
   getAllCountries,
   checkingGigs,
   startCheckingGigs,
+  gigStatus,
 }) => {
   const location = useLocation();
   const params = utils.url.parseUrlQuery(location.search);
@@ -46,7 +47,7 @@ const MyGigs = ({
     if (propsRef.current.params.externalId) {
       propsRef.current.startCheckingGigs(propsRef.current.params.externalId);
     } else {
-      propsRef.current.getMyGigs();
+      // propsRef.current.getMyGigs();
     }
   }, []);
 
@@ -98,9 +99,12 @@ const MyGigs = ({
             </Button>
           </div>
         </h1>
-        {!checkingGigs && myGigs && myGigs.length == 0 && <Empty />}
+        {!checkingGigs && myGigs && myGigs.length == 0 && (
+          <Empty gigStatus={gigStatus} />
+        )}
         {!checkingGigs && myGigs && myGigs.length > 0 && (
           <JobListing
+            gigStatus={gigStatus}
             jobs={myGigs}
             loadMore={loadMore}
             total={total}
@@ -133,6 +137,7 @@ const MyGigs = ({
 };
 
 MyGigs.propTypes = {
+  gigStatus: PT.string,
   myGigs: PT.arrayOf(PT.shape()),
   getMyGigs: PT.func,
   loadMore: PT.func,
@@ -148,6 +153,7 @@ MyGigs.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
+  gigStatus: state.filter.gig.status,
   checkingGigs: state.myGigs.checkingGigs,
   myGigs: state.myGigs.myGigs,
   total: state.myGigs.total,
