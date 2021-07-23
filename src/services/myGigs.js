@@ -40,6 +40,7 @@ const mapMyGigsData = (serverResponse) => {
         return {
           label: (gigPhase || "").toUpperCase(),
           title: myGig.title,
+          jobExternalId: myGig.jobExternalId,
           paymentRangeFrom: myGig.payment.min,
           paymentRangeTo: myGig.payment.max,
           paymentRangeRateType: myGig.payment.frequency,
