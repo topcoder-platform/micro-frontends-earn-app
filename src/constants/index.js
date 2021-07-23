@@ -104,12 +104,14 @@ export const CURRENCY_SYMBOL = {
 };
 
 export const GIGS_FILTER_STATUSES = {
+  ACTIVE_JOBS: "Active Gigs",
   OPEN_JOBS: "Open Applications",
   COMPLETED_JOBS: "Completed Gigs",
   ARCHIVED_JOBS: "Archived Applications",
 };
 
 export const GIGS_FILTER_STATUSES_PARAM = {
+  [GIGS_FILTER_STATUSES.ACTIVE_JOBS]: "active_jobs",
   [GIGS_FILTER_STATUSES.OPEN_JOBS]: "open_jobs",
   [GIGS_FILTER_STATUSES.COMPLETED_JOBS]: "completed_jobs",
   [GIGS_FILTER_STATUSES.ARCHIVED_JOBS]: "archived_jobs",
