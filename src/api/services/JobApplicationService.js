@@ -53,14 +53,14 @@ async function getMyJobApplications(currentUser, criteria) {
   }
   let jcResult = jobCandidates.result;
   // handle placed status for completed_jobs, archived_jobs query
-  if (status && status != "archived_jobs") {
+  if (status && (status == "active_jobs" || status == "completed_jobs")) {
     await helper.handlePlacedJobCandidates(jobCandidates.result, userId);
     if (status == "completed_jobs") {
       jcResult = jobCandidates.result.filter(
         (item) => item.status == "completed"
       );
     }
-    if (status == "open_jobs") {
+    if (status == "active_jobs") {
       jcResult = jobCandidates.result.filter(
         (item) => item.status != "completed"
       );
@@ -113,6 +113,7 @@ getMyJobApplications.schema = Joi.object()
         sortBy: Joi.string().valid("id", "status").default("id"),
         sortOrder: Joi.string().valid("desc", "asc").default("desc"),
         status: Joi.string().valid(
+          "active_jobs",
           "open_jobs",
           "completed_jobs",
           "archived_jobs"

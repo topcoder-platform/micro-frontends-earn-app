@@ -30,6 +30,9 @@ const MY_GIGS_JOB_STATUS = {
 };
 
 const JOB_APPLICATION_STATUS_MAPPER = {
+  active_jobs: {
+    statuses: [MY_GIGS_JOB_STATUS.PLACED],
+  },
   open_jobs: {
     statuses: [
       MY_GIGS_JOB_STATUS.APPLIED,
@@ -39,7 +42,6 @@ const JOB_APPLICATION_STATUS_MAPPER = {
       MY_GIGS_JOB_STATUS.INTERVIEW,
       MY_GIGS_JOB_STATUS.SELECTED,
       MY_GIGS_JOB_STATUS.OFFERED,
-      MY_GIGS_JOB_STATUS.PLACED,
     ],
   },
   completed_jobs: {
