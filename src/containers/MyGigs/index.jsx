@@ -99,7 +99,9 @@ const MyGigs = ({
             </Button>
           </div>
         </h1>
-        {!checkingGigs && myGigs && myGigs.length == 0 && <Empty />}
+        {!checkingGigs && myGigs && myGigs.length == 0 && (
+          <Empty gigStatus={gigStatus} />
+        )}
         {!checkingGigs && myGigs && myGigs.length > 0 && (
           <JobListing
             gigStatus={gigStatus}
