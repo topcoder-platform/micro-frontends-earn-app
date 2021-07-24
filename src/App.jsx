@@ -87,6 +87,8 @@ const App = () => {
   useEffect(() => {
     if (location.pathname === "/earn/my-gigs" && isLoggedIn) {
       if (!location.search) {
+        store.dispatch(actions.filter.updateGigFilter(initialGigFilter));
+
         store.dispatch(
           actions.myGigs.getMyGigs(
             constants.GIGS_FILTER_STATUSES_PARAM[initialGigFilter.status]
