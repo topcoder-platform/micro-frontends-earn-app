@@ -1,0 +1,70 @@
+@import "styles/variables";
+@import "styles/mixins";
+
+.job-detail {
+  padding-bottom: 6px;
+}
+
+.job-detail-wrapper {
+  padding: 24px 22px 22px;
+  background-color: $white;
+  border: 1px solid $gray3;
+  border-radius: $border-radius;
+}
+
+.detail {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: flex-start;
+  & > img {
+    margin-right: 22px;
+  }
+}
+.detail-content {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+
+  .title {
+    color: $tc-turquoise-dark2;
+    font-size: 24px;
+    line-height: 36px;
+  }
+  .description {
+    color: $tc-black;
+    font-size: 14px;
+    line-height: 22px;
+  }
+}
+.job-items {
+  display: flex;
+  justify-content: space-between;
+  width: 64.38969%;
+  margin-top: 19px;
+
+  @media screen and (min-width: 1400px) {
+    max-width: calc(575px + 20%);
+  }
+}
+
+.job-item {
+  margin-right: 25px;
+  white-space: nowrap;
+
+  .caption {
+    @include roboto-regular;
+
+    margin-bottom: 2px;
+    font-size: $font-size-xs;
+    color: $tc-gray-70;
+    line-height: $line-height-xs;
+  }
+
+  .text {
+    @include roboto-medium;
+
+    font-size: $font-size-sm;
+    line-height: $line-height-base;
+  }
+}

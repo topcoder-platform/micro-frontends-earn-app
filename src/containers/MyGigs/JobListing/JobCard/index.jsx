@@ -1,6 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import PT from "prop-types";
 import ProgressBar from "./ProgressBar";
+import JobDetail from "./JobDetail";
 import Ribbon from "../../../../components/Ribbon";
 import Button from "../../../../components/Button";
 import IconChevronDown from "assets/icons/button-chevron-down.svg";
@@ -11,6 +12,7 @@ import {
   MY_GIG_PHASE_ACTION,
   MY_GIGS_JOB_STATUS,
   PHASES_FOR_JOB_STATUS,
+  MY_GIGS_STATUS_REMARK_TEXT,
 } from "../../../../constants";
 import { formatMoneyValue } from "../../../../utils";
 import IconNote from "../../../../assets/icons/note.svg";
@@ -30,12 +32,34 @@ const JobCard = ({ job }) => {
     setFooterHeight(footerRef.current.offsetHeight);
   }, [expanded]);
 
+  const paymentInfo = useMemo(() => {
+    if (job.paymentRangeFrom && job.paymentRangeTo && job.currency) {
+      return `${job.currency}
+        ${formatMoneyValue(job.paymentRangeFrom, "")}
+        ${" - "}
+        ${formatMoneyValue(job.paymentRangeTo, "")}
+        ${" (USD)"}
+        ${" / "}
+        ${job.paymentRangeRateType}`;
+    }
+    return "";
+  }, [
+    job.paymentRangeFrom,
+    job.paymentRangeTo,
+    job.currency,
+    job.paymentRangeRateType,
+  ]);
+
   return (
     <div
       styleName={`card job-card ${
         job.label === MY_GIG_PHASE_LABEL.SELECTED ? "label-selected" : ""
       } ${job.label === MY_GIG_PHASE_LABEL.OFFERED ? "label-offered" : ""} ${
         job.label === MY_GIG_PHASE_LABEL.PLACED ? "label-placed" : ""
+      } ${
+        job.label === MY_GIG_PHASE_LABEL.WITHDRAWN ? "label-withdrawn" : ""
+      } ${
+        job.label === MY_GIG_PHASE_LABEL.COMPLETED ? "label-completed" : ""
       } ${
         job.label === MY_GIG_PHASE_LABEL.NOT_SELECTED
           ? "label-not-selected"
@@ -67,7 +91,7 @@ const JobCard = ({ job }) => {
                 <div styleName="job-item">
                   <div styleName="caption">Payment Range</div>
                   <div styleName="text">
-                    {job.paymentRangeFrom &&
+                    {/* {job.paymentRangeFrom &&
                       job.paymentRangeTo &&
                       job.currency && (
                         <>
@@ -79,7 +103,8 @@ const JobCard = ({ job }) => {
                           {" / "}
                           {job.paymentRangeRateType}
                         </>
-                      )}
+                      )} */}
+                    {paymentInfo}
                   </div>
                 </div>
               </li>
@@ -124,18 +149,30 @@ const JobCard = ({ job }) => {
       </div>
       <div styleName="card-footer job-card-footer" ref={footerRef}>
         <div styleName="note-container">
-          {job.remark && (
-            <NoteTooltip>
-              <i styleName="icon">
-                <IconNote />
-              </i>
-            </NoteTooltip>
-          )}
-          <span styleName="note">{job.remark}</span>
+          {job.remark ||
+            ([
+              MY_GIGS_JOB_STATUS.WITHDRAWN,
+              MY_GIGS_JOB_STATUS.WITHDRAWN_PRESCREEN,
+              MY_GIGS_JOB_STATUS.COMPLETED,
+            ] && (
+              <NoteTooltip>
+                <i styleName="icon">
+                  <IconNote />
+                </i>
+              </NoteTooltip>
+            ))}
+          <span styleName="note">
+            {[
+              MY_GIGS_JOB_STATUS.WITHDRAWN,
+              MY_GIGS_JOB_STATUS.WITHDRAWN_PRESCREEN,
+              MY_GIGS_JOB_STATUS.COMPLETED,
+            ].includes(job.status)
+              ? MY_GIGS_STATUS_REMARK_TEXT[job.status]
+              : job.remark}
+          </span>
           {![
             MY_GIGS_JOB_STATUS.JOB_CLOSED,
             MY_GIGS_JOB_STATUS.REJECTED_OTHER,
-            MY_GIGS_JOB_STATUS.COMPLETED,
             MY_GIGS_JOB_STATUS.WITHDRAWN,
             MY_GIGS_JOB_STATUS.WITHDRAWN_PRESCREEN,
           ].includes(job.status) && (
@@ -158,7 +195,6 @@ const JobCard = ({ job }) => {
         {![
           MY_GIGS_JOB_STATUS.JOB_CLOSED,
           MY_GIGS_JOB_STATUS.REJECTED_OTHER,
-          MY_GIGS_JOB_STATUS.COMPLETED,
           MY_GIGS_JOB_STATUS.WITHDRAWN,
           MY_GIGS_JOB_STATUS.WITHDRAWN_PRESCREEN,
         ].includes(job.status) && (
@@ -166,12 +202,21 @@ const JobCard = ({ job }) => {
             styleName="progress-bar"
             style={{ display: expanded ? "" : "none" }}
           >
-            <ProgressBar
-              phases={PHASES_FOR_JOB_STATUS[job.status]}
-              currentPhase={job.phase}
-              currentPhaseStatus={job.phaseStatus}
-              note={job.phaseNote}
-            />
+            {MY_GIGS_JOB_STATUS.COMPLETED !== job.status && (
+              <ProgressBar
+                phases={PHASES_FOR_JOB_STATUS[job.status]}
+                currentPhase={job.phase}
+                currentPhaseStatus={job.phaseStatus}
+                note={job.phaseNote}
+              />
+            )}
+            {MY_GIGS_JOB_STATUS.COMPLETED === job.status && (
+              <JobDetail
+                paymentInfo={paymentInfo}
+                hours={job.hours}
+                workingHours={job.workingHours}
+              />
+            )}
           </div>
         )}
       </div>
