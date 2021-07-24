@@ -148,18 +148,18 @@ const JobCard = ({ job }) => {
       </div>
       <div styleName="card-footer job-card-footer" ref={footerRef}>
         <div styleName="note-container">
-          {job.remark ||
-            ([
+          {(job.remark ||
+            [
               MY_GIGS_JOB_STATUS.WITHDRAWN,
               MY_GIGS_JOB_STATUS.WITHDRAWN_PRESCREEN,
               MY_GIGS_JOB_STATUS.COMPLETED,
-            ] && (
-              <NoteTooltip>
-                <i styleName="icon">
-                  <IconNote />
-                </i>
-              </NoteTooltip>
-            ))}
+            ].includes(job.status)) && (
+            <NoteTooltip>
+              <i styleName="icon">
+                <IconNote />
+              </i>
+            </NoteTooltip>
+          )}
           <span styleName="note">
             {[
               MY_GIGS_JOB_STATUS.WITHDRAWN,
