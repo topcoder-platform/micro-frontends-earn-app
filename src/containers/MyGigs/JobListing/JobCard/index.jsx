@@ -86,59 +86,58 @@ const JobCard = ({ job }) => {
                 {job.title}
               </a>
             </h4>
-            <ul styleName="job-items">
-              <li>
-                <div styleName="job-item">
-                  <div styleName="caption">Payment Range</div>
-                  <div styleName="text">
-                    {/* {job.paymentRangeFrom &&
-                      job.paymentRangeTo &&
-                      job.currency && (
-                        <>
-                          {job.currency}
-                          {formatMoneyValue(job.paymentRangeFrom, "")}
-                          {" - "}
-                          {formatMoneyValue(job.paymentRangeTo, "")}
-                          {" (USD)"}
-                          {" / "}
-                          {job.paymentRangeRateType}
-                        </>
-                      )} */}
-                    {paymentInfo}
+            {job.status == MY_GIGS_JOB_STATUS.COMPLETED && (
+              <ul styleName="job-items">
+                <li>
+                  <div styleName="job-item">
+                    <div styleName="caption">Duration</div>
+                    <div styleName="text">
+                      {job.duration && `${job.duration} Weeks`}
+                    </div>
                   </div>
-                </div>
-              </li>
-              <li>
-                <div styleName="job-item">
-                  <div styleName="caption">Location</div>
-                  <div styleName="text">{job.location}</div>
-                </div>
-              </li>
-              <li>
-                <div styleName="job-item">
-                  <div styleName="caption">Duration</div>
-                  <div styleName="text">
-                    {job.duration && `${job.duration} Weeks`}
+                </li>
+              </ul>
+            )}
+            {job.status !== MY_GIGS_JOB_STATUS.COMPLETED && (
+              <ul styleName="job-items">
+                <li>
+                  <div styleName="job-item">
+                    <div styleName="caption">Payment Range</div>
+                    <div styleName="text">{paymentInfo}</div>
                   </div>
-                </div>
-              </li>
-              <li>
-                <div styleName="job-item">
-                  <div styleName="caption">Hours</div>
-                  <div styleName="text">
-                    {job.hours && `${job.hours} hours / week`}
+                </li>
+                <li>
+                  <div styleName="job-item">
+                    <div styleName="caption">Location</div>
+                    <div styleName="text">{job.location}</div>
                   </div>
-                </div>
-              </li>
-              <li>
-                <div styleName="job-item">
-                  <div styleName="caption">Working Hours</div>
-                  <div styleName="text">
-                    {job.workingHours && `${job.workingHours} hours`}
+                </li>
+                <li>
+                  <div styleName="job-item">
+                    <div styleName="caption">Duration</div>
+                    <div styleName="text">
+                      {job.duration && `${job.duration} Weeks`}
+                    </div>
                   </div>
-                </div>
-              </li>
-            </ul>
+                </li>
+                <li>
+                  <div styleName="job-item">
+                    <div styleName="caption">Hours</div>
+                    <div styleName="text">
+                      {job.hours && `${job.hours} hours / week`}
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div styleName="job-item">
+                    <div styleName="caption">Working Hours</div>
+                    <div styleName="text">
+                      {job.workingHours && `${job.workingHours} hours`}
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            )}
           </div>
           <div
             styleName={`right-side stand-by ${!job.phaseAction ? "none" : ""}`}
