@@ -55,7 +55,13 @@ const JobCard = ({ job }) => {
       <div styleName="card-body">
         <div styleName="job-card-content">
           <div styleName="content">
-            <h4 styleName="title">{job.title}</h4>
+            <h4 styleName="title">
+              <a
+                href={`${process.env.URL.BASE}/gigs/${job.jobExternalId}`} // eslint-disable-line no-undef
+              >
+                {job.title}
+              </a>
+            </h4>
             <ul styleName="job-items">
               <li>
                 <div styleName="job-item">
@@ -129,6 +135,9 @@ const JobCard = ({ job }) => {
           {![
             MY_GIGS_JOB_STATUS.JOB_CLOSED,
             MY_GIGS_JOB_STATUS.REJECTED_OTHER,
+            MY_GIGS_JOB_STATUS.COMPLETED,
+            MY_GIGS_JOB_STATUS.WITHDRAWN,
+            MY_GIGS_JOB_STATUS.WITHDRAWN_PRESCREEN,
           ].includes(job.status) && (
             <span styleName={`${expanded ? "show-less" : "show-more"}`}>
               <Button
@@ -149,6 +158,9 @@ const JobCard = ({ job }) => {
         {![
           MY_GIGS_JOB_STATUS.JOB_CLOSED,
           MY_GIGS_JOB_STATUS.REJECTED_OTHER,
+          MY_GIGS_JOB_STATUS.COMPLETED,
+          MY_GIGS_JOB_STATUS.WITHDRAWN,
+          MY_GIGS_JOB_STATUS.WITHDRAWN_PRESCREEN,
         ].includes(job.status) && (
           <div
             styleName="progress-bar"

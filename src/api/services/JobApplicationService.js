@@ -18,6 +18,7 @@ async function getMyJobApplications(currentUser, criteria) {
   const perPage = criteria.perPage;
   const sortBy = criteria.sortBy;
   const sortOrder = criteria.sortOrder;
+  const status = criteria.status || "";
   const emptyResult = {
     total: 0,
     page,
@@ -44,16 +45,34 @@ async function getMyJobApplications(currentUser, criteria) {
     perPage,
     sortBy,
     sortOrder,
+    status,
   });
   // if no candidates found then return empty result
   if (jobCandidates.result.length === 0) {
     return emptyResult;
   }
-  const jobIds = _.map(jobCandidates.result, "jobId");
+  let jcResult = jobCandidates.result;
+  // handle placed status for completed_jobs, archived_jobs query
+  if (status && (status == "active_jobs" || status == "completed_jobs")) {
+    await helper.handlePlacedJobCandidates(jobCandidates.result, userId);
+    if (status == "completed_jobs") {
+      jcResult = jobCandidates.result.filter(
+        (item) => item.status == "completed"
+      );
+    }
+    if (status == "active_jobs") {
+      jcResult = jobCandidates.result.filter(
+        (item) => item.status != "completed"
+      );
+    }
+  }
+
+  const jobIds = _.map(jcResult, "jobId");
   // get jobs of current user by calling taas-api
   const { result: jobs } = await helper.getJobs({ jobIds, page: 1, perPage });
+
   // apply desired structure
-  const jobApplications = _.map(jobCandidates.result, (jobCandidate) => {
+  const jobApplications = _.map(jcResult, (jobCandidate) => {
     const job = _.find(jobs, ["id", jobCandidate.jobId]);
     return {
       title: job.title,
@@ -73,6 +92,7 @@ async function getMyJobApplications(currentUser, criteria) {
         : null,
       remark: jobCandidate.remark,
       duration: job.duration,
+      jobExternalId: job.externalId,
     };
   });
   return {
@@ -92,6 +112,12 @@ getMyJobApplications.schema = Joi.object()
         perPage: Joi.perPage(),
         sortBy: Joi.string().valid("id", "status").default("id"),
         sortOrder: Joi.string().valid("desc", "asc").default("desc"),
+        status: Joi.string().valid(
+          "active_jobs",
+          "open_jobs",
+          "completed_jobs",
+          "archived_jobs"
+        ),
       })
       .required(),
   })

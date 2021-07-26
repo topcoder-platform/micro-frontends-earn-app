@@ -1,5 +1,6 @@
 import { handleActions } from "redux-actions";
 import * as constants from "../constants";
+import _ from "lodash";
 
 const defaultState = {
   buckets: constants.FILTER_BUCKETS,
@@ -9,6 +10,7 @@ const defaultState = {
   subCommunities: [],
   isLoggedIn: null,
   countries: [],
+  gigsStatuses: _.values(constants.GIGS_FILTER_STATUSES),
 };
 
 function onGetTagsDone(state, { payload }) {

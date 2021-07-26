@@ -4,6 +4,7 @@
 
 const _ = require("lodash");
 const config = require("config");
+const constants = require("../app-constants");
 const logger = require("./logger");
 const httpStatus = require("http-status");
 const Interceptor = require("express-interceptor");
@@ -265,10 +266,18 @@ async function getCurrentUserDetails(token) {
  */
 async function getJobCandidates(criteria) {
   const token = await getM2MToken();
+  let body = { statuses: [] };
+  if (criteria.status) {
+    body = constants.JOB_APPLICATION_STATUS_MAPPER[criteria.status] || {
+      statuses: [],
+    };
+  }
+  delete criteria.status;
   const url = `${config.API.V5}/jobCandidates`;
   const res = await request
     .get(url)
     .query(criteria)
+    .send(body)
     .set("Authorization", `Bearer ${token}`)
     .set("Accept", "application/json");
   localLogger.debug({
@@ -281,6 +290,66 @@ async function getJobCandidates(criteria) {
     perPage: Number(_.get(res.headers, "x-per-page")),
     result: res.body,
   };
+}
+
+/**
+ * Process placed job candidate to calculate the completed status
+ *
+ * @param {*} jobCandidates
+ * @param {*} userId
+ * @returns
+ */
+async function handlePlacedJobCandidates(jobCandidates, userId) {
+  if (!jobCandidates || jobCandidates.length == 0 || !userId) {
+    return;
+  }
+  const placedJobs = jobCandidates.filter(
+    (item) => item.status == constants.MY_GIGS_JOB_STATUS.PLACED
+  );
+  if (placedJobs.length == 0) {
+    return;
+  }
+  const token = await getM2MToken();
+  const url = `${config.API.V5}/resourceBookings`;
+  const criteria = {
+    userId: userId,
+    page: 1,
+    perPage: placedJobs.length,
+  };
+  const body = {
+    jobIds: _.map(placedJobs, "jobId"),
+  };
+  const res = await request
+    .get(url)
+    .query(criteria)
+    .send(body)
+    .set("Authorization", `Bearer ${token}`)
+    .set("Accept", "application/json");
+  localLogger.debug({
+    context: "handlePlacedJobCandidates",
+    message: `response body: ${JSON.stringify(res.body)}`,
+  });
+  if (res.body && res.body.length == 0) {
+    return;
+  }
+  // Handle placed job status with RB result
+  const rbRes = res.body;
+  _.each(rbRes, (rb) => {
+    const jc = jobCandidates.find(
+      (item) => item.userId == rb.userId && item.jobId == rb.jobId
+    );
+    if (jc) {
+      if (rb.endDate) {
+        if (
+          new Date(rb.endDate) < new Date() &&
+          new Date(rb.endDate).toDateString() != new Date().toDateString()
+        ) {
+          jc.status = "completed";
+        }
+      }
+    }
+  });
+  return;
 }
 
 /**
@@ -467,6 +536,7 @@ module.exports = {
   getM2MToken,
   getCurrentUserDetails,
   getJobCandidates,
+  handlePlacedJobCandidates,
   getJobs,
   getMember,
   getMemberTraits,

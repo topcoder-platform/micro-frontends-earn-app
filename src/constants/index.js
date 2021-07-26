@@ -29,6 +29,10 @@ export const NAV_MENU = {
           name: "Challenges",
           path: "/earn/find/challenges",
         },
+        {
+          name: "Gigs",
+          path: "",
+        },
       ],
     },
   ],
@@ -99,6 +103,20 @@ export const CURRENCY_SYMBOL = {
   USD: "$",
 };
 
+export const GIGS_FILTER_STATUSES = {
+  ACTIVE_JOBS: "Active Gigs",
+  OPEN_JOBS: "Open Applications",
+  COMPLETED_JOBS: "Completed Gigs",
+  ARCHIVED_JOBS: "Archived Applications",
+};
+
+export const GIGS_FILTER_STATUSES_PARAM = {
+  [GIGS_FILTER_STATUSES.ACTIVE_JOBS]: "active_jobs",
+  [GIGS_FILTER_STATUSES.OPEN_JOBS]: "open_jobs",
+  [GIGS_FILTER_STATUSES.COMPLETED_JOBS]: "completed_jobs",
+  [GIGS_FILTER_STATUSES.ARCHIVED_JOBS]: "archived_jobs",
+};
+
 export const MY_GIG_PHASE = {
   APPLIED: "Applied",
   SKILLS_TEST: "Skills Test",
@@ -110,6 +128,8 @@ export const MY_GIG_PHASE = {
   PLACED: "Placed",
   NOT_SELECTED: "Not Selected",
   JOB_CLOSED: "Job Closed",
+  WITHDRAWN: "Withdrawn",
+  COMPLETED: "Completed",
 };
 
 export const MY_GIG_PHASE_LABEL = {
@@ -123,6 +143,8 @@ export const MY_GIG_PHASE_LABEL = {
   PLACED: "PLACED",
   NOT_SELECTED: "NOT SELECTED",
   JOB_CLOSED: "JOB CLOSED",
+  WITHDRAWN: "WITHDRAWN",
+  COMPLETED: "COMPLETED",
 };
 
 export const MY_GIG_PHASE_STATUS = {
@@ -149,6 +171,9 @@ export const MY_GIGS_JOB_STATUS = {
   CLIENT_REJECTED_INTERVIEW: "client rejected - interview",
   CLIENT_REJECTED_SCREENING: "client rejected - screening",
   JOB_CLOSED: "job-closed",
+  WITHDRAWN: "withdrawn",
+  WITHDRAWN_PRESCREEN: "withdrawn-prescreen",
+  COMPLETED: "completed",
 };
 /**
  * Maps the status from API to gig status
@@ -167,6 +192,9 @@ export const JOB_STATUS_MAPPER = {
   [MY_GIGS_JOB_STATUS.CLIENT_REJECTED_INTERVIEW]: MY_GIG_PHASE.NOT_SELECTED,
   [MY_GIGS_JOB_STATUS.CLIENT_REJECTED_SCREENING]: MY_GIG_PHASE.NOT_SELECTED,
   [MY_GIGS_JOB_STATUS.JOB_CLOSED]: MY_GIG_PHASE.JOB_CLOSED,
+  [MY_GIGS_JOB_STATUS.WITHDRAWN]: MY_GIG_PHASE.WITHDRAWN,
+  [MY_GIGS_JOB_STATUS.WITHDRAWN_PRESCREEN]: MY_GIG_PHASE.WITHDRAWN,
+  [MY_GIGS_JOB_STATUS.COMPLETED]: MY_GIG_PHASE.COMPLETED,
 };
 
 /**
@@ -191,6 +219,9 @@ export const JOB_STATUS_MESSAGE_MAPPER = {
   [MY_GIG_PHASE.NOT_SELECTED]: "You were not selected for this position.",
   [MY_GIG_PHASE.JOB_CLOSED]:
     "This position is no longer active.  Please apply to other open gigs.",
+  [MY_GIG_PHASE.WITHDRAWN]:
+    "You withdrew your application for this gig or you have been placed in another gig.",
+  [MY_GIG_PHASE.COMPLETED]: "Congrats on completing the gig!",
 };
 
 export const ACTIONS_AVAILABLE_FOR_MY_GIG_PHASE = {
@@ -304,6 +335,9 @@ export const PHASES_FOR_JOB_STATUS = {
     MY_GIG_PHASE.NOT_SELECTED,
   ],
   [MY_GIGS_JOB_STATUS.JOB_CLOSED]: [MY_GIG_PHASE.JOB_CLOSED],
+  [MY_GIGS_JOB_STATUS.WITHDRAWN]: [MY_GIG_PHASE.WITHDRAWN],
+  [MY_GIGS_JOB_STATUS.WITHDRAWN_PRESCREEN]: [MY_GIG_PHASE.WITHDRAWN],
+  [MY_GIGS_JOB_STATUS.COMPLETED]: [MY_GIG_PHASE.COMPLETED],
 };
 
 /**
@@ -321,6 +355,8 @@ export const SORT_STATUS_ORDER = [
   MY_GIG_PHASE.APPLIED,
   MY_GIG_PHASE.JOB_CLOSED,
   MY_GIG_PHASE.NOT_SELECTED,
+  MY_GIG_PHASE.COMPLETED,
+  MY_GIG_PHASE.WITHDRAWN,
 ];
 
 export const PER_PAGE = 10;
@@ -350,8 +386,14 @@ export const GIG_STATUS_TOOLTIP = {
   UNAVAILABLE: "You’re not open to take on new jobs.",
 };
 
-export const EMPTY_GIGS_TEXT =
-  "LOOKS LIKE YOU HAVEN'T APPLIED TO ANY GIG OPPORTUNITIES YET.";
+export const MY_GIGS_STATUS_EMPTY_TEXT = {
+  [GIGS_FILTER_STATUSES.ACTIVE_JOBS]: "YOU DON'T HAVE ANY ACTIVE GIGS YET.",
+  [GIGS_FILTER_STATUSES.OPEN_JOBS]:
+    "LOOKS LIKE YOU HAVEN'T APPLIED TO ANY GIG OPPORTUNITIES YET.",
+  [GIGS_FILTER_STATUSES.COMPLETED_JOBS]:
+    "YOU DON'T HAVE ANY COMPLETED GIGS YET.",
+  [GIGS_FILTER_STATUSES.ARCHIVED_JOBS]: "YOU DON'T HAVE ANY ARCHIVED GIGS YET.",
+};
 
 export const CHECKING_GIG_TIMES = 3;
 

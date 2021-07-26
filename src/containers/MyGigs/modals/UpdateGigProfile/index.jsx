@@ -272,7 +272,7 @@ const UpdateGigProfile = ({
       </div>
       <div styleName="footer">
         <a
-          href={`${process.env.URL.COMMUNITY_APP}/settings/profile#skills`}
+          href={`${process.env.URL.BASE}/settings/profile#skills`}
           styleName="link"
         >
           Update your skills from Topcoder Profile page
