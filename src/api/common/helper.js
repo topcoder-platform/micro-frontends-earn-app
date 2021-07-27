@@ -6,6 +6,7 @@ const _ = require("lodash");
 const config = require("config");
 const constants = require("../app-constants");
 const logger = require("./logger");
+const { weekDiff } = require("./utils");
 const httpStatus = require("http-status");
 const Interceptor = require("express-interceptor");
 const m2mAuth = require("tc-core-library-js").auth.m2m;
@@ -345,6 +346,10 @@ async function handlePlacedJobCandidates(jobCandidates, userId) {
           new Date(rb.endDate).toDateString() != new Date().toDateString()
         ) {
           jc.status = "completed";
+          jc.rbPay = rb.memberRate;
+          jc.rbStartDate = rb.startDate;
+          jc.rbEndDate = rb.endDate;
+          jc.rbDuration = weekDiff(rb.startDate, rb.endDate);
         }
       }
     }

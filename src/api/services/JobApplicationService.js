@@ -76,6 +76,11 @@ async function getMyJobApplications(currentUser, criteria) {
     const job = _.find(jobs, ["id", jobCandidate.jobId]);
     return {
       title: job.title,
+      description: job.description,
+      rbPay: jobCandidate.rbPay,
+      rbStartDate: jobCandidate.rbStartDate,
+      rbEndDate: jobCandidate.rbEndDate,
+      rbDuration: jobCandidate.rbDuration,
       payment: {
         min: job.minSalary,
         max: job.maxSalary,
