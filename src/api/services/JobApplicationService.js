@@ -83,6 +83,7 @@ async function getMyJobApplications(currentUser, criteria) {
       paymentTotal: jobCandidate.paymentTotal,
       rbStartDate: jobCandidate.rbStartDate,
       rbEndDate: jobCandidate.rbEndDate,
+      updatedAt: jobCandidate.updatedAt,
       payment: {
         min: job.minSalary,
         max: job.maxSalary,
