@@ -273,6 +273,23 @@ components:
           example: "Dummy title"
           description: "The title."
           maxLength: 64
+        paymentTotal:
+          type: integer
+          example: 20
+          description: "the amount of payment that a member has received for a completed job"
+        rbStartDate:
+          type: string
+          example: "2021-06-05"
+          description: "the official start time for a job"
+        rbEndDate:
+          type: string
+          example: "2021-07-05"
+          description: "the official end time for a job"
+        updatedAt:
+          type: string
+          format: date-time
+          example: "2021-06-21T03:57:17.774Z"
+          description: "The latest updated date time for a jobCandidate."
         payment:
           $ref: "#/components/schemas/Payment"
         hoursPerWeek:
