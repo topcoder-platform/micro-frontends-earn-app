@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState, useMemo } from "react";
 import PT from "prop-types";
 import ProgressBar from "./ProgressBar";
-import JobDetail from "./JobDetail";
 import Ribbon from "../../../../components/Ribbon";
 import Button from "../../../../components/Button";
 import IconChevronDown from "assets/icons/button-chevron-down.svg";
 import ProgressTooltip from "./tooltips/ProgressTooltip";
 import NoteTooltip from "./tooltips/NoteTooltip";
+import EarnTooltip from "./tooltips/EarnTooltip";
 import {
   MY_GIG_PHASE_LABEL,
   MY_GIG_PHASE_ACTION,
@@ -15,7 +15,9 @@ import {
   MY_GIGS_STATUS_REMARK_TEXT,
 } from "../../../../constants";
 import { formatMoneyValue } from "../../../../utils";
+import { getDateRange } from "../../../../utils/myGig";
 import IconNote from "../../../../assets/icons/note.svg";
+import IconInfo from "../../../../assets/icons/ribbon-icon.svg";
 
 import "./styles.scss";
 
@@ -86,8 +88,49 @@ const JobCard = ({ job }) => {
                 {job.title}
               </a>
             </h4>
-            {job.status == MY_GIGS_JOB_STATUS.COMPLETED && (
-              <ul styleName="job-items">
+            <ul styleName="job-items">
+              <li>
+                <div styleName="job-item">
+                  {MY_GIGS_JOB_STATUS.COMPLETED === job.status && (
+                    <>
+                      <div styleName="caption">Duration</div>
+                      <div styleName="text">
+                        {getDateRange(job.rbStartDate, job.rbEndDate)}
+                      </div>
+                    </>
+                  )}
+                  {MY_GIGS_JOB_STATUS.COMPLETED !== job.status && (
+                    <>
+                      <div styleName="caption">Payment Range</div>
+                      <div styleName="text">{paymentInfo}</div>
+                    </>
+                  )}
+                </div>
+              </li>
+              <li>
+                <div styleName="job-item">
+                  {MY_GIGS_JOB_STATUS.COMPLETED === job.status && (
+                    <>
+                      <div styleName="caption">
+                        <span>Total Earnings</span>
+                        <span styleName="earn-tip">
+                          <EarnTooltip>
+                            <IconInfo />
+                          </EarnTooltip>
+                        </span>
+                      </div>
+                      <div styleName="text">{`${job.currency}${job.paymentTotal}`}</div>
+                    </>
+                  )}
+                  {MY_GIGS_JOB_STATUS.COMPLETED !== job.status && (
+                    <>
+                      <div styleName="caption">Location</div>
+                      <div styleName="text">{job.location}</div>
+                    </>
+                  )}
+                </div>
+              </li>
+              {MY_GIGS_JOB_STATUS.COMPLETED !== job.status && (
                 <li>
                   <div styleName="job-item">
                     <div styleName="caption">Duration</div>
@@ -96,48 +139,24 @@ const JobCard = ({ job }) => {
                     </div>
                   </div>
                 </li>
-              </ul>
-            )}
-            {job.status !== MY_GIGS_JOB_STATUS.COMPLETED && (
-              <ul styleName="job-items">
-                <li>
-                  <div styleName="job-item">
-                    <div styleName="caption">Payment Range</div>
-                    <div styleName="text">{paymentInfo}</div>
+              )}
+              <li>
+                <div styleName="job-item">
+                  <div styleName="caption">Hours</div>
+                  <div styleName="text">
+                    {job.hours && `${job.hours} hours / week`}
                   </div>
-                </li>
-                <li>
-                  <div styleName="job-item">
-                    <div styleName="caption">Location</div>
-                    <div styleName="text">{job.location}</div>
+                </div>
+              </li>
+              <li>
+                <div styleName="job-item">
+                  <div styleName="caption">Working Hours</div>
+                  <div styleName="text">
+                    {job.workingHours && `${job.workingHours} hours`}
                   </div>
-                </li>
-                <li>
-                  <div styleName="job-item">
-                    <div styleName="caption">Duration</div>
-                    <div styleName="text">
-                      {job.duration && `${job.duration} Weeks`}
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div styleName="job-item">
-                    <div styleName="caption">Hours</div>
-                    <div styleName="text">
-                      {job.hours && `${job.hours} hours / week`}
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div styleName="job-item">
-                    <div styleName="caption">Working Hours</div>
-                    <div styleName="text">
-                      {job.workingHours && `${job.workingHours} hours`}
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            )}
+                </div>
+              </li>
+            </ul>
           </div>
           <div
             styleName={`right-side stand-by ${!job.phaseAction ? "none" : ""}`}
@@ -172,6 +191,7 @@ const JobCard = ({ job }) => {
           {![
             MY_GIGS_JOB_STATUS.JOB_CLOSED,
             MY_GIGS_JOB_STATUS.REJECTED_OTHER,
+            MY_GIGS_JOB_STATUS.COMPLETED,
             MY_GIGS_JOB_STATUS.WITHDRAWN,
             MY_GIGS_JOB_STATUS.WITHDRAWN_PRESCREEN,
           ].includes(job.status) && (
@@ -194,6 +214,7 @@ const JobCard = ({ job }) => {
         {![
           MY_GIGS_JOB_STATUS.JOB_CLOSED,
           MY_GIGS_JOB_STATUS.REJECTED_OTHER,
+          MY_GIGS_JOB_STATUS.COMPLETED,
           MY_GIGS_JOB_STATUS.WITHDRAWN,
           MY_GIGS_JOB_STATUS.WITHDRAWN_PRESCREEN,
         ].includes(job.status) && (
@@ -201,21 +222,12 @@ const JobCard = ({ job }) => {
             styleName="progress-bar"
             style={{ display: expanded ? "" : "none" }}
           >
-            {MY_GIGS_JOB_STATUS.COMPLETED !== job.status && (
-              <ProgressBar
-                phases={PHASES_FOR_JOB_STATUS[job.status]}
-                currentPhase={job.phase}
-                currentPhaseStatus={job.phaseStatus}
-                note={job.phaseNote}
-              />
-            )}
-            {MY_GIGS_JOB_STATUS.COMPLETED === job.status && (
-              <JobDetail
-                paymentInfo={paymentInfo}
-                hours={job.hours}
-                workingHours={job.workingHours}
-              />
-            )}
+            <ProgressBar
+              phases={PHASES_FOR_JOB_STATUS[job.status]}
+              currentPhase={job.phase}
+              currentPhaseStatus={job.phaseStatus}
+              note={job.phaseNote}
+            />
           </div>
         )}
       </div>

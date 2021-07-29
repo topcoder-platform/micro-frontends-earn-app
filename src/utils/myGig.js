@@ -106,3 +106,18 @@ export function validatePhone(phoneNumber, country) {
 
   return error ? error : null;
 }
+
+export function getDateRange(startDate, endDate) {
+  const yearStart = new Date(startDate).getFullYear();
+  const yearEnd = new Date(endDate).getFullYear();
+  if (yearStart > yearEnd) {
+    return "";
+  }
+  const options = { month: "long", day: "numeric" };
+  const first = new Date(startDate).toLocaleDateString("en-us", options);
+  const second = new Date(endDate).toLocaleDateString("en-us", options);
+  if (yearStart == yearEnd) {
+    return `${first} - ${second}, ${yearStart}`;
+  }
+  return `${first}, ${yearStart} - ${second}, ${yearEnd}`;
+}

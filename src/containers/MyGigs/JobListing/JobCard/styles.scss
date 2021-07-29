@@ -151,6 +151,19 @@
       font-size: $font-size-xs;
       color: $tc-gray-70;
       line-height: $line-height-xs;
+
+      .earn-tip {
+        position: absolute;
+        line-height: 24px;
+
+        svg {
+          transform: scale(0.71);
+
+          path {
+            fill: currentColor
+          }
+        }
+      }
     }
 
     .text {
