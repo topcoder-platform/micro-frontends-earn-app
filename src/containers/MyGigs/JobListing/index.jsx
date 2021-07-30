@@ -28,14 +28,37 @@ const JobListing = ({ jobs, loadMore, total, numLoaded, gigStatus }) => {
   useEffect(() => {
     setPage(1);
   }, [gigStatus]);
-
   return (
     <div styleName="card-container">
-      {jobs.map((job, index) => (
-        <div styleName="card-item" key={`${job.title}-${index}`}>
-          <JobCard job={job} />
-        </div>
-      ))}
+      {![
+        constants.GIGS_FILTER_STATUSES.COMPLETED_JOBS,
+        constants.GIGS_FILTER_STATUSES.ARCHIVED_JOBS,
+      ].includes(gigStatus) &&
+        jobs.map((job, index) => (
+          <div styleName="card-item" key={`${job.title}-${index}`}>
+            <JobCard job={job} />
+          </div>
+        ))}
+
+      {[
+        constants.GIGS_FILTER_STATUSES.COMPLETED_JOBS,
+        constants.GIGS_FILTER_STATUSES.ARCHIVED_JOBS,
+      ].includes(gigStatus) &&
+        jobs
+          .sort((a, b) => {
+            if (a.sortPrio == b.sortPrio) {
+              return (
+                new Date(b.updatedAt).getTime() -
+                new Date(a.updatedAt).getTime()
+              );
+            }
+            return a.sortPrio - b.sortPrio;
+          })
+          .map((job, index) => (
+            <div styleName="card-item" key={`${job.title}-${index}`}>
+              <JobCard job={job} />
+            </div>
+          ))}
 
       {numLoaded < total && page * constants.PER_PAGE < total && (
         <div styleName="load-more">
