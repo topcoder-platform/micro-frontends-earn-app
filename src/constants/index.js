@@ -399,10 +399,10 @@ export const MY_GIGS_STATUS_EMPTY_TEXT = {
 
 export const MY_GIGS_STATUS_REMARK_TEXT = {
   [MY_GIGS_JOB_STATUS.WITHDRAWN]:
-    "You already placed in other gigs. This will not moving forward.",
+    "You withdrew your application for this gig or you have been placed in another gig.",
   [MY_GIGS_JOB_STATUS.WITHDRAWN_PRESCREEN]:
-    "You already placed in other gigs. This will not moving forward.",
-  [MY_GIGS_JOB_STATUS.COMPLETED]: "Gig has been completed.",
+    "You withdrew your application for this gig or you have been placed in another gig.",
+  [MY_GIGS_JOB_STATUS.COMPLETED]: "Congrats on completing the gig!",
 };
 
 export const CHECKING_GIG_TIMES = 3;
