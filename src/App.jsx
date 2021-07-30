@@ -87,10 +87,14 @@ const App = () => {
   useEffect(() => {
     if (location.pathname === "/earn/my-gigs" && isLoggedIn) {
       if (!location.search) {
+        const cachedGigs = store.getState().myGigs[initialGigFilter.status];
+        if (cachedGigs.myGigs && cachedGigs.myGigs.length !== 0) {
+          return;
+        }
         store.dispatch(actions.filter.updateGigFilter(initialGigFilter));
 
         store.dispatch(
-          actions.myGigs.getMyGigs(
+          actions.myGigs.getMyOpenGigs(
             constants.GIGS_FILTER_STATUSES_PARAM[initialGigFilter.status]
           )
         );
@@ -98,6 +102,7 @@ const App = () => {
       }
       const params = utils.url.parseUrlQuery(location.search);
       if (_.keys(params).length == 1 && params.externalId) {
+        store.dispatch(actions.myGigs.startCheckingGigs(params.externalId));
         return;
       }
       const updatedGigFilter = {
@@ -108,13 +113,50 @@ const App = () => {
       if (diff) {
         store.dispatch(actions.filter.updateGigFilter(updatedGigFilter));
       }
-      getDataDebounced.current(() =>
-        store.dispatch(
-          actions.myGigs.getMyGigs(
-            constants.GIGS_FILTER_STATUSES_PARAM[updatedGigFilter.status]
-          )
-        )
-      );
+      const cachedGigs = store.getState().myGigs[updatedGigFilter.status];
+      if (cachedGigs.myGigs && cachedGigs.myGigs.length !== 0) {
+        return;
+      }
+      getDataDebounced.current(() => {
+        if (
+          updatedGigFilter.status == constants.GIGS_FILTER_STATUSES.ACTIVE_JOBS
+        ) {
+          store.dispatch(
+            actions.myGigs.getMyActiveGigs(
+              constants.GIGS_FILTER_STATUSES_PARAM[updatedGigFilter.status]
+            )
+          );
+        }
+        if (
+          updatedGigFilter.status == constants.GIGS_FILTER_STATUSES.OPEN_JOBS
+        ) {
+          store.dispatch(
+            actions.myGigs.getMyOpenGigs(
+              constants.GIGS_FILTER_STATUSES_PARAM[updatedGigFilter.status]
+            )
+          );
+        }
+        if (
+          updatedGigFilter.status ==
+          constants.GIGS_FILTER_STATUSES.COMPLETED_JOBS
+        ) {
+          store.dispatch(
+            actions.myGigs.getMyCompletedGigs(
+              constants.GIGS_FILTER_STATUSES_PARAM[updatedGigFilter.status]
+            )
+          );
+        }
+        if (
+          updatedGigFilter.status ==
+          constants.GIGS_FILTER_STATUSES.ARCHIVED_JOBS
+        ) {
+          store.dispatch(
+            actions.myGigs.getMyArchivedGigs(
+              constants.GIGS_FILTER_STATUSES_PARAM[updatedGigFilter.status]
+            )
+          );
+        }
+      });
     }
   }, [location, isLoggedIn]);
 

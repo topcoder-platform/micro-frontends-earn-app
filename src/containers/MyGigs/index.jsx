@@ -8,7 +8,8 @@ import Loading from "../../components/Loading";
 import Empty from "../../components/Empty";
 import JobListing from "./JobListing";
 import actions from "../../actions";
-import * as utils from "../../utils";
+import * as constants from "../../constants";
+// import * as utils from "../../utils";
 
 import UpdateGigProfile from "./modals/UpdateGigProfile";
 import UpdateSuccess from "./modals/UpdateSuccess";
@@ -21,6 +22,10 @@ const MyGigs = ({
   loadMore,
   total,
   numLoaded,
+  myActiveGigs,
+  myOpenGigs,
+  myCompletedGigs,
+  myArchivedGigs,
   profile,
   getProfile,
   updateProfile,
@@ -29,26 +34,22 @@ const MyGigs = ({
   checkingGigs,
   startCheckingGigs,
   gigStatus,
+  loadingMyGigs,
 }) => {
-  const location = useLocation();
-  const params = utils.url.parseUrlQuery(location.search);
+  // const location = useLocation();
+  // const params = utils.url.parseUrlQuery(location.search);
   const propsRef = useRef();
   propsRef.current = {
     getMyGigs,
     getProfile,
     getAllCountries,
     startCheckingGigs,
-    params,
+    // params,
   };
 
   useEffect(() => {
     propsRef.current.getProfile();
     propsRef.current.getAllCountries();
-    if (propsRef.current.params.externalId) {
-      propsRef.current.startCheckingGigs(propsRef.current.params.externalId);
-    } else {
-      // propsRef.current.getMyGigs();
-    }
   }, []);
 
   const isInitialMount = useRef(true);
@@ -64,6 +65,22 @@ const MyGigs = ({
 
   const [openUpdateProfile, setOpenUpdateProfile] = useState(false);
   const [openUpdateSuccess, setOpenUpdateSuccess] = useState(false);
+  const [currentGigs, setCurrentGigs] = useState({});
+
+  useEffect(() => {
+    if (gigStatus == constants.GIGS_FILTER_STATUSES.ACTIVE_JOBS) {
+      setCurrentGigs(myActiveGigs);
+    }
+    if (gigStatus == constants.GIGS_FILTER_STATUSES.OPEN_JOBS) {
+      setCurrentGigs(myOpenGigs);
+    }
+    if (gigStatus == constants.GIGS_FILTER_STATUSES.COMPLETED_JOBS) {
+      setCurrentGigs(myCompletedGigs);
+    }
+    if (gigStatus == constants.GIGS_FILTER_STATUSES.ARCHIVED_JOBS) {
+      setCurrentGigs(myArchivedGigs);
+    }
+  }, [gigStatus, myActiveGigs, myOpenGigs, myCompletedGigs, myArchivedGigs]);
 
   useEffect(() => {
     if (updateProfileSuccess) {
@@ -99,19 +116,22 @@ const MyGigs = ({
             </Button>
           </div>
         </h1>
-        {!checkingGigs && myGigs && myGigs.length == 0 && (
-          <Empty gigStatus={gigStatus} />
-        )}
-        {!checkingGigs && myGigs && myGigs.length > 0 && (
-          <JobListing
-            gigStatus={gigStatus}
-            jobs={myGigs}
-            loadMore={loadMore}
-            total={total}
-            numLoaded={numLoaded}
-          />
-        )}
-        {checkingGigs && <Loading />}
+        {!checkingGigs &&
+          !loadingMyGigs &&
+          currentGigs.myGigs &&
+          currentGigs.myGigs.length == 0 && <Empty gigStatus={gigStatus} />}
+        {!checkingGigs &&
+          currentGigs.myGigs &&
+          currentGigs.myGigs.length > 0 && (
+            <JobListing
+              gigStatus={gigStatus}
+              jobs={currentGigs.myGigs}
+              loadMore={loadMore}
+              total={currentGigs.total}
+              numLoaded={currentGigs.numLoaded}
+            />
+          )}
+        {checkingGigs || (loadingMyGigs && !currentGigs.myGigs && <Loading />)}
       </div>
       <Modal open={openUpdateProfile}>
         <UpdateGigProfile
@@ -150,6 +170,11 @@ MyGigs.propTypes = {
   getAllCountries: PT.func,
   checkingGigs: PT.bool,
   startCheckingGigs: PT.func,
+  myActiveGigs: PT.shape(),
+  myOpenGigs: PT.shape(),
+  myCompletedGigs: PT.shape(),
+  myArchivedGigs: PT.shape(),
+  loadingMyGigs: PT.bool,
 };
 
 const mapStateToProps = (state) => ({
@@ -158,6 +183,11 @@ const mapStateToProps = (state) => ({
   myGigs: state.myGigs.myGigs,
   total: state.myGigs.total,
   numLoaded: state.myGigs.numLoaded,
+  loadingMyGigs: state.myGigs.loadingMyGigs,
+  myActiveGigs: state.myGigs[constants.GIGS_FILTER_STATUSES.ACTIVE_JOBS],
+  myOpenGigs: state.myGigs[constants.GIGS_FILTER_STATUSES.OPEN_JOBS],
+  myCompletedGigs: state.myGigs[constants.GIGS_FILTER_STATUSES.COMPLETED_JOBS],
+  myArchivedGigs: state.myGigs[constants.GIGS_FILTER_STATUSES.ARCHIVED_JOBS],
   profile: state.myGigs.profile,
   updateProfileSuccess: state.myGigs.updatingProfileSucess,
 });
