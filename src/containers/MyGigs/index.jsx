@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useLocation } from "@reach/router";
+import React, { useEffect, useRef, useState, useCallback } from "react";
+// import { useLocation } from "@reach/router";
 import PT from "prop-types";
 import { connect } from "react-redux";
 import Modal from "../../components/Modal";
@@ -17,11 +17,11 @@ import UpdateSuccess from "./modals/UpdateSuccess";
 import "./styles.scss";
 
 const MyGigs = ({
-  myGigs,
-  getMyGigs,
-  loadMore,
-  total,
-  numLoaded,
+  // myGigs,
+  // getMyGigs,
+  // loadMore,
+  // total,
+  // numLoaded,
   myActiveGigs,
   myOpenGigs,
   myCompletedGigs,
@@ -35,12 +35,17 @@ const MyGigs = ({
   startCheckingGigs,
   gigStatus,
   loadingMyGigs,
+  getMyActiveGigs,
+  getMyOpenGigs,
+  getMyCompletedGigs,
+  getMyArchivedGigs,
 }) => {
   // const location = useLocation();
   // const params = utils.url.parseUrlQuery(location.search);
   const propsRef = useRef();
   propsRef.current = {
-    getMyGigs,
+    // getMyGigs,
+    getMyOpenGigs,
     getProfile,
     getAllCountries,
     startCheckingGigs,
@@ -59,7 +64,8 @@ const MyGigs = ({
       return;
     }
     if (!checkingGigs) {
-      propsRef.current.getMyGigs();
+      // propsRef.current.getMyGigs();
+      propsRef.current.getMyOpenGigs();
     }
   }, [checkingGigs]);
 
@@ -89,6 +95,30 @@ const MyGigs = ({
       propsRef.current.getProfile();
     }
   }, [updateProfileSuccess]);
+
+  const currentLoadMore = useCallback(
+    (status, page) => {
+      if (gigStatus == constants.GIGS_FILTER_STATUSES.ACTIVE_JOBS) {
+        getMyActiveGigs(status, page);
+      }
+      if (gigStatus == constants.GIGS_FILTER_STATUSES.OPEN_JOBS) {
+        getMyOpenGigs(status, page);
+      }
+      if (gigStatus == constants.GIGS_FILTER_STATUSES.COMPLETED_JOBS) {
+        getMyCompletedGigs(status, page);
+      }
+      if (gigStatus == constants.GIGS_FILTER_STATUSES.ARCHIVED_JOBS) {
+        getMyArchivedGigs(status, page);
+      }
+    },
+    [
+      gigStatus,
+      getMyActiveGigs,
+      getMyOpenGigs,
+      getMyCompletedGigs,
+      getMyArchivedGigs,
+    ]
+  );
 
   return (
     <>
@@ -126,12 +156,15 @@ const MyGigs = ({
             <JobListing
               gigStatus={gigStatus}
               jobs={currentGigs.myGigs}
-              loadMore={loadMore}
+              loadMore={currentLoadMore}
               total={currentGigs.total}
               numLoaded={currentGigs.numLoaded}
+              page={currentGigs.page}
             />
           )}
-        {checkingGigs || (loadingMyGigs && !currentGigs.myGigs && <Loading />)}
+        {(checkingGigs || (loadingMyGigs && !currentGigs.myGigs)) && (
+          <Loading />
+        )}
       </div>
       <Modal open={openUpdateProfile}>
         <UpdateGigProfile
@@ -158,11 +191,11 @@ const MyGigs = ({
 
 MyGigs.propTypes = {
   gigStatus: PT.string,
-  myGigs: PT.arrayOf(PT.shape()),
-  getMyGigs: PT.func,
-  loadMore: PT.func,
-  total: PT.number,
-  numLoaded: PT.number,
+  // myGigs: PT.arrayOf(PT.shape()),
+  // getMyGigs: PT.func,
+  // loadMore: PT.func,
+  // total: PT.number,
+  // numLoaded: PT.number,
   profile: PT.shape(),
   getProfile: PT.func,
   updateProfile: PT.func,
@@ -175,14 +208,18 @@ MyGigs.propTypes = {
   myCompletedGigs: PT.shape(),
   myArchivedGigs: PT.shape(),
   loadingMyGigs: PT.bool,
+  getMyActiveGigs: PT.func,
+  getMyOpenGigs: PT.func,
+  getMyCompletedGigs: PT.func,
+  getMyArchivedGigs: PT.func,
 };
 
 const mapStateToProps = (state) => ({
   gigStatus: state.filter.gig.status,
   checkingGigs: state.myGigs.checkingGigs,
-  myGigs: state.myGigs.myGigs,
-  total: state.myGigs.total,
-  numLoaded: state.myGigs.numLoaded,
+  // myGigs: state.myGigs.myGigs,
+  // total: state.myGigs.total,
+  // numLoaded: state.myGigs.numLoaded,
   loadingMyGigs: state.myGigs.loadingMyGigs,
   myActiveGigs: state.myGigs[constants.GIGS_FILTER_STATUSES.ACTIVE_JOBS],
   myOpenGigs: state.myGigs[constants.GIGS_FILTER_STATUSES.OPEN_JOBS],
@@ -193,8 +230,12 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  getMyGigs: actions.myGigs.getMyGigs,
-  loadMore: actions.myGigs.loadMoreMyGigs,
+  // getMyGigs: actions.myGigs.getMyGigs,
+  // loadMore: actions.myGigs.loadMoreMyGigs,
+  getMyActiveGigs: actions.myGigs.getMyActiveGigs,
+  getMyOpenGigs: actions.myGigs.getMyOpenGigs,
+  getMyCompletedGigs: actions.myGigs.getMyCompletedGigs,
+  getMyArchivedGigs: actions.myGigs.getMyArchivedGigs,
   getProfile: actions.myGigs.getProfile,
   updateProfile: actions.myGigs.updateProfile,
   getAllCountries: actions.lookup.getAllCountries,

@@ -112,8 +112,19 @@ const App = () => {
       if (diff) {
         store.dispatch(actions.filter.updateGigFilter(updatedGigFilter));
       }
+      if (updatedGigFilter.status !== initialGigFilter.status) {
+        // preload the open application first page data.
+        const cachedOpenGigs = store.getState().myGigs[initialGigFilter.status];
+        if (!cachedOpenGigs.myGigs) {
+          store.dispatch(
+            actions.myGigs.getMyOpenGigs(
+              constants.GIGS_FILTER_STATUSES_PARAM[initialGigFilter.status]
+            )
+          );
+        }
+      }
       const cachedGigs = store.getState().myGigs[updatedGigFilter.status];
-      if (cachedGigs.myGigs && cachedGigs.myGigs.length !== 0) {
+      if (cachedGigs.myGigs) {
         return;
       }
       getDataDebounced.current(() => {

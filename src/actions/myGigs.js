@@ -12,9 +12,9 @@ import service from "../services/myGigs";
  * @param {number} perPage items per page. by default is 10.
  * @returns
  */
-async function getMyGigs(status = "open_jobs", page = 1, perPage = PER_PAGE) {
-  return service.getMyGigs(status, page, perPage);
-}
+// async function getMyGigs(status = "open_jobs", page = 1, perPage = PER_PAGE) {
+//   return service.getMyGigs(status, page, perPage);
+// }
 
 async function getMyActiveGigs(
   status = "active_jobs",
@@ -54,9 +54,9 @@ async function getMyArchivedGigsDone(
  * @param {*} perPage items per page. by default is 10
  * @returns
  */
-async function loadMoreMyGigs(status, nextPage, perPage = PER_PAGE) {
-  return service.getMyGigs(status, nextPage, perPage);
-}
+// async function loadMoreMyGigs(status, nextPage, perPage = PER_PAGE) {
+//   return service.getMyGigs(status, nextPage, perPage);
+// }
 
 async function getProfile() {
   return service.getProfile();
@@ -90,8 +90,8 @@ export default createActions({
   GET_MY_OPEN_GIGS: getMyOpenGigs,
   GET_MY_COMPLETED_GIGS: getMyCompletedGigs,
   GET_MY_ARCHIVED_GIGS: getMyArchivedGigsDone,
-  GET_MY_GIGS: getMyGigs,
-  LOAD_MORE_MY_GIGS: loadMoreMyGigs,
+  // GET_MY_GIGS: getMyGigs,
+  // LOAD_MORE_MY_GIGS: loadMoreMyGigs,
   GET_PROFILE: getProfile,
   UPDATE_PROFILE: updateProfile,
   START_CHECKING_GIGS: startCheckingGigs,

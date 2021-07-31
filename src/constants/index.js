@@ -359,7 +359,7 @@ export const SORT_STATUS_ORDER = [
   MY_GIG_PHASE.COMPLETED,
 ];
 
-export const PER_PAGE = 10;
+export const PER_PAGE = 1;
 
 /**
  * defines which status can show remarks

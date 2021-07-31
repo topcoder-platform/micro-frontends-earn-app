@@ -5,9 +5,9 @@ import * as constants from "../constants";
 const defaultState = {
   loadingMyGigs: false,
   loadingMyGigsError: null,
-  myGigs: null,
-  total: 0,
-  numLoaded: 0,
+  // myGigs: null,
+  // total: 0,
+  // numLoaded: 0,
   [constants.GIGS_FILTER_STATUSES.ACTIVE_JOBS]: {
     myGigs: null,
     page: 1,
@@ -32,8 +32,8 @@ const defaultState = {
     numLoaded: 0,
     total: 0,
   },
-  loadingMore: false,
-  loadingMoreError: null,
+  // loadingMore: false,
+  // loadingMoreError: null,
   profile: {},
   loadingProfile: false,
   loadingProfileError: null,
@@ -43,32 +43,34 @@ const defaultState = {
   checkingGigs: false,
 };
 
-function onGetMyGigsInit(state) {
-  return { ...state, loadingMyGigs: true, loadingMyGigsError: null };
-}
+// function onGetMyGigsInit(state) {
+//   return { ...state, loadingMyGigs: true, loadingMyGigsError: null };
+// }
 
-function onGetMyGigsDone(state, { payload }) {
-  return {
-    ...state,
-    myGigs: sortBy(payload.myGigs, ["sortPrio"]),
-    total: payload.total,
-    numLoaded: payload.myGigs.length,
-    loadingMyGigs: false,
-    loadingMyGigsError: null,
-  };
-}
+// function onGetMyGigsDone(state, { payload }) {
+//   return {
+//     ...state,
+//     myGigs: sortBy(payload.myGigs, ["sortPrio"]),
+//     total: payload.total,
+//     numLoaded: payload.myGigs.length,
+//     loadingMyGigs: false,
+//     loadingMyGigsError: null,
+//   };
+// }
 
 function onGetMyActiveGigsInit(state) {
   return { ...state, loadingMyGigs: true, loadingMyGigsError: null };
 }
 
 function onGetMyActiveGigsDone(state, { payload }) {
+  const currentGigs =
+    state[constants.GIGS_FILTER_STATUSES.ACTIVE_JOBS].myGigs || [];
   return {
     ...state,
     [constants.GIGS_FILTER_STATUSES.ACTIVE_JOBS]: {
-      myGigs: sortBy(payload.myGigs, ["sortPrio"]),
+      myGigs: sortBy(currentGigs.concat(payload.myGigs), ["sortPrio"]),
       total: payload.total,
-      numLoaded: payload.myGigs.length,
+      numLoaded: currentGigs.length + payload.myGigs.length,
       page: payload.page,
     },
     loadingMyGigs: false,
@@ -81,12 +83,14 @@ function onGetMyOpenGigsInit(state) {
 }
 
 function onGetMyOpenGigsDone(state, { payload }) {
+  const currentGigs =
+    state[constants.GIGS_FILTER_STATUSES.OPEN_JOBS].myGigs || [];
   return {
     ...state,
     [constants.GIGS_FILTER_STATUSES.OPEN_JOBS]: {
-      myGigs: sortBy(payload.myGigs, ["sortPrio"]),
+      myGigs: sortBy(currentGigs.concat(payload.myGigs), ["sortPrio"]),
       total: payload.total,
-      numLoaded: payload.myGigs.length,
+      numLoaded: currentGigs.length + payload.myGigs.length,
       page: payload.page,
     },
     loadingMyGigs: false,
@@ -99,12 +103,14 @@ function onGetMyCompletedGigsInit(state) {
 }
 
 function onGetMyCompletedGigsDone(state, { payload }) {
+  const currentGigs =
+    state[constants.GIGS_FILTER_STATUSES.COMPLETED_JOBS].myGigs || [];
   return {
     ...state,
     [constants.GIGS_FILTER_STATUSES.COMPLETED_JOBS]: {
-      myGigs: sortBy(payload.myGigs, ["sortPrio"]),
+      myGigs: sortBy(currentGigs.concat(payload.myGigs), ["sortPrio"]),
       total: payload.total,
-      numLoaded: payload.myGigs.length,
+      numLoaded: currentGigs.length + payload.myGigs.length,
       page: payload.page,
     },
     loadingMyGigs: false,
@@ -117,12 +123,14 @@ function onGetMyArchivedGigsInit(state) {
 }
 
 function onGetMyArchivedGigsDone(state, { payload }) {
+  const currentGigs =
+    state[constants.GIGS_FILTER_STATUSES.ARCHIVED_JOBS].myGigs || [];
   return {
     ...state,
     [constants.GIGS_FILTER_STATUSES.ARCHIVED_JOBS]: {
-      myGigs: sortBy(payload.myGigs, ["sortPrio"]),
+      myGigs: sortBy(currentGigs.concat(payload.myGigs), ["sortPrio"]),
       total: payload.total,
-      numLoaded: payload.myGigs.length,
+      numLoaded: currentGigs.length + payload.myGigs.length,
       page: payload.page,
     },
     loadingMyGigs: false,
@@ -130,34 +138,34 @@ function onGetMyArchivedGigsDone(state, { payload }) {
   };
 }
 
-function onGetMyGigsFailure(state, { payload }) {
-  return {
-    ...state,
-    loadingMyGigs: false,
-    loadingMyGigsError: payload,
-    myGigs: null,
-    total: 0,
-    numLoaded: 0,
-  };
-}
+// function onGetMyGigsFailure(state, { payload }) {
+//   return {
+//     ...state,
+//     loadingMyGigs: false,
+//     loadingMyGigsError: payload,
+//     myGigs: null,
+//     total: 0,
+//     numLoaded: 0,
+//   };
+// }
 
-function onLoadMoreMyGigsInit(state) {
-  return { ...state, loadingMore: true, loadingMoreError: null };
-}
+// function onLoadMoreMyGigsInit(state) {
+//   return { ...state, loadingMore: true, loadingMoreError: null };
+// }
 
-function onLoadMoreMyGigsDone(state, { payload: { myGigs } }) {
-  return {
-    ...state,
-    myGigs: sortBy(state.myGigs.concat(myGigs), ["sortPrio"]),
-    numLoaded: state.numLoaded + size(myGigs),
-    loadingMore: false,
-    loadingMoreError: null,
-  };
-}
+// function onLoadMoreMyGigsDone(state, { payload: { myGigs } }) {
+//   return {
+//     ...state,
+//     myGigs: sortBy(state.myGigs.concat(myGigs), ["sortPrio"]),
+//     numLoaded: state.numLoaded + size(myGigs),
+//     loadingMore: false,
+//     loadingMoreError: null,
+//   };
+// }
 
-function onLoadMoreMyGigsFailure(state, { payload }) {
-  return { ...state, loadingMore: false, loadingMoreError: payload };
-}
+// function onLoadMoreMyGigsFailure(state, { payload }) {
+//   return { ...state, loadingMore: false, loadingMoreError: payload };
+// }
 
 function onGetProfileInit(state) {
   return { ...state, loadingProfile: true, loadingProfileError: null };
@@ -225,12 +233,12 @@ function onCheckingGigsDone(state) {
 
 export default handleActions(
   {
-    GET_MY_GIGS_INIT: onGetMyGigsInit,
-    GET_MY_GIGS_DONE: onGetMyGigsDone,
-    GET_MY_GIGS_FAILURE: onGetMyGigsFailure,
-    LOAD_MORE_MY_GIGS_INIT: onLoadMoreMyGigsInit,
-    LOAD_MORE_MY_GIGS_DONE: onLoadMoreMyGigsDone,
-    LOAD_MORE_MY_GIGS_FAILURE: onLoadMoreMyGigsFailure,
+    // GET_MY_GIGS_INIT: onGetMyGigsInit,
+    // GET_MY_GIGS_DONE: onGetMyGigsDone,
+    // GET_MY_GIGS_FAILURE: onGetMyGigsFailure,
+    // LOAD_MORE_MY_GIGS_INIT: onLoadMoreMyGigsInit,
+    // LOAD_MORE_MY_GIGS_DONE: onLoadMoreMyGigsDone,
+    // LOAD_MORE_MY_GIGS_FAILURE: onLoadMoreMyGigsFailure,
 
     GET_MY_ACTIVE_GIGS_INIT: onGetMyActiveGigsInit,
     GET_MY_ACTIVE_GIGS_DONE: onGetMyActiveGigsDone,
