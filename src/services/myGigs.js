@@ -96,6 +96,7 @@ async function getMyGigs(status, page, perPage) {
   return {
     myGigs: mapMyGigsData(response),
     total: response.meta.total,
+    page: response.meta.page,
   };
 }
 
