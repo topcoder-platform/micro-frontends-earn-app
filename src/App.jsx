@@ -87,12 +87,11 @@ const App = () => {
   useEffect(() => {
     if (location.pathname === "/earn/my-gigs" && isLoggedIn) {
       if (!location.search) {
+        store.dispatch(actions.filter.updateGigFilter(initialGigFilter));
         const cachedGigs = store.getState().myGigs[initialGigFilter.status];
         if (cachedGigs.myGigs && cachedGigs.myGigs.length !== 0) {
           return;
         }
-        store.dispatch(actions.filter.updateGigFilter(initialGigFilter));
-
         store.dispatch(
           actions.myGigs.getMyOpenGigs(
             constants.GIGS_FILTER_STATUSES_PARAM[initialGigFilter.status]
