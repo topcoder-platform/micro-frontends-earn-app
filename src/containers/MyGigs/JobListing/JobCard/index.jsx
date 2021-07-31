@@ -68,103 +68,101 @@ const JobCard = ({ job }) => {
           : ""
       }`}
     >
-      <div styleName="card-header job-card-header">
-        <div styleName="ribbon">
-          <Ribbon
-            text={job.label}
-            tooltip={({ children }) => (
-              <ProgressTooltip job={job}>{children}</ProgressTooltip>
-            )}
-          />
+      <a href={`${process.env.URL.BASE}/gigs/${job.jobExternalId}`}>
+        <div styleName="card-header job-card-header">
+          <div styleName="ribbon">
+            <Ribbon
+              text={job.label}
+              tooltip={({ children }) => (
+                <ProgressTooltip job={job}>{children}</ProgressTooltip>
+              )}
+            />
+          </div>
         </div>
-      </div>
-      <div styleName="card-body">
-        <div styleName="job-card-content">
-          <div styleName="content">
-            <h4 styleName="title">
-              <a
-                href={`${process.env.URL.BASE}/gigs/${job.jobExternalId}`} // eslint-disable-line no-undef
-              >
-                {job.title}
-              </a>
-            </h4>
-            <ul styleName="job-items">
-              <li>
-                <div styleName="job-item">
-                  {MY_GIGS_JOB_STATUS.COMPLETED === job.status && (
-                    <>
-                      <div styleName="caption">Duration</div>
-                      <div styleName="text">
-                        {getDateRange(job.rbStartDate, job.rbEndDate)}
-                      </div>
-                    </>
-                  )}
-                  {MY_GIGS_JOB_STATUS.COMPLETED !== job.status && (
-                    <>
-                      <div styleName="caption">Payment Range</div>
-                      <div styleName="text">{paymentInfo}</div>
-                    </>
-                  )}
-                </div>
-              </li>
-              <li>
-                <div styleName="job-item">
-                  {MY_GIGS_JOB_STATUS.COMPLETED === job.status && (
-                    <>
-                      <div styleName="caption">
-                        <span>Total Earnings</span>
-                        <span styleName="earn-tip">
-                          <EarnTooltip>
-                            <IconInfo />
-                          </EarnTooltip>
-                        </span>
-                      </div>
-                      <div styleName="text">{`${job.currency}${job.paymentTotal}`}</div>
-                    </>
-                  )}
-                  {MY_GIGS_JOB_STATUS.COMPLETED !== job.status && (
-                    <>
-                      <div styleName="caption">Location</div>
-                      <div styleName="text">{job.location}</div>
-                    </>
-                  )}
-                </div>
-              </li>
-              {MY_GIGS_JOB_STATUS.COMPLETED !== job.status && (
+        <div styleName="card-body">
+          <div styleName="job-card-content">
+            <div styleName="content">
+              <h4 styleName="title">{job.title}</h4>
+              <ul styleName="job-items">
                 <li>
                   <div styleName="job-item">
-                    <div styleName="caption">Duration</div>
+                    {MY_GIGS_JOB_STATUS.COMPLETED === job.status && (
+                      <>
+                        <div styleName="caption">Duration</div>
+                        <div styleName="text">
+                          {getDateRange(job.rbStartDate, job.rbEndDate)}
+                        </div>
+                      </>
+                    )}
+                    {MY_GIGS_JOB_STATUS.COMPLETED !== job.status && (
+                      <>
+                        <div styleName="caption">Payment Range</div>
+                        <div styleName="text">{paymentInfo}</div>
+                      </>
+                    )}
+                  </div>
+                </li>
+                <li>
+                  <div styleName="job-item">
+                    {MY_GIGS_JOB_STATUS.COMPLETED === job.status && (
+                      <>
+                        <div styleName="caption">
+                          <span>Total Earnings</span>
+                          <span styleName="earn-tip">
+                            <EarnTooltip>
+                              <IconInfo />
+                            </EarnTooltip>
+                          </span>
+                        </div>
+                        <div styleName="text">{`${job.currency}${job.paymentTotal}`}</div>
+                      </>
+                    )}
+                    {MY_GIGS_JOB_STATUS.COMPLETED !== job.status && (
+                      <>
+                        <div styleName="caption">Location</div>
+                        <div styleName="text">{job.location}</div>
+                      </>
+                    )}
+                  </div>
+                </li>
+                {MY_GIGS_JOB_STATUS.COMPLETED !== job.status && (
+                  <li>
+                    <div styleName="job-item">
+                      <div styleName="caption">Duration</div>
+                      <div styleName="text">
+                        {job.duration && `${job.duration} Weeks`}
+                      </div>
+                    </div>
+                  </li>
+                )}
+                <li>
+                  <div styleName="job-item">
+                    <div styleName="caption">Hours</div>
                     <div styleName="text">
-                      {job.duration && `${job.duration} Weeks`}
+                      {job.hours && `${job.hours} hours / week`}
                     </div>
                   </div>
                 </li>
-              )}
-              <li>
-                <div styleName="job-item">
-                  <div styleName="caption">Hours</div>
-                  <div styleName="text">
-                    {job.hours && `${job.hours} hours / week`}
+                <li>
+                  <div styleName="job-item">
+                    <div styleName="caption">Working Hours</div>
+                    <div styleName="text">
+                      {job.workingHours && `${job.workingHours} hours`}
+                    </div>
                   </div>
-                </div>
-              </li>
-              <li>
-                <div styleName="job-item">
-                  <div styleName="caption">Working Hours</div>
-                  <div styleName="text">
-                    {job.workingHours && `${job.workingHours} hours`}
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div
-            styleName={`right-side stand-by ${!job.phaseAction ? "none" : ""}`}
-          >
-            {job.phaseAction && <Button size="lg">{job.phaseAction}</Button>}
+                </li>
+              </ul>
+            </div>
+            <div
+              styleName={`right-side stand-by ${
+                !job.phaseAction ? "none" : ""
+              }`}
+            >
+              {job.phaseAction && <Button size="lg">{job.phaseAction}</Button>}
+            </div>
           </div>
         </div>
-      </div>
+      </a>
       <div styleName="card-footer job-card-footer" ref={footerRef}>
         <div styleName="note-container">
           {(job.remark ||
