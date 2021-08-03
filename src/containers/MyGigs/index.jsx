@@ -9,7 +9,6 @@ import Empty from "../../components/Empty";
 import JobListing from "./JobListing";
 import actions from "../../actions";
 import * as constants from "../../constants";
-// import * as utils from "../../utils";
 
 import UpdateGigProfile from "./modals/UpdateGigProfile";
 import UpdateSuccess from "./modals/UpdateSuccess";
@@ -17,11 +16,6 @@ import UpdateSuccess from "./modals/UpdateSuccess";
 import "./styles.scss";
 
 const MyGigs = ({
-  // myGigs,
-  // getMyGigs,
-  // loadMore,
-  // total,
-  // numLoaded,
   myActiveGigs,
   myOpenGigs,
   myCompletedGigs,
@@ -40,16 +34,12 @@ const MyGigs = ({
   getMyCompletedGigs,
   getMyArchivedGigs,
 }) => {
-  // const location = useLocation();
-  // const params = utils.url.parseUrlQuery(location.search);
   const propsRef = useRef();
   propsRef.current = {
-    // getMyGigs,
     getMyOpenGigs,
     getProfile,
     getAllCountries,
     startCheckingGigs,
-    // params,
   };
 
   useEffect(() => {
@@ -64,7 +54,6 @@ const MyGigs = ({
       return;
     }
     if (!checkingGigs) {
-      // propsRef.current.getMyGigs();
       propsRef.current.getMyOpenGigs();
     }
   }, [checkingGigs]);
@@ -191,11 +180,6 @@ const MyGigs = ({
 
 MyGigs.propTypes = {
   gigStatus: PT.string,
-  // myGigs: PT.arrayOf(PT.shape()),
-  // getMyGigs: PT.func,
-  // loadMore: PT.func,
-  // total: PT.number,
-  // numLoaded: PT.number,
   profile: PT.shape(),
   getProfile: PT.func,
   updateProfile: PT.func,
@@ -217,9 +201,6 @@ MyGigs.propTypes = {
 const mapStateToProps = (state) => ({
   gigStatus: state.filter.gig.status,
   checkingGigs: state.myGigs.checkingGigs,
-  // myGigs: state.myGigs.myGigs,
-  // total: state.myGigs.total,
-  // numLoaded: state.myGigs.numLoaded,
   loadingMyGigs: state.myGigs.loadingMyGigs,
   myActiveGigs: state.myGigs[constants.GIGS_FILTER_STATUSES.ACTIVE_JOBS],
   myOpenGigs: state.myGigs[constants.GIGS_FILTER_STATUSES.OPEN_JOBS],
@@ -230,8 +211,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  // getMyGigs: actions.myGigs.getMyGigs,
-  // loadMore: actions.myGigs.loadMoreMyGigs,
   getMyActiveGigs: actions.myGigs.getMyActiveGigs,
   getMyOpenGigs: actions.myGigs.getMyOpenGigs,
   getMyCompletedGigs: actions.myGigs.getMyCompletedGigs,

@@ -5,9 +5,6 @@ import * as constants from "../constants";
 const defaultState = {
   loadingMyGigs: false,
   loadingMyGigsError: null,
-  // myGigs: null,
-  // total: 0,
-  // numLoaded: 0,
   [constants.GIGS_FILTER_STATUSES.ACTIVE_JOBS]: {
     myGigs: null,
     page: 1,
@@ -32,8 +29,6 @@ const defaultState = {
     numLoaded: 0,
     total: 0,
   },
-  // loadingMore: false,
-  // loadingMoreError: null,
   profile: {},
   loadingProfile: false,
   loadingProfileError: null,
@@ -42,21 +37,6 @@ const defaultState = {
   updatingProfileSucess: null,
   checkingGigs: false,
 };
-
-// function onGetMyGigsInit(state) {
-//   return { ...state, loadingMyGigs: true, loadingMyGigsError: null };
-// }
-
-// function onGetMyGigsDone(state, { payload }) {
-//   return {
-//     ...state,
-//     myGigs: sortBy(payload.myGigs, ["sortPrio"]),
-//     total: payload.total,
-//     numLoaded: payload.myGigs.length,
-//     loadingMyGigs: false,
-//     loadingMyGigsError: null,
-//   };
-// }
 
 function onGetMyActiveGigsInit(state) {
   return { ...state, loadingMyGigs: true, loadingMyGigsError: null };
@@ -138,35 +118,6 @@ function onGetMyArchivedGigsDone(state, { payload }) {
   };
 }
 
-// function onGetMyGigsFailure(state, { payload }) {
-//   return {
-//     ...state,
-//     loadingMyGigs: false,
-//     loadingMyGigsError: payload,
-//     myGigs: null,
-//     total: 0,
-//     numLoaded: 0,
-//   };
-// }
-
-// function onLoadMoreMyGigsInit(state) {
-//   return { ...state, loadingMore: true, loadingMoreError: null };
-// }
-
-// function onLoadMoreMyGigsDone(state, { payload: { myGigs } }) {
-//   return {
-//     ...state,
-//     myGigs: sortBy(state.myGigs.concat(myGigs), ["sortPrio"]),
-//     numLoaded: state.numLoaded + size(myGigs),
-//     loadingMore: false,
-//     loadingMoreError: null,
-//   };
-// }
-
-// function onLoadMoreMyGigsFailure(state, { payload }) {
-//   return { ...state, loadingMore: false, loadingMoreError: payload };
-// }
-
 function onGetProfileInit(state) {
   return { ...state, loadingProfile: true, loadingProfileError: null };
 }
@@ -233,13 +184,6 @@ function onCheckingGigsDone(state) {
 
 export default handleActions(
   {
-    // GET_MY_GIGS_INIT: onGetMyGigsInit,
-    // GET_MY_GIGS_DONE: onGetMyGigsDone,
-    // GET_MY_GIGS_FAILURE: onGetMyGigsFailure,
-    // LOAD_MORE_MY_GIGS_INIT: onLoadMoreMyGigsInit,
-    // LOAD_MORE_MY_GIGS_DONE: onLoadMoreMyGigsDone,
-    // LOAD_MORE_MY_GIGS_FAILURE: onLoadMoreMyGigsFailure,
-
     GET_MY_ACTIVE_GIGS_INIT: onGetMyActiveGigsInit,
     GET_MY_ACTIVE_GIGS_DONE: onGetMyActiveGigsDone,
     GET_MY_OPEN_GIGS_INIT: onGetMyOpenGigsInit,
