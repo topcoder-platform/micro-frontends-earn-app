@@ -1,14 +1,34 @@
 import { size, sortBy } from "lodash";
 import { handleActions } from "redux-actions";
+import * as constants from "../constants";
 
 const defaultState = {
   loadingMyGigs: false,
   loadingMyGigsError: null,
-  myGigs: null,
-  total: 0,
-  numLoaded: 0,
-  loadingMore: false,
-  loadingMoreError: null,
+  [constants.GIGS_FILTER_STATUSES.ACTIVE_JOBS]: {
+    myGigs: null,
+    page: 1,
+    numLoaded: 0,
+    total: 0,
+  },
+  [constants.GIGS_FILTER_STATUSES.OPEN_JOBS]: {
+    myGigs: null,
+    page: 1,
+    numLoaded: 0,
+    total: 0,
+  },
+  [constants.GIGS_FILTER_STATUSES.COMPLETED_JOBS]: {
+    myGigs: null,
+    page: 1,
+    numLoaded: 0,
+    total: 0,
+  },
+  [constants.GIGS_FILTER_STATUSES.ARCHIVED_JOBS]: {
+    myGigs: null,
+    page: 1,
+    numLoaded: 0,
+    total: 0,
+  },
   profile: {},
   loadingProfile: false,
   loadingProfileError: null,
@@ -18,48 +38,84 @@ const defaultState = {
   checkingGigs: false,
 };
 
-function onGetMyGigsInit(state) {
+function onGetMyActiveGigsInit(state) {
   return { ...state, loadingMyGigs: true, loadingMyGigsError: null };
 }
 
-function onGetMyGigsDone(state, { payload }) {
+function onGetMyActiveGigsDone(state, { payload }) {
+  const currentGigs =
+    state[constants.GIGS_FILTER_STATUSES.ACTIVE_JOBS].myGigs || [];
   return {
     ...state,
-    myGigs: sortBy(payload.myGigs, ["sortPrio"]),
-    total: payload.total,
-    numLoaded: payload.myGigs.length,
+    [constants.GIGS_FILTER_STATUSES.ACTIVE_JOBS]: {
+      myGigs: sortBy(currentGigs.concat(payload.myGigs), ["sortPrio"]),
+      total: payload.total,
+      numLoaded: currentGigs.length + payload.myGigs.length,
+      page: payload.page,
+    },
     loadingMyGigs: false,
     loadingMyGigsError: null,
   };
 }
 
-function onGetMyGigsFailure(state, { payload }) {
+function onGetMyOpenGigsInit(state) {
+  return { ...state, loadingMyGigs: true, loadingMyGigsError: null };
+}
+
+function onGetMyOpenGigsDone(state, { payload }) {
+  const currentGigs =
+    state[constants.GIGS_FILTER_STATUSES.OPEN_JOBS].myGigs || [];
   return {
     ...state,
+    [constants.GIGS_FILTER_STATUSES.OPEN_JOBS]: {
+      myGigs: sortBy(currentGigs.concat(payload.myGigs), ["sortPrio"]),
+      total: payload.total,
+      numLoaded: currentGigs.length + payload.myGigs.length,
+      page: payload.page,
+    },
     loadingMyGigs: false,
-    loadingMyGigsError: payload,
-    myGigs: null,
-    total: 0,
-    numLoaded: 0,
+    loadingMyGigsError: null,
   };
 }
 
-function onLoadMoreMyGigsInit(state) {
-  return { ...state, loadingMore: true, loadingMoreError: null };
+function onGetMyCompletedGigsInit(state) {
+  return { ...state, loadingMyGigs: true, loadingMyGigsError: null };
 }
 
-function onLoadMoreMyGigsDone(state, { payload: { myGigs } }) {
+function onGetMyCompletedGigsDone(state, { payload }) {
+  const currentGigs =
+    state[constants.GIGS_FILTER_STATUSES.COMPLETED_JOBS].myGigs || [];
   return {
     ...state,
-    myGigs: sortBy(state.myGigs.concat(myGigs), ["sortPrio"]),
-    numLoaded: state.numLoaded + size(myGigs),
-    loadingMore: false,
-    loadingMoreError: null,
+    [constants.GIGS_FILTER_STATUSES.COMPLETED_JOBS]: {
+      myGigs: sortBy(currentGigs.concat(payload.myGigs), ["sortPrio"]),
+      total: payload.total,
+      numLoaded: currentGigs.length + payload.myGigs.length,
+      page: payload.page,
+    },
+    loadingMyGigs: false,
+    loadingMyGigsError: null,
   };
 }
 
-function onLoadMoreMyGigsFailure(state, { payload }) {
-  return { ...state, loadingMore: false, loadingMoreError: payload };
+function onGetMyArchivedGigsInit(state) {
+  return { ...state, loadingMyGigs: true, loadingMyGigsError: null };
+}
+
+function onGetMyArchivedGigsDone(state, { payload }) {
+  const currentGigs =
+    state[constants.GIGS_FILTER_STATUSES.ARCHIVED_JOBS].myGigs || [];
+  return {
+    ...state,
+    [constants.GIGS_FILTER_STATUSES.ARCHIVED_JOBS]: {
+      myGigs: sortBy(currentGigs.concat(payload.myGigs), ["sortPrio"]),
+      total: payload.total,
+      numLoaded: currentGigs.length + payload.myGigs.length,
+      page: payload.page,
+    },
+    loadingMyGigs: false,
+    loadingMyGigsError: null,
+  };
 }
 
 function onGetProfileInit(state) {
@@ -128,12 +184,15 @@ function onCheckingGigsDone(state) {
 
 export default handleActions(
   {
-    GET_MY_GIGS_INIT: onGetMyGigsInit,
-    GET_MY_GIGS_DONE: onGetMyGigsDone,
-    GET_MY_GIGS_FAILURE: onGetMyGigsFailure,
-    LOAD_MORE_MY_GIGS_INIT: onLoadMoreMyGigsInit,
-    LOAD_MORE_MY_GIGS_DONE: onLoadMoreMyGigsDone,
-    LOAD_MORE_MY_GIGS_FAILURE: onLoadMoreMyGigsFailure,
+    GET_MY_ACTIVE_GIGS_INIT: onGetMyActiveGigsInit,
+    GET_MY_ACTIVE_GIGS_DONE: onGetMyActiveGigsDone,
+    GET_MY_OPEN_GIGS_INIT: onGetMyOpenGigsInit,
+    GET_MY_OPEN_GIGS_DONE: onGetMyOpenGigsDone,
+    GET_MY_COMPLETED_GIGS_INIT: onGetMyCompletedGigsInit,
+    GET_MY_COMPLETED_GIGS_DONE: onGetMyCompletedGigsDone,
+    GET_MY_ARCHIVED_GIGS_INIT: onGetMyArchivedGigsInit,
+    GET_MY_ARCHIVED_GIGS_DONE: onGetMyArchivedGigsDone,
+
     GET_PROFILE_INIT: onGetProfileInit,
     GET_PROFILE_DONE: onGetProfileDone,
     GET_PROFILE_FAILURE: onGetProfileFailure,

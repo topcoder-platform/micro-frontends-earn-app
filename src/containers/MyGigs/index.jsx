@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useLocation } from "@reach/router";
+import React, { useEffect, useRef, useState, useCallback } from "react";
+// import { useLocation } from "@reach/router";
 import PT from "prop-types";
 import { connect } from "react-redux";
 import Modal from "../../components/Modal";
@@ -8,7 +8,7 @@ import Loading from "../../components/Loading";
 import Empty from "../../components/Empty";
 import JobListing from "./JobListing";
 import actions from "../../actions";
-import * as utils from "../../utils";
+import * as constants from "../../constants";
 
 import UpdateGigProfile from "./modals/UpdateGigProfile";
 import UpdateSuccess from "./modals/UpdateSuccess";
@@ -16,11 +16,10 @@ import UpdateSuccess from "./modals/UpdateSuccess";
 import "./styles.scss";
 
 const MyGigs = ({
-  myGigs,
-  getMyGigs,
-  loadMore,
-  total,
-  numLoaded,
+  myActiveGigs,
+  myOpenGigs,
+  myCompletedGigs,
+  myArchivedGigs,
   profile,
   getProfile,
   updateProfile,
@@ -29,26 +28,23 @@ const MyGigs = ({
   checkingGigs,
   startCheckingGigs,
   gigStatus,
+  loadingMyGigs,
+  getMyActiveGigs,
+  getMyOpenGigs,
+  getMyCompletedGigs,
+  getMyArchivedGigs,
 }) => {
-  const location = useLocation();
-  const params = utils.url.parseUrlQuery(location.search);
   const propsRef = useRef();
   propsRef.current = {
-    getMyGigs,
+    getMyOpenGigs,
     getProfile,
     getAllCountries,
     startCheckingGigs,
-    params,
   };
 
   useEffect(() => {
     propsRef.current.getProfile();
     propsRef.current.getAllCountries();
-    if (propsRef.current.params.externalId) {
-      propsRef.current.startCheckingGigs(propsRef.current.params.externalId);
-    } else {
-      // propsRef.current.getMyGigs();
-    }
   }, []);
 
   const isInitialMount = useRef(true);
@@ -58,12 +54,28 @@ const MyGigs = ({
       return;
     }
     if (!checkingGigs) {
-      propsRef.current.getMyGigs();
+      propsRef.current.getMyOpenGigs();
     }
   }, [checkingGigs]);
 
   const [openUpdateProfile, setOpenUpdateProfile] = useState(false);
   const [openUpdateSuccess, setOpenUpdateSuccess] = useState(false);
+  const [currentGigs, setCurrentGigs] = useState({});
+
+  useEffect(() => {
+    if (gigStatus == constants.GIGS_FILTER_STATUSES.ACTIVE_JOBS) {
+      setCurrentGigs(myActiveGigs);
+    }
+    if (gigStatus == constants.GIGS_FILTER_STATUSES.OPEN_JOBS) {
+      setCurrentGigs(myOpenGigs);
+    }
+    if (gigStatus == constants.GIGS_FILTER_STATUSES.COMPLETED_JOBS) {
+      setCurrentGigs(myCompletedGigs);
+    }
+    if (gigStatus == constants.GIGS_FILTER_STATUSES.ARCHIVED_JOBS) {
+      setCurrentGigs(myArchivedGigs);
+    }
+  }, [gigStatus, myActiveGigs, myOpenGigs, myCompletedGigs, myArchivedGigs]);
 
   useEffect(() => {
     if (updateProfileSuccess) {
@@ -72,6 +84,30 @@ const MyGigs = ({
       propsRef.current.getProfile();
     }
   }, [updateProfileSuccess]);
+
+  const currentLoadMore = useCallback(
+    (status, page) => {
+      if (gigStatus == constants.GIGS_FILTER_STATUSES.ACTIVE_JOBS) {
+        getMyActiveGigs(status, page);
+      }
+      if (gigStatus == constants.GIGS_FILTER_STATUSES.OPEN_JOBS) {
+        getMyOpenGigs(status, page);
+      }
+      if (gigStatus == constants.GIGS_FILTER_STATUSES.COMPLETED_JOBS) {
+        getMyCompletedGigs(status, page);
+      }
+      if (gigStatus == constants.GIGS_FILTER_STATUSES.ARCHIVED_JOBS) {
+        getMyArchivedGigs(status, page);
+      }
+    },
+    [
+      gigStatus,
+      getMyActiveGigs,
+      getMyOpenGigs,
+      getMyCompletedGigs,
+      getMyArchivedGigs,
+    ]
+  );
 
   return (
     <>
@@ -99,19 +135,25 @@ const MyGigs = ({
             </Button>
           </div>
         </h1>
-        {!checkingGigs && myGigs && myGigs.length == 0 && (
-          <Empty gigStatus={gigStatus} />
+        {!checkingGigs &&
+          !loadingMyGigs &&
+          currentGigs.myGigs &&
+          currentGigs.myGigs.length == 0 && <Empty gigStatus={gigStatus} />}
+        {!checkingGigs &&
+          currentGigs.myGigs &&
+          currentGigs.myGigs.length > 0 && (
+            <JobListing
+              gigStatus={gigStatus}
+              jobs={currentGigs.myGigs}
+              loadMore={currentLoadMore}
+              total={currentGigs.total}
+              numLoaded={currentGigs.numLoaded}
+              page={currentGigs.page}
+            />
+          )}
+        {(checkingGigs || (loadingMyGigs && !currentGigs.myGigs)) && (
+          <Loading />
         )}
-        {!checkingGigs && myGigs && myGigs.length > 0 && (
-          <JobListing
-            gigStatus={gigStatus}
-            jobs={myGigs}
-            loadMore={loadMore}
-            total={total}
-            numLoaded={numLoaded}
-          />
-        )}
-        {checkingGigs && <Loading />}
       </div>
       <Modal open={openUpdateProfile}>
         <UpdateGigProfile
@@ -138,11 +180,6 @@ const MyGigs = ({
 
 MyGigs.propTypes = {
   gigStatus: PT.string,
-  myGigs: PT.arrayOf(PT.shape()),
-  getMyGigs: PT.func,
-  loadMore: PT.func,
-  total: PT.number,
-  numLoaded: PT.number,
   profile: PT.shape(),
   getProfile: PT.func,
   updateProfile: PT.func,
@@ -150,21 +187,34 @@ MyGigs.propTypes = {
   getAllCountries: PT.func,
   checkingGigs: PT.bool,
   startCheckingGigs: PT.func,
+  myActiveGigs: PT.shape(),
+  myOpenGigs: PT.shape(),
+  myCompletedGigs: PT.shape(),
+  myArchivedGigs: PT.shape(),
+  loadingMyGigs: PT.bool,
+  getMyActiveGigs: PT.func,
+  getMyOpenGigs: PT.func,
+  getMyCompletedGigs: PT.func,
+  getMyArchivedGigs: PT.func,
 };
 
 const mapStateToProps = (state) => ({
   gigStatus: state.filter.gig.status,
   checkingGigs: state.myGigs.checkingGigs,
-  myGigs: state.myGigs.myGigs,
-  total: state.myGigs.total,
-  numLoaded: state.myGigs.numLoaded,
+  loadingMyGigs: state.myGigs.loadingMyGigs,
+  myActiveGigs: state.myGigs[constants.GIGS_FILTER_STATUSES.ACTIVE_JOBS],
+  myOpenGigs: state.myGigs[constants.GIGS_FILTER_STATUSES.OPEN_JOBS],
+  myCompletedGigs: state.myGigs[constants.GIGS_FILTER_STATUSES.COMPLETED_JOBS],
+  myArchivedGigs: state.myGigs[constants.GIGS_FILTER_STATUSES.ARCHIVED_JOBS],
   profile: state.myGigs.profile,
   updateProfileSuccess: state.myGigs.updatingProfileSucess,
 });
 
 const mapDispatchToProps = {
-  getMyGigs: actions.myGigs.getMyGigs,
-  loadMore: actions.myGigs.loadMoreMyGigs,
+  getMyActiveGigs: actions.myGigs.getMyActiveGigs,
+  getMyOpenGigs: actions.myGigs.getMyOpenGigs,
+  getMyCompletedGigs: actions.myGigs.getMyCompletedGigs,
+  getMyArchivedGigs: actions.myGigs.getMyArchivedGigs,
   getProfile: actions.myGigs.getProfile,
   updateProfile: actions.myGigs.updateProfile,
   getAllCountries: actions.lookup.getAllCountries,

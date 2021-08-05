@@ -214,9 +214,7 @@ const UpdateGigProfile = ({
               />
             </div>
             <StatusTooltip statuses={statuses}>
-              <i styleName="icon">
-                <IconInfo />
-              </i>
+              <IconInfo />
             </StatusTooltip>
           </div>
         </div>

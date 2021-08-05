@@ -299,7 +299,7 @@ async function getJobCandidates(criteria) {
  * @param {*} userId
  * @returns
  */
-async function handlePlacedJobCandidates(jobCandidates, userId) {
+async function handlePlacedJobCandidates(jobCandidates, userId, userHandle) {
   if (!jobCandidates || jobCandidates.length == 0 || !userId) {
     return;
   }
@@ -345,11 +345,69 @@ async function handlePlacedJobCandidates(jobCandidates, userId) {
           new Date(rb.endDate).toDateString() != new Date().toDateString()
         ) {
           jc.status = "completed";
+          jc.rbStartDate = rb.startDate;
+          jc.rbEndDate = rb.endDate;
+          jc.rbId = rb.id;
+          jc.userHandle = userHandle;
         }
       }
     }
   });
+  await getWorkingPeriods(jobCandidates, userHandle, rbRes);
   return;
+}
+
+/**
+ * Get payment Total for working period
+ *
+ * @param {*} jobCandidates job candidates we will process
+ * @param {*} userHandle the user's handle
+ * @param {*} resourceBookings the resource booking belongs to this user
+ * @returns
+ */
+async function getWorkingPeriods(jobCandidates, userHandle, resourceBookings) {
+  if (
+    !userHandle ||
+    !resourceBookings ||
+    resourceBookings.length == 0 ||
+    !jobCandidates ||
+    jobCandidates.length == 0
+  ) {
+    return;
+  }
+  const rbIds = resourceBookings.map((item) => item.id);
+  const token = await getM2MToken();
+  const url = `${config.API.V5}/work-periods`;
+  const criteria = {
+    userHandle: userHandle,
+    resourceBookingIds: rbIds.join(","),
+  };
+  const res = await request
+    .get(url)
+    .query(criteria)
+    .set("Authorization", `Bearer ${token}`)
+    .set("Accept", "application/json");
+  localLogger.debug({
+    context: "getWorkingPeriods",
+    message: `response body: ${JSON.stringify(res.body)}`,
+  });
+  if (res.body && res.body.length == 0) {
+    return;
+  }
+  // All the working periods for the rbs.
+  const wpRes = res.body;
+  _.each(rbIds, (rbId) => {
+    const wps = wpRes.filter(
+      (wp) => wp.userHandle == userHandle && wp.resourceBookingId == rbId
+    );
+    const paymentTotal = wps.reduce((total, wp) => total + wp.paymentTotal, 0);
+    const jc = jobCandidates.find(
+      (item) => item.rbId == rbId && item.userHandle == userHandle
+    );
+    if (jc) {
+      jc.paymentTotal = paymentTotal;
+    }
+  });
 }
 
 /**
