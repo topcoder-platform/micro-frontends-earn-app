@@ -104,8 +104,12 @@ const App = () => {
         store.dispatch(actions.myGigs.startCheckingGigs(params.externalId));
         return;
       }
+      const s =
+        _.values(constants.GIGS_FILTER_STATUSES).indexOf(params.status) >= 0
+          ? params.status
+          : null;
       const updatedGigFilter = {
-        status: params.status || "Open Applications",
+        status: s || "Open Applications",
       };
       const currentGig = store.getState().filter.gig;
       const diff = !_.isEqual(updatedGigFilter, currentGig);
