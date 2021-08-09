@@ -1,4 +1,6 @@
+import _ from "lodash";
 import { handleActions } from "redux-actions";
+import * as utils from "../utils";
 
 const defaultState = {
   loadingChallenges: false,
@@ -18,11 +20,23 @@ function onGetChallengesInit(state) {
 }
 
 function onGetChallengesDone(state, { payload }) {
+  const challenges = payload.challenges;
+  _.each(challenges, (challenge) => {
+    if (utils.challenge.getChallengePhaseMessage(challenge) == "Stalled") {
+      challenge.isStalled = true;
+    }
+  });
+  const challengesFiltered = payload.challengesFiltered;
+  _.each(challengesFiltered, (challenge) => {
+    if (utils.challenge.getChallengePhaseMessage(challenge) == "Stalled") {
+      challenge.isStalled = true;
+    }
+  });
   return {
     ...state,
     loadingChallenges: false,
     loadingChallengesError: null,
-    challenges: payload.challenges,
+    challenges: challenges,
     challengesFiltered: payload.challengesFiltered,
     total: payload.total,
     openForRegistrationCount: payload.openForRegistrationCount,

@@ -102,22 +102,27 @@ const Listing = ({
         </div>
       </Panel.Header>
       <Panel.Body>
-        {challenges.map((challenge, index) => (
-          <div key={challenge.id} styleName={index % 2 === 0 ? "even" : "odd"}>
-            <ChallengeItem
-              challenge={challenge}
-              onClickTag={(tag) => {
-                const filterChange = { tags: [tag] };
-                updateFilter(filterChange);
-              }}
-              onClickTrack={(track) => {
-                const filterChange = { tracks: [track] };
-                updateFilter(filterChange);
-              }}
-              isLoggedIn={isLoggedIn}
-            />
-          </div>
-        ))}
+        {challenges
+          .filter((challenge) => !challenge.isStalled)
+          .map((challenge, index) => (
+            <div
+              key={challenge.id}
+              styleName={index % 2 === 0 ? "even" : "odd"}
+            >
+              <ChallengeItem
+                challenge={challenge}
+                onClickTag={(tag) => {
+                  const filterChange = { tags: [tag] };
+                  updateFilter(filterChange);
+                }}
+                onClickTrack={(track) => {
+                  const filterChange = { tracks: [track] };
+                  updateFilter(filterChange);
+                }}
+                isLoggedIn={isLoggedIn}
+              />
+            </div>
+          ))}
         <div styleName="pagination">
           <Pagination
             length={total}
