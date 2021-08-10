@@ -40,6 +40,10 @@ const mapMyGigsData = (serverResponse) => {
         return {
           label: (gigPhase || "").toUpperCase(),
           title: myGig.title,
+          rbStartDate: myGig.rbStartDate || "",
+          rbEndDate: myGig.rbEndDate || "",
+          paymentTotal: myGig.paymentTotal || 0,
+          updatedAt: myGig.updatedAt || "",
           jobExternalId: myGig.jobExternalId,
           paymentRangeFrom: myGig.payment.min,
           paymentRangeTo: myGig.payment.max,
@@ -92,6 +96,7 @@ async function getMyGigs(status, page, perPage) {
   return {
     myGigs: mapMyGigsData(response),
     total: response.meta.total,
+    page: response.meta.page,
   };
 }
 

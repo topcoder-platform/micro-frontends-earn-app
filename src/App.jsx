@@ -88,9 +88,12 @@ const App = () => {
     if (location.pathname === "/earn/my-gigs" && isLoggedIn) {
       if (!location.search) {
         store.dispatch(actions.filter.updateGigFilter(initialGigFilter));
-
+        const cachedGigs = store.getState().myGigs[initialGigFilter.status];
+        if (cachedGigs.myGigs && cachedGigs.myGigs.length !== 0) {
+          return;
+        }
         store.dispatch(
-          actions.myGigs.getMyGigs(
+          actions.myGigs.getMyOpenGigs(
             constants.GIGS_FILTER_STATUSES_PARAM[initialGigFilter.status]
           )
         );
@@ -98,23 +101,76 @@ const App = () => {
       }
       const params = utils.url.parseUrlQuery(location.search);
       if (_.keys(params).length == 1 && params.externalId) {
+        store.dispatch(actions.myGigs.startCheckingGigs(params.externalId));
         return;
       }
+      const s =
+        _.values(constants.GIGS_FILTER_STATUSES).indexOf(params.status) >= 0
+          ? params.status
+          : null;
       const updatedGigFilter = {
-        status: params.status || "Open Applications",
+        status: s || "Open Applications",
       };
       const currentGig = store.getState().filter.gig;
       const diff = !_.isEqual(updatedGigFilter, currentGig);
       if (diff) {
         store.dispatch(actions.filter.updateGigFilter(updatedGigFilter));
       }
-      getDataDebounced.current(() =>
-        store.dispatch(
-          actions.myGigs.getMyGigs(
-            constants.GIGS_FILTER_STATUSES_PARAM[updatedGigFilter.status]
-          )
-        )
-      );
+      if (updatedGigFilter.status !== initialGigFilter.status) {
+        // preload the open application first page data.
+        const cachedOpenGigs = store.getState().myGigs[initialGigFilter.status];
+        if (!cachedOpenGigs.myGigs) {
+          store.dispatch(
+            actions.myGigs.getMyOpenGigs(
+              constants.GIGS_FILTER_STATUSES_PARAM[initialGigFilter.status]
+            )
+          );
+        }
+      }
+      const cachedGigs = store.getState().myGigs[updatedGigFilter.status];
+      if (cachedGigs.myGigs) {
+        return;
+      }
+      getDataDebounced.current(() => {
+        if (
+          updatedGigFilter.status == constants.GIGS_FILTER_STATUSES.ACTIVE_JOBS
+        ) {
+          store.dispatch(
+            actions.myGigs.getMyActiveGigs(
+              constants.GIGS_FILTER_STATUSES_PARAM[updatedGigFilter.status]
+            )
+          );
+        }
+        if (
+          updatedGigFilter.status == constants.GIGS_FILTER_STATUSES.OPEN_JOBS
+        ) {
+          store.dispatch(
+            actions.myGigs.getMyOpenGigs(
+              constants.GIGS_FILTER_STATUSES_PARAM[updatedGigFilter.status]
+            )
+          );
+        }
+        if (
+          updatedGigFilter.status ==
+          constants.GIGS_FILTER_STATUSES.COMPLETED_JOBS
+        ) {
+          store.dispatch(
+            actions.myGigs.getMyCompletedGigs(
+              constants.GIGS_FILTER_STATUSES_PARAM[updatedGigFilter.status]
+            )
+          );
+        }
+        if (
+          updatedGigFilter.status ==
+          constants.GIGS_FILTER_STATUSES.ARCHIVED_JOBS
+        ) {
+          store.dispatch(
+            actions.myGigs.getMyArchivedGigs(
+              constants.GIGS_FILTER_STATUSES_PARAM[updatedGigFilter.status]
+            )
+          );
+        }
+      });
     }
   }, [location, isLoggedIn]);
 

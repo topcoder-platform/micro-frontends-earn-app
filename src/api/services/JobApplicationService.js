@@ -30,12 +30,12 @@ async function getMyJobApplications(currentUser, criteria) {
     return emptyResult;
   }
   // get user id by calling taas-api with current user's token
-  const { id: userId } = await helper.getCurrentUserDetails(
+  const { id: userId, handle: userHandle } = await helper.getCurrentUserDetails(
     currentUser.jwtToken
   );
-  if (!userId) {
+  if (!userId || !userHandle) {
     throw new errors.NotFoundError(
-      `Id for user: ${currentUser.userId} not found`
+      `Id for user: ${currentUser.userId} or handle for user: ${currentUser.handle} not found`
     );
   }
   // get jobCandidates of current user by calling taas-api
@@ -54,7 +54,11 @@ async function getMyJobApplications(currentUser, criteria) {
   let jcResult = jobCandidates.result;
   // handle placed status for completed_jobs, archived_jobs query
   if (status && (status == "active_jobs" || status == "completed_jobs")) {
-    await helper.handlePlacedJobCandidates(jobCandidates.result, userId);
+    await helper.handlePlacedJobCandidates(
+      jobCandidates.result,
+      userId,
+      userHandle
+    );
     if (status == "completed_jobs") {
       jcResult = jobCandidates.result.filter(
         (item) => item.status == "completed"
@@ -76,6 +80,10 @@ async function getMyJobApplications(currentUser, criteria) {
     const job = _.find(jobs, ["id", jobCandidate.jobId]);
     return {
       title: job.title,
+      paymentTotal: jobCandidate.paymentTotal,
+      rbStartDate: jobCandidate.rbStartDate,
+      rbEndDate: jobCandidate.rbEndDate,
+      updatedAt: jobCandidate.updatedAt,
       payment: {
         min: job.minSalary,
         max: job.maxSalary,

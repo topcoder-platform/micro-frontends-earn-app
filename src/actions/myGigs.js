@@ -6,24 +6,36 @@ import {
 } from "../constants";
 import service from "../services/myGigs";
 
-/**
- * Action to get my gigs.
- * @param {number} page page to fetch
- * @param {number} perPage items per page. by default is 10.
- * @returns
- */
-async function getMyGigs(status = "open_jobs", page = 1, perPage = PER_PAGE) {
+async function getMyActiveGigs(
+  status = "active_jobs",
+  page = 1,
+  perPage = PER_PAGE
+) {
   return service.getMyGigs(status, page, perPage);
 }
 
-/**
- * Action to load more pages of my gigs
- * @param {number} nextPage page to fetch
- * @param {*} perPage items per page. by default is 10
- * @returns
- */
-async function loadMoreMyGigs(status, nextPage, perPage = PER_PAGE) {
-  return service.getMyGigs(status, nextPage, perPage);
+async function getMyOpenGigs(
+  status = "open_jobs",
+  page = 1,
+  perPage = PER_PAGE
+) {
+  return service.getMyGigs(status, page, perPage);
+}
+
+async function getMyCompletedGigs(
+  status = "completed_jobs",
+  page = 1,
+  perPage = PER_PAGE
+) {
+  return service.getMyGigs(status, page, perPage);
+}
+
+async function getMyArchivedGigsDone(
+  status = "archived_jobs",
+  page = 1,
+  perPage = PER_PAGE
+) {
+  return service.getMyGigs(status, page, perPage);
 }
 
 async function getProfile() {
@@ -54,8 +66,10 @@ async function startCheckingGigs(externalId) {
 }
 
 export default createActions({
-  GET_MY_GIGS: getMyGigs,
-  LOAD_MORE_MY_GIGS: loadMoreMyGigs,
+  GET_MY_ACTIVE_GIGS: getMyActiveGigs,
+  GET_MY_OPEN_GIGS: getMyOpenGigs,
+  GET_MY_COMPLETED_GIGS: getMyCompletedGigs,
+  GET_MY_ARCHIVED_GIGS: getMyArchivedGigsDone,
   GET_PROFILE: getProfile,
   UPDATE_PROFILE: updateProfile,
   START_CHECKING_GIGS: startCheckingGigs,

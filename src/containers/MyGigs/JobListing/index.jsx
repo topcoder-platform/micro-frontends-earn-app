@@ -7,9 +7,9 @@ import * as constants from "../../../constants";
 
 import "./styles.scss";
 
-const JobListing = ({ jobs, loadMore, total, numLoaded, gigStatus }) => {
+const JobListing = ({ jobs, loadMore, total, numLoaded, gigStatus, page }) => {
   const scrollLock = useScrollLock();
-  const [page, setPage] = useState(1);
+  // const [page, setPage] = useState(1);
 
   const varsRef = useRef();
   varsRef.current = { scrollLock };
@@ -17,7 +17,7 @@ const JobListing = ({ jobs, loadMore, total, numLoaded, gigStatus }) => {
   const handleLoadMoreClick = () => {
     const nextPage = page + 1;
     scrollLock(true);
-    setPage(nextPage);
+    // setPage(nextPage);
     loadMore(constants.GIGS_FILTER_STATUSES_PARAM[gigStatus], nextPage);
   };
 
@@ -25,17 +25,40 @@ const JobListing = ({ jobs, loadMore, total, numLoaded, gigStatus }) => {
     varsRef.current.scrollLock(false);
   }, [jobs]);
 
-  useEffect(() => {
-    setPage(1);
-  }, [gigStatus]);
-
+  // useEffect(() => {
+  //   setPage(1);
+  // }, [gigStatus]);
   return (
     <div styleName="card-container">
-      {jobs.map((job, index) => (
-        <div styleName="card-item" key={`${job.title}-${index}`}>
-          <JobCard job={job} />
-        </div>
-      ))}
+      {![
+        constants.GIGS_FILTER_STATUSES.COMPLETED_JOBS,
+        constants.GIGS_FILTER_STATUSES.ARCHIVED_JOBS,
+      ].includes(gigStatus) &&
+        jobs.map((job, index) => (
+          <div styleName="card-item" key={`${job.title}-${index}`}>
+            <JobCard job={job} />
+          </div>
+        ))}
+
+      {[
+        constants.GIGS_FILTER_STATUSES.COMPLETED_JOBS,
+        constants.GIGS_FILTER_STATUSES.ARCHIVED_JOBS,
+      ].includes(gigStatus) &&
+        jobs
+          .sort((a, b) => {
+            if (a.sortPrio == b.sortPrio) {
+              return (
+                new Date(b.updatedAt).getTime() -
+                new Date(a.updatedAt).getTime()
+              );
+            }
+            return a.sortPrio - b.sortPrio;
+          })
+          .map((job, index) => (
+            <div styleName="card-item" key={`${job.title}-${index}`}>
+              <JobCard job={job} />
+            </div>
+          ))}
 
       {numLoaded < total && page * constants.PER_PAGE < total && (
         <div styleName="load-more">
@@ -52,6 +75,7 @@ JobListing.propTypes = {
   total: PT.number,
   numLoaded: PT.number,
   gigStatus: PT.string,
+  page: PT.number,
 };
 
 export default JobListing;
