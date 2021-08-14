@@ -76,7 +76,7 @@ workflows:
           filters:
             branches:
               only:
-                - gigs-filter
+                - dev
 
       # Production builds are exectuted only on tagged commits to the
       # master branch.
