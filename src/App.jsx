@@ -54,12 +54,11 @@ const App = () => {
 
   useEffect(() => {
     store.dispatch(actions.lookup.checkIsLoggedIn());
-    document.title =
-      "Welcome to the Topcoder Platform. Get started by opening an app in the tool switcher on the top right corner.";
   }, []);
 
   useEffect(() => {
     if (location.pathname === "/earn/find/challenges") {
+      document.title = "Listings-Earn-Topcoder";
       if (!location.search) {
         store.dispatch(
           actions.challenges.getChallenges(initialChallengeFilter)
@@ -88,6 +87,8 @@ const App = () => {
 
   useEffect(() => {
     if (location.pathname === "/earn/my-gigs" && isLoggedIn) {
+      document.title =
+        "Welcome to the Topcoder Platform. Get started by opening an app in the tool switcher on the top right corner";
       if (!location.search) {
         store.dispatch(actions.filter.updateGigFilter(initialGigFilter));
         const cachedGigs = store.getState().myGigs[initialGigFilter.status];
