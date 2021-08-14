@@ -58,7 +58,7 @@ const App = () => {
 
   useEffect(() => {
     if (location.pathname === "/earn/find/challenges") {
-      document.title = "Listings-Earn-Topcoder";
+      document.title = "Listings-EARN-Topcoder";
       if (!location.search) {
         store.dispatch(
           actions.challenges.getChallenges(initialChallengeFilter)
