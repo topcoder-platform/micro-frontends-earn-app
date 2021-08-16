@@ -54,8 +54,7 @@ const App = () => {
 
   useEffect(() => {
     store.dispatch(actions.lookup.checkIsLoggedIn());
-    document.title =
-      "Welcome to the Topcoder Platform. Get started by opening an app in the tool switcher on the top right corner.";
+    document.title = "Listings-EARN-Topcoder";
   }, []);
 
   useEffect(() => {
