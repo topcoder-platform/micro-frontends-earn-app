@@ -54,6 +54,7 @@ const App = () => {
 
   useEffect(() => {
     store.dispatch(actions.lookup.checkIsLoggedIn());
+    document.title = "Listings-EARN-Topcoder";
   }, []);
 
   useEffect(() => {
