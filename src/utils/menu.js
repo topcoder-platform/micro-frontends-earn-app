@@ -1,13 +1,17 @@
 import _ from "lodash";
 
 export class MenuSelection {
-  constructor(menu, selected, onSelect) {
+  constructor(menu, selected, onSelect, onUpdateMenu) {
     this.menu = menu;
     this.onSelect = onSelect;
     this.selected = selected;
+    this.onUpdateMenu = onUpdateMenu;
     this.travel(this.menu);
   }
 
+  /**
+   * @private
+   */
   travel(root) {
     this.getMenuItems(root).forEach((menuItem) => {
       if (this.isBranch(menuItem)) {
@@ -19,6 +23,13 @@ export class MenuSelection {
     });
   }
 
+  setMenu(menu) {
+    this.menu = menu;
+  }
+
+  /**
+   * @private
+   */
   getMenuItems(menu) {
     return menu.children;
   }
@@ -53,6 +64,7 @@ export class MenuSelection {
     };
 
     selectInternal(this.menu);
+    this.onUpdateMenu(this.menu);
   }
 
   isSelected(menuItem) {

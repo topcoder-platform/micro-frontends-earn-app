@@ -1,12 +1,6 @@
 import { combineReducers } from "redux";
-import challenges from "./challenges";
-import filter from "./filter";
-import lookup from "./lookup";
-import myGigs from "./myGigs";
+import menu from './menu';
 
 export default combineReducers({
-  challenges,
-  filter,
-  lookup,
-  myGigs,
+  menu,
 });

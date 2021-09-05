@@ -18,17 +18,8 @@ $tc-gray-10: #d5d5d5;
 $tc-gray-05: #e0e0e0;
 $tc-gray-neutral-dark: #ebebeb;
 $tc-gray-neutral-light: #fafafb;
-$tc-black: #2A2A2A;
-$tc-white: #fff;
 
-$tc-gray1: #555555;
-$tc-gray2: #7f7f7f;
-$tc-gray3: #aaaaaa;
-$tc-gray4: #d4d4d4;
-$tc-gray5: #e9e9e9;
-$tc-gray6: #f4f4f4;
-$tc-gray7: #fbfbfb;
-
+/* Blue */
 $tc-blue: #2c95d7;
 $tc-blue-light1: #50ade8;
 $tc-blue-light2: #83c5ee;
@@ -65,12 +56,6 @@ $tc-red-100: #f52c14;
 $tc-red-70: #ff5a4c;
 $tc-red-30: #ffd4d0;
 $tc-red-10: #fff4f4;
-$tc-red: #ef476f;
-$tc-red-light1: #f37593;
-$tc-red-light2: #f7a3b7;
-$tc-red-light3: #fbd1db;
-$tc-red-dark1: #be405e;
-$tc-red-dark2: #8c384c;
 
 /* Yellow. */
 $tc-yellow-110: #f2c900;
@@ -86,6 +71,55 @@ $tc-green-100: #5cc900;
 $tc-green-70: #94db4e;
 $tc-green-30: #cef0af;
 $tc-green-10: #effae4;
+
+/* Purples. */
+$tc-purple-120: #8231a9;
+$tc-purple-110: #753488;
+$tc-purple-100: #914da5;
+$tc-purple-70: #b57ad8;
+$tc-purple-30: #e2c6f3;
+$tc-purple-20: #e6cff1;
+$tc-purple-10: #f8f2fb;
+
+/// TC GUI KIT (V2)
+
+/* Gray */
+$tc-black: #2A2A2A;
+$tc-white: #fff;
+
+$tc-gray1: #555555;
+$tc-gray2: #7f7f7f;
+$tc-gray3: #aaaaaa;
+$tc-gray4: #d4d4d4;
+$tc-gray5: #e9e9e9;
+$tc-gray6: #f4f4f4;
+$tc-gray7: #fbfbfb;
+
+/* Red */
+$tc-red: #ef476f;
+$tc-red-light1: #f37593;
+$tc-red-light2: #f7a3b7;
+$tc-red-light3: #fbd1db;
+$tc-red-dark1: #be405e;
+$tc-red-dark2: #8c384c;
+
+/* Orange */
+$tc-orange: #ffc43d;
+$tc-orange-light1: #ffd36e;
+$tc-orange-light2: #ffe19e;
+$tc-orange-light3: #fff0ce;
+$tc-orange-dark1: #e2af3b;
+$tc-orange-dark2: #b98f31;
+
+/* Yellow */
+$tc-yellow: #f9f649;
+$tc-yellow-light1: #fbf877;
+$tc-yellow-light2: #fbfaa4;
+$tc-yellow-light3: #fdfcd1;
+$tc-yellow-dark1: #ddda43;
+$tc-yellow-dark2: #b6b431;
+
+/* Green */
 $tc-green: #63f963;
 $tc-green-light1: #8afb8a;
 $tc-green-light2: #b0fcb1;
@@ -103,60 +137,28 @@ $tc-turquoise-dark1: #0ab88a;
 $tc-turquoise-dark2: #219174;
 $tc-turquoise-dark3: #137d60;
 
-/* Purples. */
-$tc-purple-120: #8231a9;
-$tc-purple-110: #753488;
-$tc-purple-100: #914da5;
-$tc-purple-70: #b57ad8;
-$tc-purple-30: #e2c6f3;
-$tc-purple-20: #e6cff1;
-$tc-purple-10: #f8f2fb;
+/* Teal */
+$tc-teal: #26b3c5;
+$tc-teal-light1: #54b4c0;
+$tc-teal-light2: #8dccd4;
+$tc-teal-light3: #c6e6ea;
+$tc-turquoise-dark1: #1e94a3;
+$tc-turquoise-dark2: #227681;
 
-/* TC Metal colors - Badges.
-*
-* For metals the level 100 is the base metal color; 110 is for text inside
-* the metal-colored areas; and 130 is for small text inside metal-colored
-* areas, for better visibility. */
-$tc-gold-130: #9a6d00;
-$tc-gold-110: #c99014;
-$tc-gold-100: #ffd84d;
+/* Purple */
+$tc-purple: #9d41c9;
+$tc-purple-light1: #b671d7;
+$tc-purple-light2: #cd9fe3;
+$tc-purple-light3: #e6cff1;
+$tc-purple-dark1: #8231a9;
+$tc-purple-dark2: #652385;
 
-$tc-silver-130: #554e48;
-$tc-silver-110: #716d67;
-$tc-silver-100: #d1d0cf;
-
-$tc-bronze-130: #733d17;
-$tc-bronze-110: #854e29;
-$tc-bronze-100: #d98f64;
-
-/* Pastel colors, used for levels. */
-$tc-pastel-green: #12c188;
-$tc-pastel-blue: #5656f4;
-$tc-pastel-yellow: #feb900;
-$tc-pastel-crimson: #e90c5a;
-
-/* Color aliases. */
-
-/* Base metal colors. */
-$tc-gold: $tc-gold-100;
-$tc-silver: $tc-silver-100;
-$tc-bronze: $tc-bronze-100;
-
-/* Brand colors. */
-$tc-dark-blue: $tc-dark-blue-100;
-$tc-light-blue: $tc-light-blue-100;
-$tc-green: $tc-green-100;
-$tc-purple: $tc-purple-100;
-$tc-yellow: $tc-yellow-100;
-$tc-orange: $tc-orange-100;
-$tc-red: $tc-red-100;
-
-/* Community achievement color codes. */
-$tc-level-1: $tc-gray-50;
-$tc-level-2: $tc-pastel-green;
-$tc-level-3: $tc-pastel-blue;
-$tc-level-4: $tc-pastel-yellow;
-$tc-level-5: $tc-pastel-crimson;
+/* Orange Legacy */
+$tc-orange-legacy: #fd7d01;
+$tc-orange-legacy-light1: #ffa45d;
+$tc-orange-legacy-light2: #ffe3cf;
+$tc-orange-legacy-light3: #fff0eb;
+$tc-orange-legacy-dark1: #f46500;
 
 /* Links */
 $tc-link-blue: #0d61bf;
@@ -173,28 +175,5 @@ $line-height-sm: 19px;
 $line-height-xs: 16px;
 
 /// APP
+
 $base-unit: 5px;
-
-$body-color: $tc-gray-90;
-$white: $tc-white;
-$green: #229174;
-$green2: #287d61;
-$green3: $tc-turquoise;
-$darkGreen: $tc-turquoise-dark3;
-$lightGreen: $tc-turquoise-dark1;
-$lightGreen2: $tc-turquoise;
-$blue: #2c95d7;
-$gray1: #fbfbfb;
-$gray2: #f4f4f4;
-$gray3: #e9e9e9;
-
-$border-radius: 6px;
-$border-radius-sm: 5px;
-$border-radius-lg: 8px;
-
-$page-padding-x: 7 * $base-unit;
-$page-padding-y: 32px;
-
-$screen-xxl: 1366px;
-
-$shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.03);
