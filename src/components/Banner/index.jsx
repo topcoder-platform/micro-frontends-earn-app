@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import PT from "prop-types";
 import BannerChevronUp from "../../assets/icons/banner-chevron-up.svg";
 
 import "./styles.scss";
@@ -44,7 +43,5 @@ const Banner = () => {
     </div>
   );
 };
-
-Banner.propTypes = {};
 
 export default Banner;

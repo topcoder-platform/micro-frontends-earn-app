@@ -1,11 +1,7 @@
 /* global process */
-require("./src/api/bootstrap");
 const express = require("express");
 
 const app = express();
-
-// Register routes
-require("./src/api/app-routes")(app);
 
 app.use(
   "/earn-app",

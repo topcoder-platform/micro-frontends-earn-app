@@ -1,0 +1,18 @@
+@import "styles/variables";
+@import "styles/mixins";
+
+.feedback-button {
+  @include roboto-bold;
+
+  display: block;
+  padding: 12px 16px;
+  font-size: 13px;
+  color: $tc-turquoise-dark2;
+  line-height: 1;
+  letter-spacing: 0.8px;
+  white-space: nowrap;
+  appearance: none;
+  background: $tc-white;
+  border: 1px solid $tc-turquoise-dark3;
+  border-radius: 20px;
+}

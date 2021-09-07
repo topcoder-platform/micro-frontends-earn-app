@@ -20,15 +20,15 @@ module.exports = (webpackConfigEnv) => {
     (p) => p.constructor.name === "UnusedFilesWebpackPlugin"
   );
   unusedFilesWebpackPlugin.globOptions.ignore.push(
-    "**/assets/icons/*.svg",
-    "**/__mocks__/**"
+    "assets/icons/*.svg",
+    "__mocks__/**"
   );
 
   let cssLocalIdent;
-  if (process.env.APPMODE == "development") {
-    cssLocalIdent = "earn_[path][name]___[local]___[hash:base64:6]";
-  } else {
+  if (process.env.APPMODE == "production") {
     cssLocalIdent = "[hash:base64:6]";
+  } else {
+    cssLocalIdent = "earn_[path][name]___[local]___[hash:base64:6]";
   }
 
   // modify the webpack config however you'd like to by adding to this object
@@ -36,8 +36,13 @@ module.exports = (webpackConfigEnv) => {
     // we have to list here all the microapps which we would like to use in imports
     // so webpack doesn't tries to import them
     externals: {
-      "@topcoder/micro-frontends-navbar-app":
-        "@topcoder/micro-frontends-navbar-app",
+      "@topcoder/micro-frontends-navbar-app": "@topcoder/micro-frontends-navbar-app",
+      "react": "react",
+      "react-dom": "react-dom",
+    },
+    output: {
+      path: path.resolve(__dirname, "dist"),
+      publicPath: "earn-app",
     },
     module: {
       rules: [
@@ -118,15 +123,9 @@ module.exports = (webpackConfigEnv) => {
       },
     },
     devServer: {
-      clientLogLevel: config.LOG_LEVEL,
-      before: function (app) {
-        require("./src/api/bootstrap");
-        // Register routes
-        require("./src/api/app-routes")(app);
-      },
       hot: true,
-      port: 8008,
       host: "0.0.0.0",
+      port: 8008,
     },
   });
 };

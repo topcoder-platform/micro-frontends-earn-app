@@ -1,8 +1,8 @@
 let cssLocalIdent;
-if (process.env.APPMODE == 'development') {
-  cssLocalIdent = 'earn_[path][name]___[local]___[hash:base64:6]';
-} else {
+if (process.env.APPMODE === 'production') {
   cssLocalIdent = '[hash:base64:6]';
+} else {
+  cssLocalIdent = 'earn_[path][name]___[local]___[hash:base64:6]';
 }
 
 const config = {
