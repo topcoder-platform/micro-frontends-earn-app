@@ -1,4 +1,4 @@
-process.env.NODE_ENV = process.env.APPMODE;
+process.env.NODE_ENV = process.env.APPENV;
 
 const config = require("config");
 const _ = require("lodash");
