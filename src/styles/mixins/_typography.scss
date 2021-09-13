@@ -1,7 +1,6 @@
 /**
  * Typography-related mixins:
  *  - Font styles
- *  - Heading text styles
  */
 
 /// FONTS
@@ -107,26 +106,4 @@
 @mixin barlow-thin {
   font-family: "Barlow", Helvetica, Arial, sans-serif;
   font-weight: 100;
-}
-
-/// HEADINGS
-
-@mixin heading-xl {
-  font-size: 34px;
-}
-
-@mixin heading-lg {
-  font-size: 28px;
-}
-
-@mixin heading-md {
-  font-size: 20px;
-}
-
-@mixin heading-sm {
-  font-size: 15px;
-}
-
-@mixin heading-xs {
-  font-size: 13px;
 }

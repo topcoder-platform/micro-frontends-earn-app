@@ -1,6 +1,5 @@
 @import "styles/variables";
 @import "styles/mixins";
-@import "styles/GUIKit/default";
 
 .banner {
   display: flex;
@@ -8,10 +7,10 @@
   flex-wrap: wrap;
 
   width: 100%;
-  background: linear-gradient(90deg, $blue 0%, $lightGreen2 100%);
+  background: linear-gradient(90deg, $tc-blue 0%, $tc-turquoise 100%);
   border-radius: 10px;
   margin-bottom: 22px;
-  color: $white;
+  color: $tc-white;
   padding-left: 28px;
 
   .header {

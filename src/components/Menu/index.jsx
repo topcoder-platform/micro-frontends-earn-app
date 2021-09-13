@@ -1,23 +1,24 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import PT from "prop-types";
 import _ from "lodash";
 import * as utils from "../../utils";
 import IconChevronUp from "assets/icons/menu-chevron-up.svg";
-import { useNavigate } from "@reach/router";
+import { navigate } from '@reach/router'
 
 import "./styles.scss";
 
-let cnt = 0;
+const Menu = ({ menu, selected, onSelect, isLoggedIn, onUpdateMenu }) => {
+  const selectionRef = useRef();
+  if (!selectionRef.current) {
+    selectionRef.current = new utils.menu.MenuSelection(_.cloneDeep(menu), selected, onSelect, onUpdateMenu)
+  }
 
-const Menu = ({ menu, selected, onSelect, isLoggedIn }) => {
-  const selectionRef = useRef(
-    new utils.menu.MenuSelection(_.cloneDeep(menu), selected, onSelect)
-  );
-  const [, setStateChange] = useState(0);
+  useEffect(() => {
+    selectionRef.current.setMenu(menu);
+  }, [menu])
 
   useEffect(() => {
     selectionRef.current.select(selected);
-    setStateChange(cnt++);
   }, [selected]);
 
   useEffect(() => {
@@ -26,13 +27,10 @@ const Menu = ({ menu, selected, onSelect, isLoggedIn }) => {
     }
   }, [selected, isLoggedIn]);
 
-  const navigateTo = useNavigate();
-
   const onSelectMenuItem = (name, path) => {
     selectionRef.current.select(name);
-    setStateChange(cnt++);
     if (path) {
-      navigateTo(path);
+      navigate(path);
     }
   };
 
