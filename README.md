@@ -55,7 +55,7 @@ module.exports = {
 
 5. In the `set-public-path.js` file, add the mapping to your `another-app`, challenges-app and gigs-app have already been setup as the reference.
 
-6. In the `App.jsx` file, add the application mount point inside the <Router> component, challenges-app and gigs-app have already been setup as the reference
+6. In the `src/App.jsx` file, add the application mount point inside the `<Router>` component, challenges-app and gigs-app have already been setup as the reference
 
 7. Edit your `hosts` file by mapping `127.0.0.1 local.topcoder-dev.com`
 
