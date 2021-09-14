@@ -18,9 +18,8 @@ This is a [single-spa](https://single-spa.js.org/) example React microapp.
 | `npm start`           | Run server which serves production ready build from `dist` folder |
 | `npm run dev`         | Run app in the `development` mode and `dev` config  |
 | `npm run dev-https`   | Run app in the `development` mode and `dev` config using HTTPS protocol |
-| `npm run local`       | Run app in the `development` mode and `local-dev` config   |
 | `npm run prod`        | Run app in the `development` mode and `prod` config  |
-| `npm run build`       | Build app for production and puts files to the `dist` folder, default to `development` mode and `local-dev` config |
+| `npm run build`       | Build app for production and puts files to the `dist` folder, default to `development` mode and `dev` config |
 | `npm run analyze`     | Analyze dependencies sizes and opens report in the browser        |
 | `npm run lint`        | Check code for lint errors                                        |
 | `npm run format`      | Format code using prettier                                        |
@@ -33,8 +32,34 @@ This is a [single-spa](https://single-spa.js.org/) example React microapp.
 Inside the project folder run:
 - `nvm use 10.22.1;` - to use npm version: 10.22.1
 - `npm i` - install dependencies
-- `npm run local` - run app in `development` mode and `local-dev` config
+- `npm run dev` - run app in `development` mode and `dev` config, currently it is using the config from `default.js`
 - As this app can be loaded only inside a frame single-spa, you have to run a `micro-frontends-frame` frame app and configure it to use the URL `http://localhost:8008/earn-app/topcoder-micro-frontends-earn-app.js`.
+
+## Local Setup for adding a new MFE
+1. The setup is assuming you have setup the `micro-frontends-frame` and `micro-frontends-nav-app`. And this is also assuming your have a new MFE named `another-app` and your local url is `http://localhost:8099/another-app/topcoder-micro-frontends-another-app.js`
+
+2. You have launched existing `micro-frontends-challenges-app` and `micro-frontends-gigs-app` in your local envrionment.
+
+3. Modify the `config/dev.js` by incorporating the module mapping, so it might be look like this if you setup all them in local environment:
+
+```
+module.exports = {
+  MFE_CONFIG: {
+    '@topcoder/micro-frontends-another-app': 'http://localhost:8099/another-app/topcoder-micro-frontends-another-app.js',
+    '@topcoder/micro-frontends-challenges-app': 'http://localhost:8009/challenges-app/topcoder-micro-frontends-challenges-app.js',
+    '@topcoder/micro-frontends-gigs-app': 'http://localhost:8010/gigs-app/topcoder-micro-frontends-gigs-app.js',
+  }
+};
+```
+4. In the `src/containers/Menu/index.jsx`, you can modify it to add your new `another-app` menu link, challenges-app and gigs-app menu links have already been setup as reference.
+
+5. In the `set-public-path.js` file, add the mapping to your `another-app`, challenges-app and gigs-app have already been setup as the reference.
+
+6. In the `App.jsx` file, add the application mount point inside the <Router> component, challenges-app and gigs-app have already been setup as the reference
+
+7. Edit your `hosts` file by mapping `127.0.0.1 local.topcoder-dev.com`
+
+8. Now visit `http://local.topcoder-dev.com:8080/earn/find/challenges` to view the `micro-frontends-challenges-app`
 
 ## Deployment to Production
 
