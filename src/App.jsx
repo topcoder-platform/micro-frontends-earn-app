@@ -2,20 +2,20 @@
  * Main App component
  */
 import React, { useLayoutEffect, useEffect, useRef } from "react";
-import { Router, useLocation, Redirect } from "@reach/router";
+import { Router, useLocation } from "@reach/router";
 import { disableSidebarForRoute } from "@topcoder/micro-frontends-navbar-app";
 import _ from "lodash";
 import { usePreviousLocation } from "./utils/hooks";
-import Parcel from 'single-spa-react/parcel'
-import { useSelector } from 'react-redux'
-import ReactDOM from 'react-dom'
+import Parcel from "single-spa-react/parcel";
+import { useSelector } from "react-redux";
+import ReactDOM from "react-dom";
 
 import "./styles/main.scss";
 
-import Menu from './containers/Menu'
+import Menu from "./containers/Menu";
 
 const App = () => {
-  const menuVisible = useSelector(state => state.menu.show)
+  const menuVisible = useSelector((state) => state.menu.show);
 
   useLayoutEffect(() => {
     disableSidebarForRoute("/earn/*");
@@ -36,11 +36,19 @@ const App = () => {
 
   return (
     <>
-      {menuVisible && ReactDOM.createPortal(<Menu />, document.querySelector('#menu-id'))}
+      {menuVisible &&
+        ReactDOM.createPortal(<Menu />, document.querySelector("#menu-id"))}
       <Router>
-        <Parcel path="/earn/find/challenges" config={() => System.import('@topcoder/micro-frontends-challenges-app')} />
-        <Parcel path="/earn/my-gigs" config={() => System.import('@topcoder/micro-frontends-gigs-app')} />
-        <Redirect from="/earn/*" to="/earn/find/challenges" noThrow />
+        <Parcel
+          path="/earn/find/challenges/*"
+          config={() =>
+            System.import("@topcoder/micro-frontends-challenges-app")
+          }
+        />
+        <Parcel
+          path="/earn/my-gigs"
+          config={() => System.import("@topcoder/micro-frontends-gigs-app")}
+        />
       </Router>
     </>
   );
