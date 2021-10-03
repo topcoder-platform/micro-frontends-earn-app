@@ -77,7 +77,7 @@ workflows:
             branches:
               only:
                 - dev
-                - gigs-listing
+                - feature-dev
 
       # Production builds are exectuted only on tagged commits to the
       # master branch.
