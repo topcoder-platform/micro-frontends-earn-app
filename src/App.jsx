@@ -2,7 +2,7 @@
  * Main App component
  */
 import React, { useLayoutEffect, useEffect, useRef } from "react";
-import { Router, useLocation } from "@reach/router";
+import { Router, useLocation, Redirect } from "@reach/router";
 import { disableSidebarForRoute } from "@topcoder/micro-frontends-navbar-app";
 import _ from "lodash";
 import { usePreviousLocation } from "./utils/hooks";
