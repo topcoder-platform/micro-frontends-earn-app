@@ -17,6 +17,7 @@ This is a [single-spa](https://single-spa.js.org/) example React microapp.
 | --------------------- | ----------------------------------------------------------------- |
 | `npm start`           | Run server which serves production ready build from `dist` folder |
 | `npm run dev`         | Run app in the `development` mode and `dev` config  |
+| `npm run dev:local`         | Run app in the `development` mode and `local` config  |
 | `npm run dev-https`   | Run app in the `development` mode and `dev` config using HTTPS protocol |
 | `npm run prod`        | Run app in the `development` mode and `prod` config  |
 | `npm run build`       | Build app for production and puts files to the `dist` folder, default to `development` mode and `dev` config |
