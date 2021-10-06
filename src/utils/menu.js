@@ -53,6 +53,7 @@ export class MenuSelection {
           if (this.isLeaf(menuItem)) {
             menuItem.active = true;
             this.selected = menuItem.name;
+            root.expanded = true;
           } else {
             menuItem.expanded = !menuItem.expanded;
           }
