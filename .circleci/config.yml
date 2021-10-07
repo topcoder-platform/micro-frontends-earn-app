@@ -78,6 +78,7 @@ workflows:
               only:
                 - dev
                 - challenge-details-page
+                - submission-page
 
       # Production builds are exectuted only on tagged commits to the
       # master branch.
