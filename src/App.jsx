@@ -55,7 +55,6 @@ const App = () => {
           view="my-gigs"
           config={() => System.import("@topcoder/micro-frontends-gigs-app")}
         />
-        <Redirect from="/earn/*" to="/earn/find/challenges" noThrow />
       </Router>
     </>
   );
