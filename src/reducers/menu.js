@@ -1,16 +1,19 @@
 import { handleActions } from "redux-actions";
 
 const defaultState = {
-  show: false
-}
+  show: false,
+};
 
 function onShowMenu(state, { payload }) {
   return {
     ...state,
-    show: payload
-  }
+    show: payload,
+  };
 }
 
-export default handleActions({
-  SHOW_MENU: onShowMenu
-}, defaultState)
+export default handleActions(
+  {
+    SHOW_MENU: onShowMenu,
+  },
+  defaultState
+);
