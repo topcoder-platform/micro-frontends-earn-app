@@ -26,6 +26,9 @@ const MenuContainer = () => {
     );
     if (name) {
       setSelectedMenuItemName(name);
+      if (name == "Gigs") {
+        window.location.href = `${process.env.URL.BASE}/gigs`;
+      }
     } else {
       setSelectedMenuItemName(null);
     }
