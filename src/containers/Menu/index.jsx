@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Menu from '../../components/Menu';
-import * as utils from '../../utils';
-import * as constants from '../../constants';
+import Menu from "../../components/Menu";
+import * as utils from "../../utils";
+import * as constants from "../../constants";
 import { useLocation } from "@reach/router";
 
 const MenuContainer = () => {
@@ -14,7 +14,7 @@ const MenuContainer = () => {
   useEffect(() => {
     const checkIsLoggedIn = async () => {
       setIsLoggedIn(await utils.auth.isLoggedIn());
-    }
+    };
     checkIsLoggedIn();
   }, []);
 
@@ -37,9 +37,6 @@ const MenuContainer = () => {
       selected={selectedMenuItemName}
       onSelect={(name) => {
         setSelectedMenuItemName(name);
-        if (name == "Gigs") {
-          window.location.href = `${process.env.URL.BASE}/gigs`;
-        }
       }}
       isLoggedIn={isLoggedIn}
       onUpdateMenu={(menu) => {
@@ -47,7 +44,7 @@ const MenuContainer = () => {
         saveMenu(change);
       }}
     />
-  )
-}
+  );
+};
 
 export default MenuContainer;

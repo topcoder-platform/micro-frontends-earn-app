@@ -19,12 +19,12 @@ export const NAV_MENU = {
       iconActive: "find-work-green.svg",
       children: [
         {
-          name: "Challenges",
-          path: "/earn/find/challenges",
+          name: "Gigs",
+          path: "/earn/gigs",
         },
         {
-          name: "Gigs",
-          path: "",
+          name: "Challenges",
+          path: "/earn/find/challenges",
         },
       ],
     },

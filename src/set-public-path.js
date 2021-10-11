@@ -8,9 +8,16 @@ import { setPublicPath } from "systemjs-webpack-interop";
 
 setPublicPath("@topcoder/micro-frontends-earn-app");
 
-const challengesAppUrl = process.env.MFE_CONFIG['@topcoder/micro-frontends-challenges-app']
-const gigsAppUrl = process.env.MFE_CONFIG['@topcoder/micro-frontends-gigs-app']
+const challengesAppUrl =
+  process.env.MFE_CONFIG["@topcoder/micro-frontends-challenges-app"];
+const gigsAppUrl = process.env.MFE_CONFIG["@topcoder/micro-frontends-gigs-app"];
 
-importMapOverrides.resetOverrides()
-importMapOverrides.addOverride('@topcoder/micro-frontends-challenges-app', challengesAppUrl)
-importMapOverrides.addOverride('@topcoder/micro-frontends-gigs-app', gigsAppUrl)
+importMapOverrides.resetOverrides();
+importMapOverrides.addOverride(
+  "@topcoder/micro-frontends-challenges-app",
+  challengesAppUrl
+);
+importMapOverrides.addOverride(
+  "@topcoder/micro-frontends-gigs-app",
+  gigsAppUrl
+);

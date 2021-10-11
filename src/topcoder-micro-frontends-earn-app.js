@@ -6,7 +6,7 @@ import { bindActionCreators } from "redux";
 import Root from "./root.component";
 import Banner from "./components/Banner";
 import FeedbackButton from "./components/FeedbackButton";
-import actions from "./actions/menu"
+import actions from "./actions/menu";
 import store from "./store";
 
 const lifecycles = singleSpaReact({
@@ -26,4 +26,7 @@ const unmount = [lifecycles.unmount];
 export { bootstrap, mount, unmount };
 
 export { Banner, FeedbackButton };
-export const { showMenu } = bindActionCreators({ showMenu: actions.showMenu }, store.dispatch)
+export const { showMenu } = bindActionCreators(
+  { showMenu: actions.showMenu },
+  store.dispatch
+);
