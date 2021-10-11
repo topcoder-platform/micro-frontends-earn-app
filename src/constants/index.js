@@ -20,7 +20,7 @@ export const NAV_MENU = {
       children: [
         {
           name: "Gigs",
-          path: "/earn/gigs",
+          path: "",
         },
         {
           name: "Challenges",
