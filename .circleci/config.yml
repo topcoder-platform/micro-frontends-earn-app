@@ -77,7 +77,6 @@ workflows:
             branches:
               only:
                 - dev
-                - restore-gigs-listing
 
       # Production builds are exectuted only on tagged commits to the
       # master branch.
