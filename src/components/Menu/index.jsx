@@ -34,9 +34,10 @@ const Menu = ({ menu, selected, onSelect, isLoggedIn, onUpdateMenu }) => {
 
   const onSelectMenuItem = (name, path) => {
     selectionRef.current.select(name);
-    // if (name == "Gigs") {
-    //   window.location.href = `${process.env.URL.BASE}/gigs`;
-    // }
+    if (name == "Gigs") {
+      window.location.href = `${process.env.URL.BASE}/gigs`;
+      return;
+    }
     if (path) {
       navigate(path);
     }
