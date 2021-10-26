@@ -46,6 +46,11 @@ const App = () => {
           }
         />
         <Parcel
+          path="/earn/gigs/:externalId"
+          view="gig-details"
+          config={() => System.import("@topcoder/micro-frontends-gigs-app")}
+        />
+        <Parcel
           path="/earn/gigs"
           view="gigs"
           config={() => System.import("@topcoder/micro-frontends-gigs-app")}
