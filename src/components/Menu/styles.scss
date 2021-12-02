@@ -17,14 +17,13 @@ $menu-padding-y: 20px;
 
 .menu-item {
   padding: 4px 0;
+  cursor: pointer;
 
   .link {
     display: flex;
     align-items: center;
     line-height: 26px;
     outline: none;
-    cursor: pointer;
-    display: inline-block;
   }
 
   .icon {
@@ -86,6 +85,15 @@ $menu-padding-y: 20px;
 
 .sub-menu {
   padding-left: 24px + 16px;
+
+  .menu-item {
+    cursor: default;
+    .link {
+      cursor: pointer;
+      display: inline-block;
+    }
+  }
+
 }
 
 .sub-submenu {
