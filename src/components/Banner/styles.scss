@@ -20,7 +20,8 @@
     flex-direction: row;
     align-items: center;
     @include roboto-bold;
-    height: 50px;
+    line-height: 25px;
+    min-height: 50px;
     font-size: 20px;
     text-transform: uppercase;
   }
