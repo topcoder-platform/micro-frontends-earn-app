@@ -85,6 +85,15 @@ $menu-padding-y: 20px;
 
 .sub-menu {
   padding-left: 24px + 16px;
+
+  .menu-item {
+    cursor: default;
+    .link {
+      cursor: pointer;
+      display: inline-block;
+    }
+  }
+
 }
 
 .sub-submenu {
