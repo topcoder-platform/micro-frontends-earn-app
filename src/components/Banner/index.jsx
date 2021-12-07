@@ -9,7 +9,7 @@ const Banner = () => {
     "Welcome to our BETA work listings site - Tell us what you think!";
 
   return (
-    <div styleName="banner">
+    <div styleName="banner" className="banner">
       <p styleName="header">
         {header}
 

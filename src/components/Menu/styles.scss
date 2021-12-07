@@ -77,6 +77,7 @@ $menu-padding-y: 20px;
 .menu-item-main.expanded > .link + ul,
 .menu-item-secondary.expanded > .link + ul {
   display: block;
+  cursor: default;
 }
 
 .menu-item-secondary.active.collapsed {
@@ -85,6 +86,15 @@ $menu-padding-y: 20px;
 
 .sub-menu {
   padding-left: 24px + 16px;
+
+  .menu-item {
+    cursor: default;
+    .link {
+      cursor: pointer;
+      display: inline-block;
+    }
+  }
+
 }
 
 .sub-submenu {
