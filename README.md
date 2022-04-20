@@ -33,10 +33,10 @@ Inside the project folder run:
 - `nvm use 10.22.1;` - to use npm version: 10.22.1
 - `npm i` - install dependencies
 - `npm run dev` - run app in `development` mode and `dev` config, currently it is using the config from `default.js`
-- As this app can be loaded only inside a frame single-spa, you have to run a `micro-frontends-frame` frame app and configure it to use the URL `http://localhost:8008/earn-app/topcoder-micro-frontends-earn-app.js`.
+- As this app can be loaded only inside a frame single-spa, you have to run a `mfe-core` frame app and configure it to use the URL `http://localhost:8008/earn-app/topcoder-micro-frontends-earn-app.js`.
 
 ## Local Setup for adding a new MFE
-1. The setup is assuming you have setup the `micro-frontends-frame` and `micro-frontends-nav-app`. And this is also assuming your have a new MFE named `another-app` and your local url is `http://localhost:8099/another-app/topcoder-micro-frontends-another-app.js`
+1. The setup is assuming you have setup the `mfe-core` and `micro-frontends-nav-app`. And this is also assuming your have a new MFE named `another-app` and your local url is `http://localhost:8099/another-app/topcoder-micro-frontends-another-app.js`
 
 2. You have launched existing `micro-frontends-challenges-app` and `micro-frontends-gigs-app` in your local envrionment.
 

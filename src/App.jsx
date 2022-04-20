@@ -3,7 +3,7 @@
  */
 import React, { useLayoutEffect, useEffect, useRef } from "react";
 import { Router, useLocation, Redirect } from "@reach/router";
-import { disableSidebarForRoute } from "@topcoder/micro-frontends-navbar-app";
+import { disableSidebarForRoute } from "@topcoder/mfe-header";
 import _ from "lodash";
 import { usePreviousLocation } from "./utils/hooks";
 import Parcel from "single-spa-react/parcel";
