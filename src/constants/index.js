@@ -13,20 +13,5 @@ export const NAV_MENU = {
         },
       ],
     },
-    {
-      name: "Find Work",
-      icon: "find-work.svg",
-      iconActive: "find-work-green.svg",
-      children: [
-        {
-          name: "Gigs",
-          path: "/earn/gigs",
-        },
-        {
-          name: "Challenges",
-          path: "/earn/find/challenges",
-        },
-      ],
-    },
   ],
 };
