@@ -78,7 +78,6 @@ workflows:
             branches:
               only:
                 - dev
-                - CORE-287
 
       # Production builds are exectuted only on tagged commits to the
       # master branch.
