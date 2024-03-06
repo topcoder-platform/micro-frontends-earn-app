@@ -7,6 +7,7 @@ const singleSpaDefaults = require("webpack-config-single-spa-react");
 const autoprefixer = require("autoprefixer");
 const path = require("path");
 const webpack = require("webpack");
+const unusedFilesWebpackPlugin = require("unused-files-webpack-plugin").default;
 
 module.exports = (webpackConfigEnv) => {
   const defaultConfig = singleSpaDefaults({
@@ -16,13 +17,21 @@ module.exports = (webpackConfigEnv) => {
     disableHtmlGeneration: true,
   });
 
-  const unusedFilesWebpackPlugin = defaultConfig.plugins.find(
-    (p) => p.constructor.name === "UnusedFilesWebpackPlugin"
-  );
-  unusedFilesWebpackPlugin.globOptions.ignore.push(
-    "assets/icons/*.svg",
-    "__mocks__/**"
-  );
+  // const unusedFilesWebpackPlugin = defaultConfig.plugins.find(
+  //   (p) => p.constructor.name === "UnusedFilesWebpackPlugin"
+  // );
+  // unusedFilesWebpackPlugin.globOptions.ignore.push(
+  //   "assets/icons/*.svg",
+  //   "__mocks__/**"
+  // );
+  new unusedFilesWebpackPlugin({
+    globOptions: {
+      ignore: [
+            "assets/icons/*.svg",
+            "__mocks__/**"
+          ]
+      }
+  });  
 
   let cssLocalIdent;
   if (process.env.APPMODE == "production") {

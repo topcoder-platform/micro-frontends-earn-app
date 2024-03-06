@@ -80,6 +80,7 @@ workflows:
             branches:
               only:
                 - dev
+                - CORE-324-fix
 
       # Production builds are exectuted only on tagged commits to the
       # master branch.
