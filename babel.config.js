@@ -30,14 +30,17 @@ const config = {
         regenerator: false,
       },
     ],
-    ['react-css-modules', {
-      filetypes: {
-        '.scss': {
-          syntax: 'postcss-scss',
+    [
+      "@dr.pogodin/babel-plugin-react-css-modules",
+      {
+        filetypes: {
+          '.scss': {
+            syntax: 'postcss-scss',
+          },
         },
-      },
-      generateScopedName: cssLocalIdent
-    }],
+        generateScopedName: cssLocalIdent
+      }
+    ],
   ]
 };
 
