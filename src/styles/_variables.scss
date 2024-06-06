@@ -1,0 +1,179 @@
+/// COLORS
+
+/**
+ * The standard TC UI pallete. Always prefer to use these constants to set
+ * colors in your stylesheets.
+ */
+/* Grayscale colors. */
+$tc-gray-90: #2a2a2b;
+$tc-gray-80: #404041;
+$tc-gray-70: #555;
+$tc-gray-75: #006dea;
+$tc-gray-60: #6b6b6b;
+$tc-gray-50: #808080;
+$tc-gray-40: #959596;
+$tc-gray-30: #aaaaab;
+$tc-gray-20: #c0c0c0;
+$tc-gray-10: #d5d5d5;
+$tc-gray-05: #e0e0e0;
+$tc-gray-neutral-dark: #ebebeb;
+$tc-gray-neutral-light: #fafafb;
+
+/* Blue */
+$tc-blue: #2c95d7;
+$tc-blue-light1: #50ade8;
+$tc-blue-light2: #83c5ee;
+$tc-blue-light3: #c6e6ea;
+$tc-blue-light4: #eaf6fd;
+$tc-blue-dark1: #2984bd;
+$tc-blue-dark2: #16679a;
+
+/* Accents & Shades. */
+$tc-dark-blue-110: #006ad7;
+$tc-dark-blue-105: #006feb;
+$tc-dark-blue-100: #0681ff;
+$tc-dark-blue-70: #55a5ff;
+$tc-dark-blue-30: #cee6ff;
+$tc-dark-blue-10: #f4f9ff;
+
+/* Light Blue - design color code. */
+$tc-light-blue-110: #0076a5;
+$tc-light-blue-100: #15acec;
+$tc-light-blue-70: #63c4f1;
+$tc-light-blue-30: #bce6f9;
+$tc-light-blue-10: #e9f6fc;
+
+/* Warm Orange - data science color code. */
+$tc-orange-110: #ba4c00;
+$tc-orange-100: #fd7d00;
+$tc-orange-70: #ffa45d;
+$tc-orange-30: #ffe3cf;
+$tc-orange-10: #fff0eb;
+
+/* Red - used for warnings/ */
+$tc-red-110: #ea1900;
+$tc-red-100: #f52c14;
+$tc-red-70: #ff5a4c;
+$tc-red-30: #ffd4d0;
+$tc-red-10: #fff4f4;
+
+/* Yellow. */
+$tc-yellow-110: #f2c900;
+$tc-yellow-100: #fde400;
+$tc-yellow-70: #fbee88;
+$tc-yellow-30: #fff8ca;
+$tc-yellow-10: #fffde5;
+
+/* Greens - development color code. */
+$tc-green-120: #258205;
+$tc-green-110: #328732;
+$tc-green-100: #5cc900;
+$tc-green-70: #94db4e;
+$tc-green-30: #cef0af;
+$tc-green-10: #effae4;
+
+/* Purples. */
+$tc-purple-120: #8231a9;
+$tc-purple-110: #753488;
+$tc-purple-100: #914da5;
+$tc-purple-70: #b57ad8;
+$tc-purple-30: #e2c6f3;
+$tc-purple-20: #e6cff1;
+$tc-purple-10: #f8f2fb;
+
+/// TC GUI KIT (V2)
+
+/* Gray */
+$tc-black: #2A2A2A;
+$tc-white: #fff;
+
+$tc-gray1: #555555;
+$tc-gray2: #7f7f7f;
+$tc-gray3: #aaaaaa;
+$tc-gray4: #d4d4d4;
+$tc-gray5: #e9e9e9;
+$tc-gray6: #f4f4f4;
+$tc-gray7: #fbfbfb;
+
+/* Red */
+$tc-red: #ef476f;
+$tc-red-light1: #f37593;
+$tc-red-light2: #f7a3b7;
+$tc-red-light3: #fbd1db;
+$tc-red-dark1: #be405e;
+$tc-red-dark2: #8c384c;
+
+/* Orange */
+$tc-orange: #ffc43d;
+$tc-orange-light1: #ffd36e;
+$tc-orange-light2: #ffe19e;
+$tc-orange-light3: #fff0ce;
+$tc-orange-dark1: #e2af3b;
+$tc-orange-dark2: #b98f31;
+
+/* Yellow */
+$tc-yellow: #f9f649;
+$tc-yellow-light1: #fbf877;
+$tc-yellow-light2: #fbfaa4;
+$tc-yellow-light3: #fdfcd1;
+$tc-yellow-dark1: #ddda43;
+$tc-yellow-dark2: #b6b431;
+
+/* Green */
+$tc-green: #63f963;
+$tc-green-light1: #8afb8a;
+$tc-green-light2: #b0fcb1;
+$tc-green-light3: #d8fdd8;
+$tc-green-dark1: #4cc94c;
+$tc-green-dark2: #35ac35;
+
+/* Turquoise */
+$tc-turquoise: #06d6a0;
+$tc-turquoise-light1: #45e1b8;
+$tc-turquoise-light2: #82eacf;
+$tc-turquoise-light3: #c1f5e7;
+$tc-turquoise-light4: #e0faf3;
+$tc-turquoise-dark1: #0ab88a;
+$tc-turquoise-dark2: #219174;
+$tc-turquoise-dark3: #137d60;
+
+/* Teal */
+$tc-teal: #26b3c5;
+$tc-teal-light1: #54b4c0;
+$tc-teal-light2: #8dccd4;
+$tc-teal-light3: #c6e6ea;
+$tc-turquoise-dark1: #1e94a3;
+$tc-turquoise-dark2: #227681;
+
+/* Purple */
+$tc-purple: #9d41c9;
+$tc-purple-light1: #b671d7;
+$tc-purple-light2: #cd9fe3;
+$tc-purple-light3: #e6cff1;
+$tc-purple-dark1: #8231a9;
+$tc-purple-dark2: #652385;
+
+/* Orange Legacy */
+$tc-orange-legacy: #fd7d01;
+$tc-orange-legacy-light1: #ffa45d;
+$tc-orange-legacy-light2: #ffe3cf;
+$tc-orange-legacy-light3: #fff0eb;
+$tc-orange-legacy-dark1: #f46500;
+
+/* Links */
+$tc-link-blue: #0d61bf;
+$tc-link-blue-light: #5fb7ee;
+
+/// FONTS
+
+$font-size-base: 16px;
+$font-size-sm: 14px;
+$font-size-xs: 12px;
+
+$line-height-base: 22px;
+$line-height-sm: 19px;
+$line-height-xs: 16px;
+
+/// APP
+
+$base-unit: 5px;
